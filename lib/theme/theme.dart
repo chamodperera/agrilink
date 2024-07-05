@@ -8,7 +8,7 @@ const ColorScheme colorScheme = ColorScheme(
   secondary: Color(0xFF2A2A2A),
   onSecondary: Color(0x4DFFFFFF),
   background: Color(0xFF0D0D0D),
-  onBackground: Color(0x1AFFFFFF),
+  onBackground: Color.fromARGB(18, 255, 255, 255),
   surface: Color(0xFFFBFFFF),
   onSurface: Color(0xFFFEFEFF),
   error: Color(0xFFDA6317),
@@ -26,11 +26,17 @@ class AppTheme {
         fontSize: 38,
         color: colorScheme.primary,
       ),
+      displayMedium: GoogleFonts.poppins(
+        fontSize: 24,
+        fontWeight: FontWeight.w600,
+        color: Colors.white,
+      ),
       displaySmall: GoogleFonts.poppins(
         fontSize: 14,
         fontWeight: FontWeight.w500,
         color: Colors.white,
       ),
+
       // bodyText1: TextStyle(color: Colors.white, fontSize: 16),
       // bodyText2: TextStyle(color: Colors.grey, fontSize: 14),
     ),
