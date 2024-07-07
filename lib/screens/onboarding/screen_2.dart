@@ -1,7 +1,7 @@
-import 'package:agrilink/widgets/backButton.dart';
-import 'package:agrilink/widgets/greenButton.dart';
+import 'package:agrilink/widgets/buttons/back_button.dart';
+import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:flutter/material.dart';
-import '../routes/routes.dart';
+import '../../routes/routes.dart';
 
 class Intro2 extends StatelessWidget {
   const Intro2({super.key});
@@ -16,7 +16,7 @@ class Intro2 extends StatelessWidget {
           const Positioned(
             top: 16,
             left: 16,
-            child: BackButtonWidget(), // Add the BackButtonWidget here
+            child: BackButton(), // Add the BackButton here
           ),
           Center(
             child: Column(
@@ -33,11 +33,10 @@ class Intro2 extends StatelessWidget {
                   style: theme.textTheme.bodySmall,
                 ),
                 const SizedBox(height: 50),
-                GreenButton(
+                PrimaryButtonDark(
                     text: 'Next',
                     onPressed: () {
-                      Navigator.of(context)
-                          .pushNamed(AppRoutes.login);
+                      Navigator.of(context).pushNamed(AppRoutes.login);
                     }),
               ],
             ),

@@ -1,9 +1,9 @@
-import 'package:agrilink/widgets/backButton.dart';
-import 'package:agrilink/widgets/greenButton.dart';
+import 'package:agrilink/widgets/buttons/back_button.dart';
+import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
-import 'package:agrilink/widgets/textBox.dart';
-import '../routes/routes.dart';
+import 'package:agrilink/widgets/form/input.dart';
+import '../../routes/routes.dart';
 
 class SignUp extends StatelessWidget {
   const SignUp({super.key});
@@ -25,21 +25,21 @@ class SignUp extends StatelessWidget {
         child: Stack(
           children: [
             const Positioned(
-              top: 16,
+              top: 20,
               left: 16,
               child: BackButtonWidget(), // Add the BackButtonWidget here
             ),
             Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 70),
                   const Logo(),
-                  const SizedBox(height: 55),
+                  const SizedBox(height: 50),
                   Text(
                     'Sign Up For Free',
                     style: theme.textTheme.displayMedium,
                   ),
-                  const SizedBox(height: 45),
+                  const SizedBox(height: 30),
                   const TextBox(text: 'First Name'),
                   const SizedBox(height: 10),
                   const TextBox(text: 'Last Name'),
@@ -48,7 +48,7 @@ class SignUp extends StatelessWidget {
                   const SizedBox(height: 10),
                   const TextBox(text: 'Mobile Number'),
                   const SizedBox(height: 30),
-                  GreenButton(
+                  PrimaryButtonDark(
                     text: 'Next',
                     onPressed: () {
                       Navigator.of(context).pushNamed(AppRoutes.intro1);

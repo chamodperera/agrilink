@@ -1,12 +1,12 @@
-import 'package:agrilink/screens/login_screen.dart';
-import 'package:agrilink/screens/signup_screen.dart';
+import 'package:agrilink/screens/authentication/login_screen.dart';
+import 'package:agrilink/screens/authentication/signup_screen.dart';
 import 'package:flutter/material.dart';
-import '../screens/splashscreen.dart';
+import '../screens/splash_screen.dart';
 // import '../screens/home_screen.dart';
 // import '../screens/details_screen.dart';
 // import '../screens/settings_screen.dart';
-import '../screens/introscreen_1.dart';
-import '../screens/introscreen_2.dart';
+import '../screens/onboarding/screen_1.dart';
+import '../screens/onboarding/screen_2.dart';
 
 class AppRoutes {
   static const String splash = '/';

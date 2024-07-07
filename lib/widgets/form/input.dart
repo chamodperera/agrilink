@@ -9,8 +9,10 @@ class TextBox extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Container(
-      width: 320, 
-      padding: const EdgeInsets.only(left: 15,right: 15,bottom: 5),
+      width: MediaQuery.of(context).size.width * 0.9 > 400
+          ? 400
+          : MediaQuery.of(context).size.width * 0.9,
+      padding: const EdgeInsets.only(left: 15, right: 15, bottom: 5),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
         color: theme.colorScheme.onBackground,
@@ -18,16 +20,16 @@ class TextBox extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.all(6),
         child: TextField(
-            decoration: InputDecoration(
-              hintText: text,
-              hintStyle: TextTheme(
-                bodyMedium: TextStyle(
-                  color: theme.colorScheme.onSecondary,
-                ),
-              ).bodyMedium,
+          decoration: InputDecoration(
+            hintText: text,
+            hintStyle: TextTheme(
+              bodyMedium: TextStyle(
+                color: theme.colorScheme.onSecondary,
               ),
-            ),
+            ).bodyMedium,
           ),
-      );
+        ),
+      ),
+    );
   }
 }

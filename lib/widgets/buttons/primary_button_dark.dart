@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class GreenButton extends StatelessWidget {
+class PrimaryButtonDark extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const GreenButton({
+  const PrimaryButtonDark({
     Key? key,
     required this.text,
     required this.onPressed,
@@ -13,22 +13,24 @@ class GreenButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    return Container(
+    return SizedBox(
       width: 140,
       height: 50,
       child: ElevatedButton(
         onPressed: onPressed,
         style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black, 
+          foregroundColor: Colors.black,
           backgroundColor: theme.colorScheme.primary,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(15),
           ),
         ),
-        child: Text(text,
+        child: Text(
+          text,
           style: theme.textTheme.displaySmall?.copyWith(
             color: Colors.black,
-          ),),
+          ),
+        ),
       ),
     );
   }

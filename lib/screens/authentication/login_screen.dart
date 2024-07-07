@@ -1,10 +1,10 @@
-import 'package:agrilink/widgets/backButton.dart';
-import 'package:agrilink/widgets/google.dart';
-import 'package:agrilink/widgets/greenButton.dart';
+import 'package:agrilink/widgets/buttons/back_button.dart';
+import 'package:agrilink/widgets/buttons/google.dart';
+import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
-import 'package:agrilink/widgets/textBox.dart';
-import '../routes/routes.dart';
+import 'package:agrilink/widgets/form/input.dart';
+import '../../routes/routes.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
@@ -25,22 +25,22 @@ class Login extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            Positioned(
-              top: 16,
-              left: 16,
+            const Positioned(
+              top: 20,
+              left: 15,
               child: BackButtonWidget(), // Add the BackButtonWidget here
             ),
             Center(
               child: Column(
                 children: [
-                  const SizedBox(height: 80),
+                  const SizedBox(height: 70),
                   const Logo(),
-                  const SizedBox(height: 55),
+                  const SizedBox(height: 50),
                   Text(
                     'Login To Your Account',
                     style: theme.textTheme.displayMedium,
                   ),
-                  const SizedBox(height: 45),
+                  const SizedBox(height: 30),
                   const TextBox(text: 'Email'),
                   const SizedBox(height: 10),
                   const TextBox(text: 'Password'),
@@ -59,8 +59,8 @@ class Login extends StatelessWidget {
                   ),
                   const SizedBox(height: 15),
                   const GoogleLogin(),
-                  const SizedBox(height: 40),
-                  GreenButton(
+                  const SizedBox(height: 30),
+                  PrimaryButtonDark(
                     text: 'Login',
                     onPressed: () {
                       Navigator.of(context).pushNamed(AppRoutes.intro1);
