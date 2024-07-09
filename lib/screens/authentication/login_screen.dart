@@ -63,7 +63,7 @@ class Login extends StatelessWidget {
                   PrimaryButtonDark(
                     text: 'Login',
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoutes.intro1);
+                      Navigator.of(context).pushNamed(AppRoutes.main);
                     },
                   ),
                   const SizedBox(height: 15),
