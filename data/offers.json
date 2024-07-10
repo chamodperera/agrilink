@@ -1,0 +1,46 @@
+[
+  {
+    "name": "S.Gunapala",
+    "category": "Farmer",
+    "avatar": "assets/users/user2.png",
+    "rating": "4.8",
+    "location": "Ampara",
+    "title": "Fresh Bananas",
+    "subTitle": "I have 30kilos of Bananas ",
+    "description": "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
+    "price": "Rs.150 / kg"
+  },
+  {
+    "name": "H.Chandrapala",
+    "category": "Farmer",
+    "avatar": "assets/users/user3.png",
+    "rating": "4.8",
+    "location": "Polonnarowa",
+    "title": "Rice",
+    "subTitle": "I have 100kilos of rice",
+    "description": "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
+    "price": "Rs.80 / kg"
+  },
+  {
+    "name": "K.Chandrakanthi",
+    "category": "Retailer",
+    "avatar": "assets/users/user4.png",
+    "rating": "4.8",
+    "location": "Kurunegala",
+    "title": "Bananas",
+    "subTitle": "I need 10kilos of Bananas",
+    "description": "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
+    "price": "Rs.120 / kg"
+  },
+  {
+    "name": "R.S.Thalagala",
+    "category": "Distributor",
+    "avatar": "assets/users/user5.png",
+    "rating": "4.8",
+    "location": "Ampara",
+    "title": "Ampara to Colombo",
+    "subTitle": "I distribute papayas",
+    "description": "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
+    "price": "Rs.200 / km"
+  }
+]

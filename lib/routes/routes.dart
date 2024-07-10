@@ -26,20 +26,20 @@ class AppRoutes {
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
-      splash: (context) => const SplashScreen(),
+      //splash: (context) => const SplashScreen(),
       // home: (context) => HomeScreen(),
       // details: (context) => DetailsScreen(),
       // settings: (context) => SettingsScreen(),
-      intro1: (context) => const Intro1(),
-      intro2: (context) => const Intro2(),
-      login: (context) => const Login(),
-      signup: (context) => const SignUp(),
-      main: (context) => const MainLayout(
+      // intro1: (context) => const Intro1(),
+      // intro2: (context) => const Intro2(),
+      // login: (context) => const Login(),
+      // signup: (context) => const SignUp(),
+      main: (context) => MainLayout(
             pages: [
               HomeScreen(),
-              ServicesScreen(),
-              DashboardScreen(),
-              ProfileScreen(),
+              const ServicesScreen(),
+              const DashboardScreen(),
+              const ProfileScreen(),
             ],
           )
     };
