@@ -64,7 +64,9 @@ flutter:
   assets:
     # patterns
     - assets/patterns/full.png
-    
+
+    # users
+    - assets/users/user1.png
     # images
     - assets/images/
 

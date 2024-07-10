@@ -18,7 +18,7 @@ class Intro1 extends StatelessWidget {
             const SizedBox(height: 20),
             Text(
               'Find Your Perfect\n    Retailer here',
-              style: theme.textTheme.displayMedium,
+              style: theme.textTheme.bodyMedium,
             ),
             Text(
               '\n\nHere You Can find a retailer or a \n     Distributor for your harvest',

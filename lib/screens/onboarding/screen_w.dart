@@ -26,7 +26,7 @@ class Intro2 extends StatelessWidget {
                 const SizedBox(height: 20),
                 Text(
                   'AgriLink is where Your\n         Harvest Lives',
-                  style: theme.textTheme.displayMedium,
+                  style: theme.textTheme.bodyMedium,
                 ),
                 Text(
                   '\n\nEnjoy a fast and smooth distribution of \n                     your harvest',

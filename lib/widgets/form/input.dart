@@ -22,11 +22,9 @@ class TextBox extends StatelessWidget {
         child: TextField(
           decoration: InputDecoration(
             hintText: text,
-            hintStyle: TextTheme(
-              bodyMedium: TextStyle(
-                color: theme.colorScheme.onSecondary,
-              ),
-            ).bodyMedium,
+            hintStyle: theme.textTheme.displaySmall?.copyWith(
+              color: theme.colorScheme.onSecondary,
+            ),
           ),
         ),
       ),
