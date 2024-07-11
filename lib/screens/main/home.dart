@@ -1,4 +1,5 @@
 import 'package:agrilink/models/offers_model.dart';
+import 'package:agrilink/screens/offer_screen.dart';
 import 'package:agrilink/services.dart';
 import 'package:agrilink/widgets/buttons/icon_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_light.dart';
@@ -72,7 +73,18 @@ class _HomeScreenState extends State<HomeScreen> {
                       itemBuilder: (context, index) {
                         return Column(
                           children: [
-                            OfferCard(offer: offers[index]),
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        OfferScreen(offer: offers[index]),
+                                  ),
+                                );
+                              },
+                              child: OfferCard(offer: offers[index]),
+                            ),
                             const SizedBox(height: 15),
                           ],
                         );

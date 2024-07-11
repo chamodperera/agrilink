@@ -3,18 +3,20 @@ import 'package:flutter/material.dart';
 class PrimaryButtonDark extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
+  final bool expanded;
 
   const PrimaryButtonDark({
     Key? key,
     required this.text,
     required this.onPressed,
+    this.expanded = false, // Default to false if not specified
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return SizedBox(
-      width: 140,
+      width: expanded ? double.infinity : 140,
       height: 50,
       child: ElevatedButton(
         onPressed: onPressed,
@@ -28,7 +30,8 @@ class PrimaryButtonDark extends StatelessWidget {
         child: Text(
           text,
           style: theme.textTheme.displaySmall?.copyWith(
-            color: Colors.black,
+            fontSize: 16,
+            color: theme.colorScheme.background,
           ),
         ),
       ),

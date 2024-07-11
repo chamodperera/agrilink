@@ -19,6 +19,7 @@ class DraggableWidget extends StatelessWidget {
         return SingleChildScrollView(
           controller: scrollController,
           child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 30),
             width: double.infinity,
             decoration: BoxDecoration(
               color: theme.colorScheme.background,

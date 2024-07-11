@@ -26,7 +26,7 @@ class AppRoutes {
 
   static Map<String, WidgetBuilder> getRoutes() {
     return {
-      //splash: (context) => const SplashScreen(),
+      // splash: (context) => const SplashScreen(),
       // home: (context) => HomeScreen(),
       // details: (context) => DetailsScreen(),
       // settings: (context) => SettingsScreen(),

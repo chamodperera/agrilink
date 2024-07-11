@@ -3,7 +3,6 @@ import 'package:agrilink/widgets/buttons/settings_button.dart';
 import 'package:agrilink/widgets/draggable_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
