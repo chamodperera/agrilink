@@ -34,7 +34,8 @@ class DraggableWidget extends StatelessWidget {
                   width: 60, // Width of the drag indicator
                   height: 5, // Height of the drag indicator
                   decoration: BoxDecoration(
-                    color: theme.colorScheme.onSecondary, // Color of the drag indicator
+                    color: theme
+                        .colorScheme.onSecondary, // Color of the drag indicator
                     borderRadius: BorderRadius.circular(10), // Rounded corners
                   ),
                 ),

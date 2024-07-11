@@ -17,8 +17,8 @@ class SettingsButton extends StatelessWidget {
     final theme = Theme.of(context);
     return Column(
       children: [
-        Container(
-          width:  MediaQuery.of(context).size.width * 0.85, 
+        SizedBox(
+          width: MediaQuery.of(context).size.width * 0.85,
           height: 50,
           child: ElevatedButton(
             onPressed: onPressed,
@@ -31,11 +31,11 @@ class SettingsButton extends StatelessWidget {
             child: Row(
               children: [
                 Icon(icon, color: theme.colorScheme.primary),
-                SizedBox(width: 10),
-                Text(
-                  text,
-                  style: theme.textTheme.displaySmall
-                ),
+                const SizedBox(width: 15),
+                Text(text,
+                    style: theme.textTheme.bodySmall?.copyWith(
+                      fontSize: 16,
+                    )),
               ],
             ),
           ),
