@@ -8,10 +8,10 @@
     "title": "Fresh Bananas",
     "subTitle": "I have 30kilos of Bananas ",
     "description": "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
-    "price": "Rs.150 / kg"
+    "price": "Rs.150/kg"
   },
   {
-    "name": "H.Chandrapala",
+    "name": "Chandrapala",
     "category": "Farmer",
     "avatar": "assets/users/user3.png",
     "rating": "4.8",
@@ -19,10 +19,10 @@
     "title": "Rice",
     "subTitle": "I have 100kilos of rice",
     "description": "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
-    "price": "Rs.80 / kg"
+    "price": "Rs.80/kg"
   },
   {
-    "name": "K.Chandrakanthi",
+    "name": "L.Kanthi",
     "category": "Retailer",
     "avatar": "assets/users/user4.png",
     "rating": "4.8",
@@ -30,7 +30,7 @@
     "title": "Bananas",
     "subTitle": "I need 10kilos of Bananas",
     "description": "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
-    "price": "Rs.120 / kg"
+    "price": "Rs.120/kg"
   },
   {
     "name": "R.S.Thalagala",
@@ -41,6 +41,6 @@
     "title": "Ampara to Colombo",
     "subTitle": "I distribute papayas",
     "description": "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
-    "price": "Rs.200 / km"
+    "price": "Rs.200/km"
   }
 ]

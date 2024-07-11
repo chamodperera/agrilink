@@ -1,4 +1,5 @@
 import 'package:agrilink/models/offers_model.dart';
+import 'package:agrilink/screens/info_screen.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/category_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
@@ -17,15 +18,24 @@ class OfferScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
-            height: 450,
-            decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(offer.avatar),
-                alignment: Alignment.topCenter,
-                fit: BoxFit.cover,
+          GestureDetector(
+            onTap: () {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => InfoScreen(offer: offer),
+                  ));
+            },
+            child: Container(
+              height: 450,
+              decoration: BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage(offer.avatar),
+                  alignment: Alignment.topCenter,
+                  fit: BoxFit.cover,
+                ),
+                color: theme.colorScheme.background,
               ),
-              color: theme.colorScheme.background,
             ),
           ),
           const Positioned(
