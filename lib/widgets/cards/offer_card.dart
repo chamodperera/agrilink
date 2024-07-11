@@ -20,17 +20,34 @@ class OfferCard extends StatelessWidget {
         Column(children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(20.0),
-            child: Image(width: 80, image: AssetImage(offer.avatar)),
+            child: Image(width: 57, image: AssetImage(offer.avatar)),
           ),
           const SizedBox(height: 5),
           Text(offer.name,
               style: GoogleFonts.poppins(
-                fontSize: 12,
+                fontSize: 8,
                 fontWeight: FontWeight.w600,
                 color: Colors.white,
               )),
+          const SizedBox(height: 5),
+          Container(
+            padding: const EdgeInsets.symmetric(horizontal: 10.0, vertical: 2.0),
+            decoration: BoxDecoration(
+              color: theme.colorScheme.primary.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(10.0),
+            ),
+            child: Text(
+              offer.category,
+              style: GoogleFonts.poppins(
+                fontSize: 6,
+                fontWeight: FontWeight.w600,
+                color: theme.colorScheme.primary,
+              ),
+            ),
+          ),
+          
         ]),
-        const SizedBox(width: 10),
+        const SizedBox(width: 20),
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -38,7 +55,7 @@ class OfferCard extends StatelessWidget {
                 style: GoogleFonts.poppins(
                   fontSize: 18,
                   fontWeight: FontWeight.w500,
-                  color: Colors.white,
+                  color: theme.colorScheme.primary,
                 )),
             const SizedBox(height: 10),
             Text(offer.subTitle,

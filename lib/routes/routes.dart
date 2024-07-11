@@ -37,7 +37,7 @@ class AppRoutes {
       main: (context) => MainLayout(
             pages: [
               HomeScreen(),
-              const ServicesScreen(),
+              ServicesScreen(),
               const DashboardScreen(),
               const ProfileScreen(),
             ],
