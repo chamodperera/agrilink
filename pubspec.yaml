@@ -67,6 +67,7 @@ flutter:
 
     # patterns
     - assets/patterns/full.png
+    - assets/patterns/Right_quater.png
 
     # users
     - assets/users/
