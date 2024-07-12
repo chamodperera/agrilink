@@ -1,4 +1,4 @@
-import 'package:agrilink/widgets/buttons/category_button.dart';
+import 'package:agrilink/widgets/buttons/category_button_green.dart';
 import 'package:agrilink/widgets/buttons/settings_button.dart';
 import 'package:agrilink/widgets/draggable_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -31,7 +31,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           DraggableWidget(
             children: [
-              CategoryButton(text: "Farmer", onPressed: () {}),
+              CategoryButtonGreen(text: "Farmer", onPressed: () {}),
               Text("Gihan Kodikara",
                   style: theme.textTheme.titleMedium?.copyWith(
                     fontSize: 30,

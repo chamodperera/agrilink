@@ -14,9 +14,9 @@ class Intro2 extends StatelessWidget {
       body: Stack(
         children: [
           const Positioned(
-            top: 16,
+            top: 40,
             left: 16,
-            child: BackButton(), // Add the BackButton here
+            child: BackButtonWidget(), // Add the BackButton here
           ),
           Center(
             child: Column(

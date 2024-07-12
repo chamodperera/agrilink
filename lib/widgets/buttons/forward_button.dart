@@ -17,7 +17,7 @@ class ForwardButtonWidget extends StatelessWidget {
         ),
         padding: const EdgeInsets.all(8.0), // Padding for the icon
         child: Icon(
-          size: 18,
+          size: 15,
           FluentIcons.ios_arrow_rtl_24_filled,
           color: colors.error,
         ),

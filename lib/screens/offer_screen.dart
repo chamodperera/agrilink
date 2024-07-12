@@ -1,7 +1,7 @@
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/screens/info_screen.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
-import 'package:agrilink/widgets/buttons/category_button.dart';
+import 'package:agrilink/widgets/buttons/category_button_green.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/draggable_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -39,7 +39,7 @@ class OfferScreen extends StatelessWidget {
             ),
           ),
           const Positioned(
-            top: 16, // Adjust the top position as needed
+            top: 40, // Adjust the top position as needed
             left: 16, // Adjust the left position as needed
             child: BackButtonWidget(),
           ),
@@ -49,7 +49,7 @@ class OfferScreen extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CategoryButton(text: offer.category, onPressed: () {}),
+                  CategoryButtonGreen(text: offer.category, onPressed: () {}),
                   Row(
                     children: [
                       Text(offer.location,
