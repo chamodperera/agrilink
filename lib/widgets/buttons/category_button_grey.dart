@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-class CategoryButton extends StatelessWidget {
+class CategoryButtonGrey extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
 
-  const CategoryButton({
+  const CategoryButtonGrey({
     Key? key,
     required this.text,
     required this.onPressed,
@@ -20,7 +20,7 @@ class CategoryButton extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(20, 83, 232, 139),
+              backgroundColor: theme.colorScheme.background,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),

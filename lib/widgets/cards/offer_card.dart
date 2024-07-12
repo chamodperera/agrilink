@@ -26,7 +26,7 @@ class OfferCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image(width: 70, image: AssetImage(offer.avatar)),
+                    child: Image(width: 65, image: AssetImage(offer.avatar)),
                   ),
                   const SizedBox(height: 5),
                   Text(offer.name,
@@ -59,19 +59,20 @@ class OfferCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    SizedBox(height: 6),
                     Text(offer.title,
                         style: GoogleFonts.poppins(
                             fontSize: 18,
                             fontWeight: FontWeight.w500,
                             color: Colors.white)),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 6),
                     Text(offer.subTitle,
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
                           color: theme.colorScheme.onSecondary,
                         )),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 8),
                     Text(offer.price,
                         style: GoogleFonts.poppins(
                           fontSize: 24,

@@ -26,8 +26,8 @@ class Login extends StatelessWidget {
         child: Stack(
           children: [
             const Positioned(
-              top: 20,
-              left: 15,
+              top: 40,
+              left: 16,
               child: BackButtonWidget(), // Add the BackButtonWidget here
             ),
             Center(

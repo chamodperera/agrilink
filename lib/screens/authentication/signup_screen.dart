@@ -25,7 +25,7 @@ class SignUp extends StatelessWidget {
         child: Stack(
           children: [
             const Positioned(
-              top: 20,
+              top: 40,
               left: 16,
               child: BackButtonWidget(), // Add the BackButtonWidget here
             ),
@@ -51,7 +51,7 @@ class SignUp extends StatelessWidget {
                   PrimaryButtonDark(
                     text: 'Next',
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoutes.intro1);
+                      Navigator.of(context).pushNamed(AppRoutes.main);;
                     },
                   ),
                   const SizedBox(height: 15),
