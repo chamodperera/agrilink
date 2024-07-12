@@ -16,13 +16,13 @@ class CategoryButtonGreen extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+          padding: const EdgeInsets.only(top: 8, bottom: 8), // Adjust padding as needed
           child: ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
               backgroundColor: Color.fromARGB(20, 83, 232, 139),
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
               ),
             ),
             child: Text(

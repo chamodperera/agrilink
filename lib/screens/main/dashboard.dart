@@ -44,7 +44,7 @@ class DashboardScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 40),
+                    const SizedBox(height: 10),
                     Text(
                       "Current Market",
                       style: theme.textTheme.titleMedium,

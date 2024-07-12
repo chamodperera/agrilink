@@ -1,6 +1,8 @@
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/screens/offer_screen.dart';
 import 'package:agrilink/services.dart';
+import 'package:agrilink/widgets/buttons/category_button_green.dart';
+import 'package:agrilink/widgets/buttons/category_button_grey.dart';
 import 'package:agrilink/widgets/buttons/icon_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_light.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
@@ -55,7 +57,17 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(20.0),
               child: const Image(image: AssetImage('assets/images/ad.png')),
             ),
-            const SizedBox(height: 10),
+            Row(
+              children: [
+                CategoryButtonGreen(text: 'All', onPressed: () {}),
+                const SizedBox(width: 5),
+                CategoryButtonGrey(text: 'Farmers', onPressed: () {}),
+                const SizedBox(width: 5),
+                CategoryButtonGrey(text: 'Retailers', onPressed: () {}),
+                const SizedBox(width: 5),
+                CategoryButtonGrey(text: 'Distributors', onPressed: () {}),
+              ],
+            ),
             Expanded(
               child: FutureBuilder<List<Offer>>(
                 future: futureOffers,
@@ -69,6 +81,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     final offers = snapshot.data!;
                     return ListView.builder(
+                      padding: EdgeInsets.zero,
                       itemCount: offers.length,
                       itemBuilder: (context, index) {
                         return Column(

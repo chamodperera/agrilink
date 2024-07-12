@@ -64,7 +64,7 @@ class AppTheme {
           color: colorScheme.surface,
         ),
         unselectedIconTheme:
-            IconThemeData(color: colorScheme.onPrimary, size: 32),
+            IconThemeData(color: Color.fromARGB(76, 83, 232, 140), size: 32),
         backgroundColor: colorScheme.secondary,
         elevation: 3),
 
