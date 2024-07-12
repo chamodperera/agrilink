@@ -14,7 +14,9 @@ class AgriLinkApp extends StatelessWidget {
     return MaterialApp(
       title: 'AgriLink',
       theme: AppTheme.darkTheme,
-      initialRoute: AppRoutes.splash,
+      debugShowCheckedModeBanner: false, // remove debug banner
+      // initialRoute: AppRoutes.splash,
+      initialRoute: AppRoutes.main,
       routes: AppRoutes.getRoutes(),
     );
   }
