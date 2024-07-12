@@ -11,7 +11,7 @@ const ColorScheme colorScheme = ColorScheme(
   surface: Color(0xFFFBFFFF),
   onSurface: Color(0xFFFEFEFF),
   error: Color(0xFFDA6317),
-  onError: Color(0xFFF9A84D),
+  onError: Color.fromARGB(43, 249, 169, 77),
   brightness: Brightness.dark,
 );
 
