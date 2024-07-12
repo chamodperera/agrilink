@@ -6,6 +6,7 @@ import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/draggable_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 
 class OfferScreen extends StatelessWidget {
   final Offer offer;
@@ -18,24 +19,15 @@ class OfferScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => InfoScreen(offer: offer),
-                  ));
-            },
-            child: Container(
-              height: 450,
-              decoration: BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage(offer.avatar),
-                  alignment: Alignment.topCenter,
-                  fit: BoxFit.cover,
-                ),
-                color: theme.colorScheme.background,
+          Container(
+            height: 450,
+            decoration: BoxDecoration(
+              image: DecorationImage(
+                image: AssetImage(offer.avatar),
+                alignment: Alignment.topCenter,
+                fit: BoxFit.cover,
               ),
+              color: theme.colorScheme.background,
             ),
           ),
           const Positioned(
@@ -57,8 +49,17 @@ class OfferScreen extends StatelessWidget {
                             color: theme.colorScheme.onSecondary,
                           )),
                       const SizedBox(width: 10),
-                      Icon(FluentIcons.location_28_regular,
-                          color: theme.colorScheme.primary),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => InfoScreen(offer: offer),
+                              ));
+                        },
+                        child: Icon(FluentIcons.location_28_regular,
+                            color: theme.colorScheme.primary),
+                      ),
                       const SizedBox(width: 10),
                       Text('19 km',
                           style: theme.textTheme.displaySmall?.copyWith(

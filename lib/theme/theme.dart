@@ -5,7 +5,7 @@ const ColorScheme colorScheme = ColorScheme(
   primary: Color(0xFF53E88B),
   onPrimary: Color(0x1A53E88C),
   secondary: Color(0xFF2A2A2A),
-  onSecondary: Color(0x4DFFFFFF),
+  onSecondary: Color.fromARGB(133, 255, 255, 255),
   background: Color(0xFF0D0D0D),
   onBackground: Color.fromARGB(18, 255, 255, 255),
   surface: Color(0xFFFBFFFF),
