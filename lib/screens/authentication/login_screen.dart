@@ -3,7 +3,9 @@ import 'package:agrilink/widgets/buttons/google.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:agrilink/widgets/form/input.dart';
+import '../../providers/auth_provider.dart';
 import '../../routes/routes.dart';
 
 class Login extends StatelessWidget {
@@ -11,6 +13,7 @@ class Login extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final theme = Theme.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -69,8 +72,11 @@ class Login extends StatelessWidget {
                     const SizedBox(height: 30),
                     PrimaryButtonDark(
                       text: 'Login',
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(AppRoutes.main);
+                      onPressed: () async {
+                        await authProvider.signInWithGoogle();
+                        if (authProvider.user != null) {
+                          Navigator.pushReplacementNamed(context, '/main');
+                        }
                       },
                     ),
                     const SizedBox(height: 15),
