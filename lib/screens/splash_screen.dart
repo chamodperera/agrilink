@@ -1,7 +1,7 @@
+import 'package:agrilink/routes/auth_wrapper.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import '../routes/routes.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -15,7 +15,12 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
     Timer(const Duration(seconds: 3), () {
-      Navigator.of(context).pushReplacementNamed(AppRoutes.intro1);
+      // Check if the widget is still mounted before navigating
+      if (mounted) {
+        Navigator.of(context).pushReplacement(
+          MaterialPageRoute(builder: (context) => const AuthWrapper()),
+        );
+      }
     });
   }
 
@@ -25,8 +30,7 @@ class _SplashScreenState extends State<SplashScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          color:
-              theme.scaffoldBackgroundColor, // Use background color from theme
+          color: theme.scaffoldBackgroundColor,
           image: const DecorationImage(
             image: AssetImage('assets/patterns/full.png'),
             fit: BoxFit.cover,

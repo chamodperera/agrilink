@@ -3,8 +3,16 @@ import 'package:flutter/material.dart';
 class TextBox extends StatefulWidget {
   final String text;
   final bool isPassword;
+  final String? Function(String?)? validator;
+  final TextEditingController? controller; // Optional controller
 
-  const TextBox({super.key, required this.text, this.isPassword = false});
+  const TextBox({
+    super.key,
+    required this.text,
+    this.isPassword = false,
+    this.validator,
+    this.controller, // Optional controller in constructor
+  });
 
   @override
   _TextBoxState createState() => _TextBoxState();
@@ -12,6 +20,25 @@ class TextBox extends StatefulWidget {
 
 class _TextBoxState extends State<TextBox> {
   bool _obscureText = true;
+  late TextEditingController
+      _controller; // Declare late to initialize in initState
+  String? _errorText;
+
+  @override
+  void initState() {
+    super.initState();
+    // Use the provided controller or create a new one
+    _controller = widget.controller ?? TextEditingController();
+  }
+
+  @override
+  void dispose() {
+    // Only dispose the controller if it was created internally
+    if (widget.controller == null) {
+      _controller.dispose();
+    }
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,12 +55,14 @@ class _TextBoxState extends State<TextBox> {
       child: Container(
         padding: const EdgeInsets.all(6),
         child: TextField(
+          controller: _controller, // Use the controller (internal or external)
           obscureText: widget.isPassword ? _obscureText : false,
           decoration: InputDecoration(
             hintText: widget.text,
             hintStyle: theme.textTheme.displaySmall?.copyWith(
               color: theme.colorScheme.onSecondary,
             ),
+            errorText: _errorText, // Display error text
             suffixIcon: widget.isPassword
                 ? IconButton(
                     icon: Icon(
@@ -48,6 +77,13 @@ class _TextBoxState extends State<TextBox> {
                   )
                 : null,
           ),
+          onChanged: (value) {
+            if (widget.validator != null) {
+              setState(() {
+                _errorText = widget.validator!(value);
+              });
+            }
+          },
         ),
       ),
     );

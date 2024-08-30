@@ -1,8 +1,12 @@
+import 'package:agrilink/routes/auth_wrapper.dart';
 import 'package:agrilink/widgets/buttons/category_button_green.dart';
+import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/buttons/settings_button.dart';
 import 'package:agrilink/widgets/draggable_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart'; // Import provider
+import '../../providers/auth_provider.dart'; // Import AuthProvider
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -15,6 +19,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final authProvider = Provider.of<AuthProvider>(context,
+        listen: false); // Access AuthProvider
+
     return Scaffold(
       body: Stack(
         children: [
@@ -70,10 +77,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: FluentIcons.settings_16_regular,
                   onPressed: () {}),
               const SizedBox(height: 8),
-              SettingsButton(
-                  text: "Privacy",
-                  icon: FluentIcons.lock_closed_12_regular,
-                  onPressed: () {})
+              PrimaryButtonDark(
+                  text: 'Sign Out',
+                  onPressed: () async {
+                    try {
+                      await authProvider.signOut(); // Call sign out method
+                      Navigator.of(context).pushReplacement(
+                        MaterialPageRoute(
+                          builder: (context) =>
+                              const AuthWrapper(), // Navigate to login screen
+                        ),
+                      );
+                    } catch (e) {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        SnackBar(content: Text('Failed to sign out: $e')),
+                      );
+                    }
+                  }),
+              // SettingsButton(
+              //     text: "Privacy",
+              //     icon: FluentIcons.lock_closed_12_regular,
+              //     onPressed: () {})
             ],
           ),
         ],

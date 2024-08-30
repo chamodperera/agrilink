@@ -1,26 +1,42 @@
+import 'package:agrilink/routes/auth_wrapper.dart';
+import 'package:agrilink/screens/authentication/signup_screen_1.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/google.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/form/input.dart';
-import '../../routes/routes.dart';
+import 'package:provider/provider.dart';
+import '../../widgets/form/validators.dart'; // Import validators
+import '../../providers/auth_provider.dart'; // Import AuthProvider
 
-class Login extends StatelessWidget {
+class Login extends StatefulWidget {
   const Login({super.key});
+
+  @override
+  _LoginState createState() => _LoginState();
+}
+
+class _LoginState extends State<Login> {
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController passwordController = TextEditingController();
+  final _formKey = GlobalKey<FormState>(); // Form key for validation
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final authProvider = Provider.of<AuthProvider>(context,
+        listen: false); // Access AuthProvider
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
         decoration: const BoxDecoration(
           image: DecorationImage(
             image: AssetImage(
-                "assets/patterns/full.png"), // Specify the path to your image asset
-            fit: BoxFit
-                .cover, // This will cover the entire widget area without changing the aspect ratio of the image
+              "assets/patterns/full.png",
+            ),
+            fit: BoxFit.cover,
           ),
         ),
         child: Stack(
@@ -28,67 +44,100 @@ class Login extends StatelessWidget {
             const Positioned(
               top: 40,
               left: 16,
-              child: BackButtonWidget(), // Add the BackButtonWidget here
+              child: BackButtonWidget(),
             ),
             Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
-                child: Column(
-                  children: [
-                    const SizedBox(height: 70),
-                    const Logo(),
-                    const SizedBox(height: 50),
-                    Text(
-                      'Login To Your Account',
-                      style: theme.textTheme.displayMedium,
-                    ),
-                    const SizedBox(height: 30),
-                    const TextBox(text: 'Email'),
-                    const SizedBox(height: 10),
-                    const TextBox(
-                      text: 'Password',
-                      isPassword: true,
-                    ),
-                    Text(
-                      '\nforgot password?',
-                      style: theme.textTheme.displaySmall?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontSize: 14,
-                        decoration: TextDecoration.underline,
+                child: Form(
+                  key: _formKey, // Use form key
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 70),
+                      const Logo(),
+                      const SizedBox(height: 50),
+                      Text(
+                        'Login To Your Account',
+                        style: theme.textTheme.displayMedium,
                       ),
-                    ),
-                    const SizedBox(height: 25),
-                    Text(
-                      'Continue with',
-                      style: theme.textTheme.displaySmall,
-                    ),
-                    const SizedBox(height: 15),
-                    const GoogleLogin(),
-                    const SizedBox(height: 30),
-                    PrimaryButtonDark(
-                      text: 'Login',
-                      onPressed: () {
-                        Navigator.of(context).pushNamed(AppRoutes.main);
-                      },
-                    ),
-                    const SizedBox(height: 15),
-                    InkWell(
-                      onTap: () {
-                        Navigator.of(context).pushReplacementNamed(AppRoutes
-                            .signup); // Use the appropriate route name for the sign-up page
-                      },
-                      child: Text(
-                        "\ndon't have an account?",
+                      const SizedBox(height: 30),
+                      // Use TextBox with email controller
+                      TextBox(
+                        text: 'Email',
+                        controller: emailController,
+                        validator: validateEmail,
+                      ),
+                      const SizedBox(height: 10),
+                      // Use TextBox with password controller
+                      TextBox(
+                        text: 'Password',
+                        isPassword: true,
+                        controller: passwordController,
+                        validator: validatePassword,
+                      ),
+                      const SizedBox(height: 10),
+                      Text(
+                        '\nforgot password?',
                         style: theme.textTheme.displaySmall?.copyWith(
                           color: theme.colorScheme.primary,
                           fontSize: 14,
                           decoration: TextDecoration.underline,
                         ),
                       ),
-                    ),
-                  ],
+                      const SizedBox(height: 25),
+                      Text(
+                        'Continue with',
+                        style: theme.textTheme.displaySmall,
+                      ),
+                      const SizedBox(height: 15),
+                      const GoogleLogin(),
+                      const SizedBox(height: 30),
+                      PrimaryButtonDark(
+                        text: 'Login',
+                        onPressed: () async {
+                          // Validate form inputs
+                          if (_formKey.currentState!.validate()) {
+                            final email = emailController.text.trim();
+                            final password = passwordController.text.trim();
+                            try {
+                              // Attempt to sign in with email and password
+                              await authProvider.signInWithEmail(
+                                  email, password);
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                  builder: (context) =>
+                                      const AuthWrapper(), // Navigate to home screen
+                                ),
+                              );
+                            } catch (e) {
+                              // Show error message if login fails
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(content: Text('Login failed: $e')),
+                              );
+                            }
+                          }
+                        },
+                      ),
+                      const SizedBox(height: 15),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).pushReplacement(
+                              MaterialPageRoute(
+                                  builder: (context) => const SignUp1()));
+                        },
+                        child: Text(
+                          "\ndon't have an account?",
+                          style: theme.textTheme.displaySmall?.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),

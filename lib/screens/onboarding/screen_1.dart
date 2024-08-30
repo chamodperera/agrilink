@@ -1,6 +1,6 @@
+import 'package:agrilink/screens/onboarding/screen_2.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:flutter/material.dart';
-import '../../routes/routes.dart';
 
 class Intro1 extends StatelessWidget {
   const Intro1({super.key});
@@ -28,7 +28,8 @@ class Intro1 extends StatelessWidget {
             PrimaryButtonDark(
                 text: 'Next',
                 onPressed: () {
-                  Navigator.of(context).pushNamed(AppRoutes.intro2);
+                  Navigator.of(context).pushReplacement(
+                      MaterialPageRoute(builder: (context) => const Intro2()));
                 }),
           ],
         ),

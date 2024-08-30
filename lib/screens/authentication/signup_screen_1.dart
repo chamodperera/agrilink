@@ -1,12 +1,14 @@
+import 'package:agrilink/screens/authentication/login_screen.dart';
+import 'package:agrilink/screens/authentication/signup_screen_2.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/form/input.dart';
-import '../../routes/routes.dart';
+import '../../widgets/form/validators.dart';
 
-class SignUp extends StatelessWidget {
-  const SignUp({super.key});
+class SignUp1 extends StatelessWidget {
+  const SignUp1({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -40,25 +42,38 @@ class SignUp extends StatelessWidget {
                     style: theme.textTheme.displayMedium,
                   ),
                   const SizedBox(height: 30),
-                  const TextBox(text: 'First Name'),
+                  const TextBox(
+                      text: 'First Name',
+                      validator: validateName), // Update TextBox with validator
                   const SizedBox(height: 10),
-                  const TextBox(text: 'Last Name'),
+                  const TextBox(
+                      text: 'Last Name',
+                      validator: validateName), // Update TextBox with validator
                   const SizedBox(height: 10),
-                  const TextBox(text: 'Email'),
+                  const TextBox(
+                      text: 'Email',
+                      validator:
+                          validateEmail), // Update TextBox with validator
                   const SizedBox(height: 10),
-                  const TextBox(text: 'Mobile Number'),
+                  const TextBox(
+                      text: 'Mobile Number',
+                      validator:
+                          validateMobile), // Update TextBox with validator
                   const SizedBox(height: 30),
                   PrimaryButtonDark(
                     text: 'Next',
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoutes.main);;
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const SignUp2()));
+                      ;
                     },
                   ),
                   const SizedBox(height: 15),
                   InkWell(
                     onTap: () {
-                      Navigator.of(context).pushReplacementNamed(AppRoutes
-                          .login); // Use the appropriate route name for the sign-up page
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const Login()));
+                      // Use the appropriate route name for the sign-up page
                     },
                     child: Text(
                       "\nalready have an account?",

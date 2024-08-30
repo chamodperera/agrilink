@@ -1,7 +1,7 @@
+import 'package:agrilink/screens/authentication/login_screen.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:flutter/material.dart';
-import '../../routes/routes.dart';
 
 class Intro2 extends StatelessWidget {
   const Intro2({super.key});
@@ -36,7 +36,8 @@ class Intro2 extends StatelessWidget {
                 PrimaryButtonDark(
                     text: 'Next',
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoutes.login);
+                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                          builder: (context) => const Login()));
                     }),
               ],
             ),
