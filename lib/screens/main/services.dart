@@ -94,9 +94,11 @@ class ServicesScreen extends StatelessWidget {
                 'Your Offers',
                 style: theme.textTheme.titleMedium,
               ),
-              // const SizedBox(height: 10),
+
+              const SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
+                  padding: EdgeInsets.zero,
                   itemCount: offers.length,
                   itemBuilder: (context, index) {
                     return Column(
