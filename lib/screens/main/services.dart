@@ -1,7 +1,9 @@
+import 'package:agrilink/screens/onboarding/PostServiceForm.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/models/offers_model.dart';
+
 
 Offer service = Offer(
     name: "G.Kodikara",
@@ -60,7 +62,14 @@ class ServicesScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 120,
                 child: ElevatedButton(
-                  onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => PostServiceForm(),
+                        ),
+                      );
+                    },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
                     shape: RoundedRectangleBorder(
