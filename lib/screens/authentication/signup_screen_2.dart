@@ -5,11 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:agrilink/routes/auth_wrapper.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
-import 'package:agrilink/widgets/logo.dart';
 import 'package:agrilink/widgets/form/input.dart';
 import 'package:agrilink/widgets/form/validators.dart';
+import 'package:provider/provider.dart';
 import '../../widgets/form/image_input.dart'; // Import your ImageInputWidget
 import '../../widgets/form/multi_select.dart'; // Import your MultiSelectWidget
+import '../../providers/auth_provider.dart'; // Import AuthProvider
 
 class SignUp2 extends StatefulWidget {
   final String firstName;
@@ -69,7 +70,7 @@ class _SignUp2State extends State<SignUp2> {
   }
 
   // Validate all fields and navigate or show error messages
-  void _validateAndSubmit(BuildContext context) {
+  void _validateAndSubmit(BuildContext context) async {
     setState(() {
       _passwordErrorMessage = null;
       _rePasswordErrorMessage = null;
@@ -94,28 +95,42 @@ class _SignUp2State extends State<SignUp2> {
       }
 
       // If all validations pass, complete sign-up
-      _completeSignUp();
+      await _completeSignUp(context);
     }
   }
 
-  void _completeSignUp() {
-    // Complete the sign-up process using the collected data
-    // For example, you might send this data to your backend or Firebase
+  Future<void> _completeSignUp(BuildContext context) async {
+    // Get AuthProvider instance
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
-    print('First Name: ${widget.firstName}');
-    print('Last Name: ${widget.lastName}');
-    print('Email: ${widget.email}');
-    print('Mobile Number: ${widget.mobileNumber}');
-    print('Selected Roles: $selectedItems');
-    print('Password: ${passwordController.text}');
+    try {
+      // If using web, convert Uint8List to File for web handling
+      File? imageFile = _selectedImage;
+      if (kIsWeb && _webImage != null) {
+        // Convert Uint8List to Blob for web
+        // Since File.fromRawPath() is not supported on web, you can use a different approach here:
+        imageFile = File(_webImage!.toString());
+      }
 
-    // Here, you would typically handle the sign-up logic, like sending data to a backend or Firebase.
+      await authProvider.createUserAccount(
+        firstName: widget.firstName,
+        lastName: widget.lastName,
+        email: widget.email,
+        phone: widget.mobileNumber,
+        roles: selectedItems,
+        password: passwordController.text,
+        imageFile: imageFile, // Pass image file if available
+      );
 
-    Navigator.of(context).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => const AuthWrapper(),
-      ),
-    );
+      // Navigate to the main screen after successful sign-up
+      Navigator.of(context).pushReplacement(
+        MaterialPageRoute(
+          builder: (context) => const AuthWrapper(),
+        ),
+      );
+    } catch (e) {
+      print(e.toString());
+    }
   }
 
   @override

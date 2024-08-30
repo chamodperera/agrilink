@@ -18,7 +18,6 @@ class AuthWrapper extends StatelessWidget {
     if (authProvider.isSignedIn) {
       // If user is signed in, show the main layout
       print("Signed in");
-      print(authProvider.user);
       return MainLayout(
         pages: [
           HomeScreen(),
