@@ -3,9 +3,10 @@ import 'package:agrilink/widgets/buttons/primary_button_light.dart';
 import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:agrilink/screens/chatbot_screen.dart';
 
 class DashboardScreen extends StatelessWidget {
-  const DashboardScreen({super.key});
+  DashboardScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,30 +22,38 @@ class DashboardScreen extends StatelessWidget {
               "Support",
               style: theme.textTheme.titleMedium,
             ),
-            const SizedBox(height: 15),
+            SizedBox(height: 15),
             Row(
               children: [
-                const Expanded(
+                Expanded(
                   // Ensures the search bar takes up available width
-                  child: AppSearchBar(hintText: 'Need any assistance?'),
+                  child: AppSearchBar(
+                    hintText: 'Need any assistance?',
+                    onSubmitted: (inputText) {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ChatbotScreen(initialMessage: inputText),
+                        ),
+                      );
+                    },
+                  ),
                 ),
-                const SizedBox(width: 10),
+                SizedBox(width: 10),
                 IconButtonWidget(
                   icon: FluentIcons.camera_28_regular,
-                  onPressed: () {
-                    // Add your onPressed logic here
-                  },
+                  onPressed: () {}
                 ),
               ],
             ),
-            const SizedBox(height: 20),
+            SizedBox(height: 20),
             Expanded(
               child: SingleChildScrollView(
                 scrollDirection: Axis.vertical,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(height: 10),
+                    SizedBox(height: 10),
                     Text(
                       "Current Market",
                       style: theme.textTheme.titleMedium,
@@ -84,7 +93,7 @@ class DashboardScreen extends StatelessWidget {
                                       color: Colors.white,
                                     ),
                                   ),
-                                  const SizedBox(height: 25),
+                                  SizedBox(height: 25),
                                   PrimaryButtonLight(
                                       text: "Learn More", onPressed: () {})
                                 ],

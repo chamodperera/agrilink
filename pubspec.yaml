@@ -38,6 +38,8 @@ dependencies:
   google_fonts: ^6.2.0
   flutter_svg: ^2.0.10+1
   fluentui_system_icons: ^1.1.246
+  google_generative_ai: ^0.4.5
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:

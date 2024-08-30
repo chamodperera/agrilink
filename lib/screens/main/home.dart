@@ -4,7 +4,6 @@ import 'package:agrilink/services.dart';
 import 'package:agrilink/widgets/buttons/category_button_green.dart';
 import 'package:agrilink/widgets/buttons/category_button_grey.dart';
 import 'package:agrilink/widgets/buttons/icon_button.dart';
-import 'package:agrilink/widgets/buttons/primary_button_light.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
@@ -40,8 +39,13 @@ class _HomeScreenState extends State<HomeScreen> {
             const SizedBox(height: 15),
             Row(
               children: [
-                const Expanded(
-                  child: AppSearchBar(hintText: 'Search to find offers'),
+                Expanded(
+                  child: AppSearchBar(
+                    hintText: 'Search to find offers',
+                    onSubmitted: (value) {
+                      // Add your onSubmitted logic here
+                    },
+                  ),
                 ),
                 const SizedBox(width: 10),
                 IconButtonWidget(

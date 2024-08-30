@@ -38,7 +38,7 @@ class AppRoutes {
             pages: [
               HomeScreen(),
               const ServicesScreen(),
-              const DashboardScreen(),
+       DashboardScreen(),
               const ProfileScreen(),
             ],
           )
