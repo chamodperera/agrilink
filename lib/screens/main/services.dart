@@ -1,3 +1,4 @@
+import 'package:agrilink/screens/PostServiceForm.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
@@ -16,17 +17,17 @@ Offer service = Offer(
     price: "Rs.170/kg");
 
 List<Offer> offers = [
-  Offer(
-      name: "L.Kanthi",
-      category: "Retailer",
-      avatar: "assets/users/user4.png",
-      rating: "4.8",
-      location: "Ampara",
-      title: "10 kilos of Bananas",
-      subTitle: "I need 10kilos of Bananas ",
-      description:
-          "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
-      price: "Rs.120/kg"),
+  // Offer(
+  //     name: "L.Kanthi",
+  //     category: "Retailer",
+  //     avatar: "assets/users/user4.png",
+  //     rating: "4.8",
+  //     location: "Ampara",
+  //     title: "10 kilos of Bananas",
+  //     subTitle: "I need 10kilos of Bananas ",
+  //     description:
+  //         "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
+  //     price: "Rs.120/kg"),
 ];
 
 class ServicesScreen extends StatelessWidget {
@@ -60,7 +61,14 @@ class ServicesScreen extends StatelessWidget {
                 width: double.infinity,
                 height: 120,
                 child: ElevatedButton(
-                  onPressed: () {},
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => PostServiceForm(),
+                      ),
+                    );
+                  },
                   style: ElevatedButton.styleFrom(
                     backgroundColor: theme.colorScheme.primary,
                     shape: RoundedRectangleBorder(
@@ -94,7 +102,6 @@ class ServicesScreen extends StatelessWidget {
                 'Your Offers',
                 style: theme.textTheme.titleMedium,
               ),
-
               const SizedBox(height: 10),
               Expanded(
                 child: ListView.builder(
