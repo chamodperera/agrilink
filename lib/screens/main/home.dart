@@ -18,11 +18,27 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Offer>> futureOffers;
+  String selectedCategory = 'All'; // State variable for the selected category
 
   @override
   void initState() {
     super.initState();
-    futureOffers = OffersService().fetchOffers();
+    futureOffers = fetchOffersByCategory(selectedCategory);
+  }
+
+  // Method to fetch offers based on the selected category
+  Future<List<Offer>> fetchOffersByCategory(String category) {
+    return OffersService().fetchOffers(
+        category:
+            category); // Assuming fetchOffers method in OffersService handles category filtering
+  }
+
+  // Method to update the selected category and fetch offers accordingly
+  void updateCategory(String category) {
+    setState(() {
+      selectedCategory = category;
+      futureOffers = fetchOffersByCategory(selectedCategory);
+    });
   }
 
   @override
@@ -63,17 +79,52 @@ class _HomeScreenState extends State<HomeScreen> {
               borderRadius: BorderRadius.circular(20.0),
               child: const Image(image: AssetImage('assets/images/ad.png')),
             ),
+            const SizedBox(height: 15),
             Row(
               children: [
-                CategoryButtonGreen(text: 'All', onPressed: () {}),
+                // Highlight the selected category button
+                selectedCategory == 'All'
+                    ? CategoryButtonGreen(
+                        text: 'All',
+                        onPressed: () => updateCategory('All'),
+                      )
+                    : CategoryButtonGrey(
+                        text: 'All',
+                        onPressed: () => updateCategory('All'),
+                      ),
                 const SizedBox(width: 5),
-                CategoryButtonGrey(text: 'Farmers', onPressed: () {}),
+                selectedCategory == 'Farmer'
+                    ? CategoryButtonGreen(
+                        text: 'Farmers',
+                        onPressed: () => updateCategory('Farmer'),
+                      )
+                    : CategoryButtonGrey(
+                        text: 'Farmers',
+                        onPressed: () => updateCategory('Farmer'),
+                      ),
                 const SizedBox(width: 5),
-                CategoryButtonGrey(text: 'Retailers', onPressed: () {}),
+                selectedCategory == 'Retailer'
+                    ? CategoryButtonGreen(
+                        text: 'Retailers',
+                        onPressed: () => updateCategory('Retailer'),
+                      )
+                    : CategoryButtonGrey(
+                        text: 'Retailers',
+                        onPressed: () => updateCategory('Retailer'),
+                      ),
                 const SizedBox(width: 5),
-                CategoryButtonGrey(text: 'Distributors', onPressed: () {}),
+                selectedCategory == 'Distributor'
+                    ? CategoryButtonGreen(
+                        text: 'Distributors',
+                        onPressed: () => updateCategory('Distributor'),
+                      )
+                    : CategoryButtonGrey(
+                        text: 'Distributors',
+                        onPressed: () => updateCategory('Distributor'),
+                      ),
               ],
             ),
+            const SizedBox(height: 15),
             Expanded(
               child: FutureBuilder<List<Offer>>(
                 future: futureOffers,
