@@ -27,6 +27,7 @@ class AuthProvider extends ChangeNotifier {
     } catch (e) {
       // Handle sign-in errors here
       print(e.toString());
+      rethrow;
     }
   }
 

@@ -22,11 +22,13 @@ class _LoginState extends State<Login> {
   final TextEditingController passwordController = TextEditingController();
   final _formKey = GlobalKey<FormState>(); // Form key for validation
 
+  String? _emailError; // To store authentication error message
+  String? _passwordError; // To store authentication error message
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final authProvider = Provider.of<AuthProvider>(context,
-        listen: false); // Access AuthProvider
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -65,17 +67,17 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 30),
                       // Use TextBox with email controller
                       TextBox(
-                        text: 'Email',
-                        controller: emailController,
-                        validator: validateEmail,
-                      ),
+                          text: 'Email',
+                          controller: emailController,
+                          validator: validateEmail,
+                          errorMessage: _emailError),
                       const SizedBox(height: 10),
-                      // Use TextBox with password controller
+                      // Use TextBox with password controller and dynamic error message
                       TextBox(
                         text: 'Password',
                         isPassword: true,
                         controller: passwordController,
-                        validator: validatePassword,
+                        errorMessage: _passwordError, // Set the error message
                       ),
                       const SizedBox(height: 10),
                       Text(
@@ -105,6 +107,8 @@ class _LoginState extends State<Login> {
                               // Attempt to sign in with email and password
                               await authProvider.signInWithEmail(
                                   email, password);
+
+                              // Navigate only if login is successful
                               Navigator.of(context).pushReplacement(
                                 MaterialPageRoute(
                                   builder: (context) =>
@@ -112,10 +116,12 @@ class _LoginState extends State<Login> {
                                 ),
                               );
                             } catch (e) {
-                              // Show error message if login fails
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(content: Text('Login failed: $e')),
-                              );
+                              // Set the authentication error message
+                              setState(() {
+                                _emailError = 'Email or password is incorrect';
+                                _passwordError =
+                                    'Email or password is incorrect';
+                              });
                             }
                           }
                         },
@@ -123,9 +129,8 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 15),
                       InkWell(
                         onTap: () {
-                          Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(
-                                  builder: (context) => const SignUp1()));
+                          Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => SignUp1()));
                         },
                         child: Text(
                           "\ndon't have an account?",
