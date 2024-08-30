@@ -59,7 +59,7 @@ class OfferCard extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 6),
+                    const SizedBox(height: 6),
                     Text(offer.title,
                         style: GoogleFonts.poppins(
                             fontSize: 18,
