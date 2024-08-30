@@ -21,7 +21,7 @@ class InfoScreen extends StatelessWidget {
             fit: BoxFit.cover, // Ensures the image covers the entire area
           ),
           const Positioned(
-            top: 16, // Adjust the top position as needed
+            top: 40, // Adjust the top position as needed
             left: 16, // Adjust the left position as needed
             child: BackButtonWidget(),
           ),

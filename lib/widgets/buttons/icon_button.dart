@@ -4,7 +4,7 @@ class IconButtonWidget extends StatelessWidget {
   final IconData icon;
   final VoidCallback onPressed;
 
-  IconButtonWidget({super.key, required this.icon, required this.onPressed});
+  const IconButtonWidget({super.key, required this.icon, required this.onPressed});
 
   @override
   Widget build(BuildContext context) {

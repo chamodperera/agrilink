@@ -38,6 +38,8 @@ dependencies:
   google_fonts: ^6.2.0
   flutter_svg: ^2.0.10+1
   fluentui_system_icons: ^1.1.246
+  provider: ^6.1.2
+  google_sign_in: ^6.2.1
   image_picker: ^1.1.2
   file_picker: ^8.0.5
   firebase_core: ^3.4.0
@@ -46,10 +48,19 @@ dependencies:
   cloud_firestore: ^5.3.0
   firebase_storage: ^12.2.0
   path: ^1.9.0
+  google_generative_ai: ^0.4.5
+  intl: ^0.19.0
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  
+  flutter_launcher_icons: "^0.13.1"
+
+flutter_launcher_icons:
+  android: "launcher_icon"
+  ios: true
+  image_path: "assets/icon.png"
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is

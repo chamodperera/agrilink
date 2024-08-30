@@ -16,19 +16,21 @@ class CategoryButtonGrey extends StatelessWidget {
     return Column(
       children: [
         Padding(
-          padding: const EdgeInsets.all(8.0), // Adjust padding as needed
+          padding: const EdgeInsets.only(top: 8.0,bottom: 8.0),
           child: ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.background,
+              backgroundColor: theme.colorScheme.secondary,
+              elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.circular(20),
               ),
+              padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 4), // Reduced padding
             ),
             child: Text(
               text,
               style: theme.textTheme.bodySmall?.copyWith(
-                color: theme.colorScheme.primary,
+                color: theme.colorScheme.onSecondary,
               ),
             ),
           ),
