@@ -23,7 +23,7 @@ class AuthWrapper extends StatelessWidget {
         pages: [
           HomeScreen(),
           const ServicesScreen(),
-          const DashboardScreen(),
+           DashboardScreen(),
           const ProfileScreen(),
         ],
       );
