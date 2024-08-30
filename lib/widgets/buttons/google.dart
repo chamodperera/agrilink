@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:agrilink/screens/main/home.dart';
 
 class GoogleLogin extends StatelessWidget {
-  GoogleLogin({Key? key});
+  GoogleLogin({super.key});
 
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -38,8 +39,12 @@ class GoogleLogin extends StatelessWidget {
           _signInWithGoogle().then((userCredential) {
             if (userCredential != null) {
               // Handle successful sign-in
+              // Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => HomeScreen()));
             } else {
               // Handle sign-in failure
+              // ScaffoldMessenger.of(context).showSnackBar(
+              //   const SnackBar(content: Text('Sign-in failed. Please try again.')),
+              // );
             }
           });
         },
@@ -53,7 +58,7 @@ class GoogleLogin extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             SvgPicture.asset('assets/icons/google.svg'),
-            SizedBox(width: 10),
+            const SizedBox(width: 10),
             Text(
               'Google',
               style: theme.textTheme.displaySmall,

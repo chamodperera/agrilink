@@ -20,7 +20,7 @@ class CategoryButtonGreen extends StatelessWidget {
           child: ElevatedButton(
             onPressed: onPressed,
             style: ElevatedButton.styleFrom(
-              backgroundColor: Color.fromARGB(20, 83, 232, 139),
+              backgroundColor: const Color.fromARGB(20, 83, 232, 139),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15),
               ),

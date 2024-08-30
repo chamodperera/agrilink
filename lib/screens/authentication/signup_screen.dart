@@ -51,7 +51,7 @@ class SignUp extends StatelessWidget {
                   PrimaryButtonDark(
                     text: 'Next',
                     onPressed: () {
-                      Navigator.of(context).pushNamed(AppRoutes.main);;
+                      Navigator.of(context).pushNamed(AppRoutes.main);
                     },
                   ),
                   const SizedBox(height: 15),

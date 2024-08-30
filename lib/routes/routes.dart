@@ -25,12 +25,12 @@ class AppRoutes {
       splash: (context) {
         final authProvider = Provider.of<AuthProvider>(context);
         if (authProvider.user != null) {
-          return MainLayout(
+          return const MainLayout(
             pages: [
               HomeScreen(),
-              const ServicesScreen(),
-              const DashboardScreen(),
-              const ProfileScreen(),
+              ServicesScreen(),
+              DashboardScreen(),
+              ProfileScreen(),
             ],
           );
         } else {
