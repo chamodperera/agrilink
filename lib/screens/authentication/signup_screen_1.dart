@@ -8,7 +8,33 @@ import 'package:agrilink/widgets/form/input.dart';
 import '../../widgets/form/validators.dart';
 
 class SignUp1 extends StatelessWidget {
-  const SignUp1({super.key});
+  SignUp1({super.key});
+
+  // TextEditingControllers to capture input
+  final TextEditingController firstNameController = TextEditingController();
+  final TextEditingController lastNameController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final TextEditingController mobileController = TextEditingController();
+
+  // GlobalKey for form validation
+  final _formKey = GlobalKey<FormState>();
+
+  // Function to validate form and navigate to next screen
+  void _validateAndNavigate(BuildContext context) {
+    if (_formKey.currentState!.validate()) {
+      // If all fields are valid, navigate to SignUp2
+      Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => SignUp2(
+            firstName: firstNameController.text,
+            lastName: lastNameController.text,
+            email: emailController.text,
+            mobileNumber: mobileController.text,
+          ),
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,59 +58,71 @@ class SignUp1 extends StatelessWidget {
               child: BackButtonWidget(), // Add the BackButtonWidget here
             ),
             Center(
-              child: Column(
-                children: [
-                  const SizedBox(height: 70),
-                  const Logo(),
-                  const SizedBox(height: 50),
-                  Text(
-                    'Sign Up For Free',
-                    style: theme.textTheme.displayMedium,
-                  ),
-                  const SizedBox(height: 30),
-                  const TextBox(
-                      text: 'First Name',
-                      validator: validateName), // Update TextBox with validator
-                  const SizedBox(height: 10),
-                  const TextBox(
-                      text: 'Last Name',
-                      validator: validateName), // Update TextBox with validator
-                  const SizedBox(height: 10),
-                  const TextBox(
-                      text: 'Email',
-                      validator:
-                          validateEmail), // Update TextBox with validator
-                  const SizedBox(height: 10),
-                  const TextBox(
-                      text: 'Mobile Number',
-                      validator:
-                          validateMobile), // Update TextBox with validator
-                  const SizedBox(height: 30),
-                  PrimaryButtonDark(
-                    text: 'Next',
-                    onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const SignUp2()));
-                      ;
-                    },
-                  ),
-                  const SizedBox(height: 15),
-                  InkWell(
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                          builder: (context) => const Login()));
-                      // Use the appropriate route name for the sign-up page
-                    },
-                    child: Text(
-                      "\nalready have an account?",
-                      style: theme.textTheme.displaySmall?.copyWith(
-                        color: theme.colorScheme.primary,
-                        fontSize: 14,
-                        decoration: TextDecoration.underline,
+              child: SingleChildScrollView(
+                padding: EdgeInsets.only(
+                  bottom: MediaQuery.of(context).viewInsets.bottom,
+                ),
+                child: Form(
+                  key: _formKey, // Assign the key to the Form
+                  child: Column(
+                    children: [
+                      const SizedBox(height: 70),
+                      const Logo(),
+                      const SizedBox(height: 50),
+                      Text(
+                        'Sign Up For Free',
+                        style: theme.textTheme.displayMedium,
                       ),
-                    ),
+                      const SizedBox(height: 30),
+                      // Use TextBox with controller
+                      TextBox(
+                        text: 'First Name',
+                        controller: firstNameController,
+                        validator: validateName,
+                      ),
+                      const SizedBox(height: 10),
+                      TextBox(
+                        text: 'Last Name',
+                        controller: lastNameController,
+                        validator: validateName,
+                      ),
+                      const SizedBox(height: 10),
+                      TextBox(
+                        text: 'Email',
+                        controller: emailController,
+                        validator: validateEmail,
+                      ),
+                      const SizedBox(height: 10),
+                      TextBox(
+                        text: 'Mobile Number',
+                        controller: mobileController,
+                        validator: validateMobile,
+                      ),
+                      const SizedBox(height: 30),
+                      PrimaryButtonDark(
+                        text: 'Next',
+                        onPressed: () => _validateAndNavigate(
+                            context), // Call the validateAndNavigate function
+                      ),
+                      const SizedBox(height: 15),
+                      InkWell(
+                        onTap: () {
+                          Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => const Login(),
+                          ));
+                        },
+                        child: Text(
+                          "\nalready have an account?",
+                          style: theme.textTheme.displaySmall?.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
+                        ),
+                      ),
+                    ],
                   ),
-                ],
+                ),
               ),
             ),
           ],

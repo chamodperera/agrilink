@@ -36,7 +36,7 @@ class Intro2 extends StatelessWidget {
                 PrimaryButtonDark(
                     text: 'Next',
                     onPressed: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
+                      Navigator.of(context).push(MaterialPageRoute(
                           builder: (context) => const Login()));
                     }),
               ],

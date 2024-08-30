@@ -28,7 +28,7 @@ class Intro1 extends StatelessWidget {
             PrimaryButtonDark(
                 text: 'Next',
                 onPressed: () {
-                  Navigator.of(context).pushReplacement(
+                  Navigator.of(context).push(
                       MaterialPageRoute(builder: (context) => const Intro2()));
                 }),
           ],
