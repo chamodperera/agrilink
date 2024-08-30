@@ -68,15 +68,11 @@ class Login extends StatelessWidget {
                       style: theme.textTheme.displaySmall,
                     ),
                     const SizedBox(height: 15),
-                    const GoogleLogin(),
+                    GoogleLogin(),
                     const SizedBox(height: 30),
                     PrimaryButtonDark(
                       text: 'Login',
                       onPressed: () async {
-                        await authProvider.signInWithGoogle();
-                        if (authProvider.user != null) {
-                          Navigator.pushReplacementNamed(context, '/main');
-                        }
                       },
                     ),
                     const SizedBox(height: 15),
