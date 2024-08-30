@@ -5,8 +5,16 @@ import 'firebase_options.dart';
 import 'providers/auth_provider.dart';
 import 'theme/theme.dart'; // Import your theme
 import 'screens/splash_screen.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
 Future<void> main() async {
+    try {
+    await dotenv.load(fileName: '.env');
+    print("Environment variables loaded successfully.");
+  } catch (e) {
+    print("Error loading .env file: $e");
+    return;
+  }
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   runApp(const AgriLinkApp());
