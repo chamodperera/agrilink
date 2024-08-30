@@ -5,8 +5,10 @@ import 'package:agrilink/widgets/buttons/google.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:agrilink/widgets/form/input.dart';
 import 'package:provider/provider.dart';
+import '../../providers/auth_provider.dart';
 import '../../widgets/form/validators.dart'; // Import validators
 import '../../providers/auth_provider.dart'; // Import AuthProvider
 
@@ -27,8 +29,8 @@ class _LoginState extends State<Login> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final theme = Theme.of(context);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -94,7 +96,7 @@ class _LoginState extends State<Login> {
                         style: theme.textTheme.displaySmall,
                       ),
                       const SizedBox(height: 15),
-                      const GoogleLogin(),
+                      GoogleLogin(),
                       const SizedBox(height: 30),
                       PrimaryButtonDark(
                         text: 'Login',
