@@ -64,6 +64,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
         title: Text('AgriChat',style: theme.textTheme.titleMedium),
         backgroundColor: theme.colorScheme.background,
         leading: const BackButtonWidget(),
+        centerTitle: true,
       ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,

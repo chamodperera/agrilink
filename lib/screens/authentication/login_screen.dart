@@ -59,7 +59,7 @@ class _LoginState extends State<Login> {
                   key: _formKey, // Use form key
                   child: Column(
                     children: [
-                      const SizedBox(height: 70),
+                      const SizedBox(height: 50),
                       const Logo(),
                       const SizedBox(height: 50),
                       Text(
@@ -97,7 +97,7 @@ class _LoginState extends State<Login> {
                       ),
                       const SizedBox(height: 15),
                       GoogleLogin(),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       PrimaryButtonDark(
                         text: 'Login',
                         onPressed: () async {
@@ -128,7 +128,7 @@ class _LoginState extends State<Login> {
                           }
                         },
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(

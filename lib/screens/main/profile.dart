@@ -67,7 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               Text(
                 "${user.firstName} ${user.lastName}",
                 style: theme.textTheme.titleMedium?.copyWith(
-                  fontSize: 30,
+                  fontSize: 25,
                 ),
               ),
               Text(

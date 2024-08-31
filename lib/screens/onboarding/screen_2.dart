@@ -4,7 +4,7 @@ import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:flutter/material.dart';
 
 class Intro2 extends StatelessWidget {
-  const Intro2({super.key});
+  const Intro2({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,28 +18,32 @@ class Intro2 extends StatelessWidget {
             left: 16,
             child: BackButtonWidget(), // Add the BackButton here
           ),
-          Center(
-            child: Column(
-              children: [
-                const SizedBox(height: 80),
-                Image.asset('assets/images/cart.png', height: 450),
-                const SizedBox(height: 20),
-                Text(
-                  'AgriLink is where Your\n         Harvest Lives',
-                  style: theme.textTheme.bodyMedium,
-                ),
-                Text(
-                  '\n\nEnjoy a fast and smooth distribution of \n                     your harvest',
-                  style: theme.textTheme.bodySmall,
-                ),
-                const SizedBox(height: 50),
-                PrimaryButtonDark(
+          SingleChildScrollView(
+            child: Center(
+              child: Column(
+                children: [
+                  const SizedBox(height: 60),
+                  Image.asset('assets/images/cart.png', height: 450),
+                  const SizedBox(height: 20),
+                  Text(
+                    'AgriLink is where Your\n         Harvest Lives',
+                    style: theme.textTheme.bodyMedium,
+                  ),
+                  Text(
+                    '\n\nEnjoy a fast and smooth distribution of \n                     your harvest',
+                    style: theme.textTheme.bodySmall,
+                  ),
+                  const SizedBox(height: 30),
+                  PrimaryButtonDark(
                     text: 'Next',
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const Login()));
-                    }),
-              ],
+                        builder: (context) => const Login(),
+                      ));
+                    },
+                  ),
+                ],
+              ),
             ),
           ),
         ],

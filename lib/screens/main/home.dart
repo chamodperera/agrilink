@@ -80,50 +80,54 @@ class _HomeScreenState extends State<HomeScreen> {
               child: const Image(image: AssetImage('assets/images/ad.png')),
             ),
             const SizedBox(height: 15),
-            Row(
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
               children: [
                 // Highlight the selected category button
                 selectedCategory == 'All'
-                    ? CategoryButtonGreen(
-                        text: 'All',
-                        onPressed: () => updateCategory('All'),
-                      )
-                    : CategoryButtonGrey(
-                        text: 'All',
-                        onPressed: () => updateCategory('All'),
-                      ),
+                  ? CategoryButtonGreen(
+                    text: 'All',
+                    onPressed: () => updateCategory('All'),
+                  )
+                  : CategoryButtonGrey(
+                    text: 'All',
+                    onPressed: () => updateCategory('All'),
+                  ),
                 const SizedBox(width: 5),
                 selectedCategory == 'Farmer'
-                    ? CategoryButtonGreen(
-                        text: 'Farmers',
-                        onPressed: () => updateCategory('Farmer'),
-                      )
-                    : CategoryButtonGrey(
-                        text: 'Farmers',
-                        onPressed: () => updateCategory('Farmer'),
-                      ),
+                  ? CategoryButtonGreen(
+                    text: 'Farmers',
+                    onPressed: () => updateCategory('Farmer'),
+                  )
+                  : CategoryButtonGrey(
+                    text: 'Farmers',
+                    onPressed: () => updateCategory('Farmer'),
+                  ),
                 const SizedBox(width: 5),
                 selectedCategory == 'Retailer'
-                    ? CategoryButtonGreen(
-                        text: 'Retailers',
-                        onPressed: () => updateCategory('Retailer'),
-                      )
-                    : CategoryButtonGrey(
-                        text: 'Retailers',
-                        onPressed: () => updateCategory('Retailer'),
-                      ),
+                  ? CategoryButtonGreen(
+                    text: 'Retailers',
+                    onPressed: () => updateCategory('Retailer'),
+                  )
+                  : CategoryButtonGrey(
+                    text: 'Retailers',
+                    onPressed: () => updateCategory('Retailer'),
+                  ),
                 const SizedBox(width: 5),
                 selectedCategory == 'Distributor'
-                    ? CategoryButtonGreen(
-                        text: 'Distributors',
-                        onPressed: () => updateCategory('Distributor'),
-                      )
-                    : CategoryButtonGrey(
-                        text: 'Distributors',
-                        onPressed: () => updateCategory('Distributor'),
-                      ),
+                  ? CategoryButtonGreen(
+                    text: 'Distributors',
+                    onPressed: () => updateCategory('Distributor'),
+                  )
+                  : CategoryButtonGrey(
+                    text: 'Distributors',
+                    onPressed: () => updateCategory('Distributor'),
+                  ),
               ],
+              ),
             ),
+            
             const SizedBox(height: 15),
             Expanded(
               child: FutureBuilder<List<Offer>>(

@@ -20,7 +20,7 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.0.0 <4.0.0'
+  sdk: ">=3.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -31,7 +31,6 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  flutter_dotenv: ^5.0.2
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
@@ -57,8 +56,6 @@ dev_dependencies:
     sdk: flutter
 
   flutter_launcher_icons: "^0.13.1"
-  envied_generator: ^0.5.4+1
-  build_runner: ^2.4.12
 
 flutter_launcher_icons:
   android: "launcher_icon"
@@ -84,7 +81,6 @@ flutter:
 
   # To add assets to your application, add an assets section, like this:
   assets:
-    - .env
     # data
     - data/offers.json
 

@@ -66,9 +66,9 @@ class SignUp1 extends StatelessWidget {
                   key: _formKey, // Assign the key to the Form
                   child: Column(
                     children: [
-                      const SizedBox(height: 70),
+                      const SizedBox(height: 60),
                       const Logo(),
-                      const SizedBox(height: 50),
+                      const SizedBox(height: 40),
                       Text(
                         'Sign Up For Free',
                         style: theme.textTheme.displayMedium,
@@ -98,13 +98,13 @@ class SignUp1 extends StatelessWidget {
                         controller: mobileController,
                         validator: validateMobile,
                       ),
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 20),
                       PrimaryButtonDark(
                         text: 'Next',
                         onPressed: () => _validateAndNavigate(
                             context), // Call the validateAndNavigate function
                       ),
-                      const SizedBox(height: 15),
+                      const SizedBox(height: 10),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
