@@ -45,5 +45,5 @@ final class _Env {
   static const String iosClientId =
       '633808042190-vro232afr3go03m914lm1h2ie32ju26j.apps.googleusercontent.com';
 
-  static const String iosBundleId = 'com.example.agrilink';
+  static const String iosBundleId = 'com.rysera.agrilink';
 }

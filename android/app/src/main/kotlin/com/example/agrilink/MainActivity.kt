@@ -1,4 +1,4 @@
-package com.example.agrilink
+package com.rysera.agrilink
 
 import io.flutter.embedding.android.FlutterActivity
 
