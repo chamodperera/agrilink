@@ -26,7 +26,7 @@ class OfferCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image(width: 65, image: AssetImage('assets/users/user2.png')),
+                    child: Image(width: 65, image: AssetImage(offer.avatar)),
                   ),
                   const SizedBox(height: 5),
                   Text(offer.name,
