@@ -153,13 +153,7 @@ Widget build(BuildContext context) {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  message,
-                  style: TextStyle(
-                    fontSize: 14,
-                    color: isUser ? Colors.black : Colors.white,
-                  ),
-                ),
+                _buildMessageText(message, isUser),
                 if (isUser) SizedBox(height: 10),
                 Text(
                   date,
@@ -188,6 +182,29 @@ Widget build(BuildContext context) {
   );
 }
 }
+
+  Widget _buildMessageText(String text, bool isUser) {
+    if (!isUser) {
+      final parts = text.split('**');
+      return RichText(
+        text: TextSpan(
+          children: parts.map((part) {
+            final isBold = part.startsWith('**') && part.endsWith('**');
+            return TextSpan(
+              text: isBold ? part.substring(2, part.length - 2) : part,
+              style: TextStyle(
+                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+                fontSize: 14,
+                color: Colors.white,
+              ),
+            );
+          }).toList(),
+        ),
+      );
+    } else {
+      return Text(text, style: TextStyle(fontSize: 14, color:  Colors.black));
+    }
+  }
 
 
 class Message {

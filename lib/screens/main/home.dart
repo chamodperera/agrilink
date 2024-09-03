@@ -10,7 +10,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+  const HomeScreen({Key? key}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -45,92 +45,91 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
-      body: Container(
-        padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(
-              "Find Offers",
-              style: theme.textTheme.titleMedium,
-            ),
-            const SizedBox(height: 15),
-            Row(
-              children: [
-                Expanded(
-                  child: AppSearchBar(
-                    hintText: 'Search to find offers',
-                    onSubmitted: (value) {
-                      // Add your onSubmitted logic here
+      body: SingleChildScrollView(
+        child: Container(
+          padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "Find Offers",
+                style: theme.textTheme.headline6,
+              ),
+              const SizedBox(height: 15),
+              Row(
+                children: [
+                  Expanded(
+                    child: AppSearchBar(
+                      hintText: 'Search to find offers',
+                      onSubmitted: (value) {
+                        // Add your onSubmitted logic here
+                      },
+                    ),
+                  ),
+                  const SizedBox(width: 10),
+                  IconButtonWidget(
+                    icon: FluentIcons.text_grammar_settings_24_regular,
+                    onPressed: () {
+                      // Add your onPressed logic here
                     },
                   ),
-                ),
-                const SizedBox(width: 10),
-                IconButtonWidget(
-                  icon: FluentIcons.text_grammar_settings_24_regular,
-                  onPressed: () {
-                    // Add your onPressed logic here
-                  },
-                ),
-              ],
-            ),
-            const SizedBox(height: 15),
-            ClipRRect(
-              borderRadius: BorderRadius.circular(20.0),
-              child: const Image(image: AssetImage('assets/images/ad.png')),
-            ),
-            const SizedBox(height: 15),
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-              children: [
-                // Highlight the selected category button
-                selectedCategory == 'All'
-                  ? CategoryButtonGreen(
-                    text: 'All',
-                    onPressed: () => updateCategory('All'),
-                  )
-                  : CategoryButtonGrey(
-                    text: 'All',
-                    onPressed: () => updateCategory('All'),
-                  ),
-                const SizedBox(width: 5),
-                selectedCategory == 'Farmer'
-                  ? CategoryButtonGreen(
-                    text: 'Farmers',
-                    onPressed: () => updateCategory('Farmer'),
-                  )
-                  : CategoryButtonGrey(
-                    text: 'Farmers',
-                    onPressed: () => updateCategory('Farmer'),
-                  ),
-                const SizedBox(width: 5),
-                selectedCategory == 'Retailer'
-                  ? CategoryButtonGreen(
-                    text: 'Retailers',
-                    onPressed: () => updateCategory('Retailer'),
-                  )
-                  : CategoryButtonGrey(
-                    text: 'Retailers',
-                    onPressed: () => updateCategory('Retailer'),
-                  ),
-                const SizedBox(width: 5),
-                selectedCategory == 'Distributor'
-                  ? CategoryButtonGreen(
-                    text: 'Distributors',
-                    onPressed: () => updateCategory('Distributor'),
-                  )
-                  : CategoryButtonGrey(
-                    text: 'Distributors',
-                    onPressed: () => updateCategory('Distributor'),
-                  ),
-              ],
+                ],
               ),
-            ),
-            
-            const SizedBox(height: 15),
-            Expanded(
-              child: FutureBuilder<List<Offer>>(
+              const SizedBox(height: 15),
+              ClipRRect(
+                borderRadius: BorderRadius.circular(20.0),
+                child: const Image(image: AssetImage('assets/images/ad.png')),
+              ),
+              const SizedBox(height: 15),
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Wrap(
+                  //space evenly
+                  spacing: 10,
+                  runSpacing: 10,
+                  children: [
+                    // Highlight the selected category button
+                    selectedCategory == 'All'
+                        ? CategoryButtonGreen(
+                            text: 'All',
+                            onPressed: () => updateCategory('All'),
+                          )
+                        : CategoryButtonGrey(
+                            text: 'All',
+                            onPressed: () => updateCategory('All'),
+                          ),
+                    selectedCategory == 'Farmer'
+                        ? CategoryButtonGreen(
+                            text: 'Farmers',
+                            onPressed: () => updateCategory('Farmer'),
+                          )
+                        : CategoryButtonGrey(
+                            text: 'Farmers',
+                            onPressed: () => updateCategory('Farmer'),
+                          ),
+                    selectedCategory == 'Retailer'
+                        ? CategoryButtonGreen(
+                            text: 'Retailers',
+                            onPressed: () => updateCategory('Retailer'),
+                          )
+                        : CategoryButtonGrey(
+                            text: 'Retailers',
+                            onPressed: () => updateCategory('Retailer'),
+                          ),
+                    selectedCategory == 'Distributor'
+                        ? CategoryButtonGreen(
+                            text: 'Distributors',
+                            onPressed: () => updateCategory('Distributor'),
+                          )
+                        : CategoryButtonGrey(
+                            text: 'Distributors',
+                            onPressed: () => updateCategory('Distributor'),
+                          ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 15),
+              FutureBuilder<List<Offer>>(
                 future: futureOffers,
                 builder: (context, snapshot) {
                   if (snapshot.connectionState == ConnectionState.waiting) {
@@ -142,6 +141,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else {
                     final offers = snapshot.data!;
                     return ListView.builder(
+                      shrinkWrap: true,
+                      physics: NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.zero,
                       itemCount: offers.length,
                       itemBuilder: (context, index) {
@@ -167,8 +168,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   }
                 },
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );

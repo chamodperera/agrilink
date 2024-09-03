@@ -5,6 +5,7 @@ import 'firebase_options.dart';
 import 'providers/auth_provider.dart';
 import 'theme/theme.dart'; // Import your theme
 import 'screens/splash_screen.dart';
+ // Import your GoogleMapsScreen
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -23,7 +24,7 @@ class AgriLinkApp extends StatelessWidget {
         title: 'AgriLink',
         theme: AppTheme.darkTheme,
         debugShowCheckedModeBanner: false,
-        home: const SplashScreen(),
+        home: SplashScreen() // Set GoogleMapsScreen as the home screen
       ),
     );
   }

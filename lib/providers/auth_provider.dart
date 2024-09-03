@@ -86,6 +86,7 @@ class AuthProvider extends ChangeNotifier {
     required String phone,
     required List<String> roles,
     required String password,
+    required String district,
     File? imageFile, // Make imageFile optional
   }) async {
     try {

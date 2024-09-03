@@ -10,4 +10,5 @@ import Flutter
     GeneratedPluginRegistrant.register(with: self)
     return super.application(application, didFinishLaunchingWithOptions: launchOptions)
   }
+  GMSServices.provideAPIKey("AIzaSyDkx-MW3NTp7K7dcD5mf2cN4-ShtTnPw1s")
 }

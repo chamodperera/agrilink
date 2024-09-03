@@ -3,6 +3,7 @@ import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'google_maps.dart';
 
 class InfoScreen extends StatelessWidget {
   final Offer offer;
@@ -16,10 +17,7 @@ class InfoScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Image.asset(
-            'assets/images/map.png', // Path to your image asset
-            fit: BoxFit.cover, // Ensures the image covers the entire area
-          ),
+          GoogleMapsScreen(address: offer.location+",Sri Lanka"),
           const Positioned(
             top: 40, // Adjust the top position as needed
             left: 16, // Adjust the left position as needed

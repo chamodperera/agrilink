@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:agrilink/routes/auth_wrapper.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
-import 'package:agrilink/screens/authentication/signup_screen_3.dart';
 import 'package:agrilink/widgets/form/input.dart';
 import 'package:agrilink/widgets/form/validators.dart';
 import 'package:provider/provider.dart';
@@ -13,25 +12,27 @@ import '../../widgets/form/image_input.dart'; // Import your ImageInputWidget
 import '../../widgets/form/multi_select.dart'; // Import your MultiSelectWidget
 import '../../providers/auth_provider.dart'; // Import AuthProvider
 
-class SignUp2 extends StatefulWidget {
+class SignUp3 extends StatefulWidget {
   final String firstName;
   final String lastName;
   final String email;
   final String mobileNumber;
+  final String district;
 
-  const SignUp2({
+  const SignUp3({
     super.key,
     required this.firstName,
     required this.lastName,
     required this.email,
     required this.mobileNumber,
+    required this.district,
   });
 
   @override
-  State<SignUp2> createState() => _SignUp2State();
+  State<SignUp3> createState() => _SignUp3State();
 }
 
-class _SignUp2State extends State<SignUp2> {
+class _SignUp3State extends State<SignUp3> {
   // Variables for image and role selection
   final List<String> availableItems = ['Farmer', 'Distributor', 'Retailer'];
   List<String> selectedItems = []; // Store selected items
@@ -47,17 +48,6 @@ class _SignUp2State extends State<SignUp2> {
   String? _rolesErrorMessage; // Error message for roles validation
 
   final _formKey = GlobalKey<FormState>();
-
-  // List of districts in Sri Lanka
-  final List<String> districts = [
-    'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 'Galle',
-    'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara', 'Kandy', 'Kegalle',
-    'Kilinochchi', 'Kurunegala', 'Mannar', 'Matale', 'Matara', 'Monaragala',
-    'Mullaitivu', 'Nuwara Eliya', 'Polonnaruwa', 'Puttalam', 'Ratnapura',
-    'Trincomalee', 'Vavuniya'
-  ];
-
-  String? _selectedDistrict; // Selected district
 
   // Method to handle role selection changes
   void _onSelectionChanged(List<String> selectedList) {
@@ -81,20 +71,33 @@ class _SignUp2State extends State<SignUp2> {
     });
   }
 
-  void _validateAndNavigate(BuildContext context) {
+  // Validate all fields and navigate or show error messages
+  void _validateAndSubmit(BuildContext context) async {
+    setState(() {
+      _passwordErrorMessage = null;
+      _rePasswordErrorMessage = null;
+      _rolesErrorMessage = null;
+    });
+
     if (_formKey.currentState!.validate()) {
-      // If all fields are valid, navigate to SignUp2
-      Navigator.of(context).push(
-        MaterialPageRoute(
-          builder: (context) => SignUp3(
-            firstName: widget.firstName,
-            lastName: widget.lastName,
-            email: widget.email,
-            mobileNumber: widget.mobileNumber,
-            district: _selectedDistrict!,
-          ),
-        ),
-      );
+      // Check if passwords match
+      if (passwordController.text != rePasswordController.text) {
+        setState(() {
+          _rePasswordErrorMessage = "Passwords do not match";
+        });
+        return;
+      }
+
+      // Check if at least one role is selected
+      if (selectedItems.isEmpty) {
+        setState(() {
+          _rolesErrorMessage = "Please select at least one role";
+        });
+        return;
+      }
+
+      // If all validations pass, complete sign-up
+      await _completeSignUp(context);
     }
   }
 
@@ -116,9 +119,9 @@ class _SignUp2State extends State<SignUp2> {
         lastName: widget.lastName,
         email: widget.email,
         phone: widget.mobileNumber,
-        district: _selectedDistrict!,
         roles: selectedItems,
         password: passwordController.text,
+        district: widget.district,
         imageFile: imageFile, // Pass image file if available
       );
 
@@ -148,7 +151,7 @@ class _SignUp2State extends State<SignUp2> {
         child: Stack(
           children: [
             const Positioned(
-              top: 20,
+              top: 40,
               left: 16,
               child: BackButtonWidget(),
             ),
@@ -161,7 +164,7 @@ class _SignUp2State extends State<SignUp2> {
                   key: _formKey, // Assign form key
                   child: Column(
                     children: [
-                      const SizedBox(height: 30),
+                      const SizedBox(height: 50),
                       Text(
                         "Upload a Profile Picture",
                         style: theme.textTheme.displaySmall
@@ -175,40 +178,33 @@ class _SignUp2State extends State<SignUp2> {
                         onWebImageSelected:
                             _onWebImageSelected, // Handle web image
                       ),
-                      const SizedBox(height: 40),
-                        Container(
-                        width: 250, // Set the desired width
-                        child: DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-                          labelText: 'Select District',
-                          border: OutlineInputBorder(),
-                          ),
-                          value: _selectedDistrict,
-                          items: districts.map((String district) {
-                          return DropdownMenuItem<String>(
-                            value: district,
-                            child: Text(
-                              district,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 14), // Modify the font size here
-                            ),
-                          );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedDistrict = newValue;
-                          });
-                          },
-                          validator: (value) =>
-                            value == null ? 'Please select a district' : null,
-                        ),
-                        ),
                       const SizedBox(height: 20),
+                      MultiSelectWidget(
+                        items: availableItems,
+                        onSelectionChanged:
+                            _onSelectionChanged, // Handle selection changes
+                        errorMessage: _rolesErrorMessage,
+                      ),
+                      const SizedBox(height: 20),
+                      TextBox(
+                        text: 'Password',
+                        isPassword: true,
+                        controller: passwordController,
+                        validator: validatePassword,
+                        errorMessage: _passwordErrorMessage,
+                      ),
+                      const SizedBox(height: 10),
+                      TextBox(
+                        text: 'Re-enter Password',
+                        isPassword: true,
+                        controller: rePasswordController,
+                        errorMessage: _rePasswordErrorMessage,
+                      ),
+                      const SizedBox(height: 30),
                       PrimaryButtonDark(
-                        text: 'Next',
-                        onPressed: () => _validateAndNavigate(context),
-                      )
-                      // Add other form fields and buttons here
+                        text: 'Sign Up',
+                        onPressed: () => _validateAndSubmit(context),
+                      ),
                     ],
                   ),
                 ),
