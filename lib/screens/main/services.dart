@@ -1,4 +1,4 @@
-import 'package:agrilink/screens/PostServiceForm.dart';
+import 'package:agrilink/screens/post_service_form.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';

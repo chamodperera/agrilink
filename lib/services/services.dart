@@ -53,4 +53,57 @@ class OffersService {
       return [];
     }
   }
+
+  // Method to post a new offer
+  Future<void> postOffer(
+      BuildContext context, {
+        required String title,
+        required String subtitle,
+        required String description,
+        required double price,
+      }) async {
+    try {
+      // Get the AuthProvider from the context
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final String? currentUserUid = authProvider.user?.uid;
+      final String? currentUserName = authProvider.user?.firstName;
+      final String? currentUserAvatar = authProvider.user?.imageUrl;
+
+      if (currentUserUid == null || currentUserName == null) {
+        print('User is not logged in');
+        return;
+      }
+
+      // Create a new offer document
+      await _firestore.collection('offers').add({
+        'uid': currentUserUid,
+        'name': currentUserName,
+        'avatar': currentUserAvatar,
+        'rating': '4.6',
+        'location': 'Colombo',
+        'title': title,
+        'subtitle': subtitle,
+        'description': description,
+        'category': 'Farmer',
+        'price': price
+      });
+
+      await _firestore.collection('users').doc(currentUserUid).collection('offers').add({
+        'uid': currentUserUid,
+        'name': currentUserName,
+        'avatar': currentUserAvatar,
+        'rating': '4.6',
+        'location': 'Colombo',
+        'title': title,
+        'subtitle': subtitle,
+        'description': description,
+        'category': 'Farmer',
+        'price': price
+      });
+
+      print('Offer posted successfully');
+    } catch (e) {
+      print('Error posting offer: $e');
+    }
+      }
 }
