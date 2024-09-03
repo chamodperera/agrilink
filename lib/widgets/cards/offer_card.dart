@@ -26,7 +26,7 @@ class OfferCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image(width: 65, image: AssetImage(offer.avatar)),
+                    child: Image(width: 65, image: AssetImage('assets/users/user2.png')),
                   ),
                   const SizedBox(height: 5),
                   Text(offer.name,
@@ -66,7 +66,7 @@ class OfferCard extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: Colors.white)),
                     const SizedBox(height: 6),
-                    Text(offer.subTitle,
+                    Text(offer.subtitle,
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

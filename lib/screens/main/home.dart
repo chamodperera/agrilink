@@ -1,6 +1,6 @@
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/screens/offer_screen.dart';
-import 'package:agrilink/services.dart';
+import 'package:agrilink/services/services.dart'; // Import the OffersService
 import 'package:agrilink/widgets/buttons/category_button_green.dart';
 import 'package:agrilink/widgets/buttons/category_button_grey.dart';
 import 'package:agrilink/widgets/buttons/icon_button.dart';
@@ -28,9 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Method to fetch offers based on the selected category
   Future<List<Offer>> fetchOffersByCategory(String category) {
-    return OffersService().fetchOffers(
-        category:
-            category); // Assuming fetchOffers method in OffersService handles category filtering
+    return OffersService().fetchOffers(context, category: category);
   }
 
   // Method to update the selected category and fetch offers accordingly
@@ -83,51 +81,50 @@ class _HomeScreenState extends State<HomeScreen> {
             SingleChildScrollView(
               scrollDirection: Axis.horizontal,
               child: Row(
-              children: [
-                // Highlight the selected category button
-                selectedCategory == 'All'
-                  ? CategoryButtonGreen(
-                    text: 'All',
-                    onPressed: () => updateCategory('All'),
-                  )
-                  : CategoryButtonGrey(
-                    text: 'All',
-                    onPressed: () => updateCategory('All'),
-                  ),
-                const SizedBox(width: 5),
-                selectedCategory == 'Farmer'
-                  ? CategoryButtonGreen(
-                    text: 'Farmers',
-                    onPressed: () => updateCategory('Farmer'),
-                  )
-                  : CategoryButtonGrey(
-                    text: 'Farmers',
-                    onPressed: () => updateCategory('Farmer'),
-                  ),
-                const SizedBox(width: 5),
-                selectedCategory == 'Retailer'
-                  ? CategoryButtonGreen(
-                    text: 'Retailers',
-                    onPressed: () => updateCategory('Retailer'),
-                  )
-                  : CategoryButtonGrey(
-                    text: 'Retailers',
-                    onPressed: () => updateCategory('Retailer'),
-                  ),
-                const SizedBox(width: 5),
-                selectedCategory == 'Distributor'
-                  ? CategoryButtonGreen(
-                    text: 'Distributors',
-                    onPressed: () => updateCategory('Distributor'),
-                  )
-                  : CategoryButtonGrey(
-                    text: 'Distributors',
-                    onPressed: () => updateCategory('Distributor'),
-                  ),
-              ],
+                children: [
+                  // Highlight the selected category button
+                  selectedCategory == 'All'
+                      ? CategoryButtonGreen(
+                          text: 'All',
+                          onPressed: () => updateCategory('All'),
+                        )
+                      : CategoryButtonGrey(
+                          text: 'All',
+                          onPressed: () => updateCategory('All'),
+                        ),
+                  const SizedBox(width: 5),
+                  selectedCategory == 'Farmer'
+                      ? CategoryButtonGreen(
+                          text: 'Farmers',
+                          onPressed: () => updateCategory('Farmer'),
+                        )
+                      : CategoryButtonGrey(
+                          text: 'Farmers',
+                          onPressed: () => updateCategory('Farmer'),
+                        ),
+                  const SizedBox(width: 5),
+                  selectedCategory == 'Retailer'
+                      ? CategoryButtonGreen(
+                          text: 'Retailers',
+                          onPressed: () => updateCategory('Retailer'),
+                        )
+                      : CategoryButtonGrey(
+                          text: 'Retailers',
+                          onPressed: () => updateCategory('Retailer'),
+                        ),
+                  const SizedBox(width: 5),
+                  selectedCategory == 'Distributor'
+                      ? CategoryButtonGreen(
+                          text: 'Distributors',
+                          onPressed: () => updateCategory('Distributor'),
+                        )
+                      : CategoryButtonGrey(
+                          text: 'Distributors',
+                          onPressed: () => updateCategory('Distributor'),
+                        ),
+                ],
               ),
             ),
-            
             const SizedBox(height: 15),
             Expanded(
               child: FutureBuilder<List<Offer>>(

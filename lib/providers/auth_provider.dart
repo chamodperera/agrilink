@@ -1,5 +1,5 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'dart:io';
@@ -8,10 +8,14 @@ import 'package:path/path.dart' as path;
 // Import your UserModel class
 import '../models/user_model.dart';
 
+// Import the Firebase instances from firebase_provider.dart
+import 'firebase_provider.dart';
+
 class AuthProvider extends ChangeNotifier {
-  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
-  final FirebaseStorage _firebaseStorage = FirebaseStorage.instance;
+  // Use the Firebase instances from FirebaseProvider
+  final FirebaseAuth _firebaseAuth = firebaseAuth;
+  final FirebaseFirestore _firestore = firestore;
+  final FirebaseStorage _firebaseStorage = firebaseStorage;
 
   UserModel? _userModel;
 
