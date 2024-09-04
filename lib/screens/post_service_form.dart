@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/services/services.dart';
+import 'package:toastification/toastification.dart';
 
 class PostServiceForm extends StatefulWidget {
   const PostServiceForm({Key? key}) : super(key: key);
@@ -95,6 +96,20 @@ class _PostServiceFormState extends State<PostServiceForm> {
 
     print('Service Posted Successfully!');
 
+    toastification.show(
+      context: context,
+      type: ToastificationType.success,
+      style: ToastificationStyle.flat,
+      title: Text("Success!"),
+      description: Text("Your Offer Successfully Posted!"),
+      alignment: Alignment.topCenter,
+      autoCloseDuration: const Duration(
+        seconds: 3,
+        milliseconds: 500,
+      ),
+    );
+
+    Navigator.of(context).pop();
     // Clear the text fields
     _titleController.clear();
     _subtitleController.clear();
