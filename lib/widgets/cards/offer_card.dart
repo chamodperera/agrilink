@@ -74,7 +74,7 @@ class OfferCard extends StatelessWidget {
                         )),
                     const SizedBox(height: 8),
                     Text(
-                      'Rs. ${offer.price} ${offer.category == 'distributer' ? '/Km' : '/Kg'}',
+                      'Rs. ${offer.price} ${offer.category == 'Distributor' ? '/Km' : '/Kg'}',
                       style: GoogleFonts.poppins(
                         fontSize: 24,
                         fontWeight: FontWeight.w500,

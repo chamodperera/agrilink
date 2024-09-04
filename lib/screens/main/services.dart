@@ -1,38 +1,25 @@
 import 'package:agrilink/screens/post_service_form.dart';
+import 'package:agrilink/services/services.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/models/offers_model.dart';
 
-Offer service = Offer(
-    uid: "1",
-    name: "G.Kodikara",
-    category: "Farmer",
-    avatar: "assets/users/user1.png",
-    rating: "4.8",
-    location: "Horana",
-    title: "Fresh Papayas",
-    subtitle: "I have 30 kilos of Papayas.",
-    description:
-        "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
-    price: 170);
+class ServicesScreen extends StatefulWidget {
+  const ServicesScreen({Key? key}) : super(key: key);
 
-List<Offer> offers = [
-  // Offer(
-  //     name: "L.Kanthi",
-  //     category: "Retailer",
-  //     avatar: "assets/users/user4.png",
-  //     rating: "4.8",
-  //     location: "Ampara",
-  //     title: "10 kilos of Bananas",
-  //     subTitle: "I need 10kilos of Bananas ",
-  //     description:
-  //         "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
-  //     price: "Rs.120/kg"),
-];
+  @override
+  _ServicesScreenState createState() => _ServicesScreenState();
+}
 
-class ServicesScreen extends StatelessWidget {
-  const ServicesScreen({super.key});
+class _ServicesScreenState extends State<ServicesScreen> {
+  late Stream<List<Offer>> offerStream;
+
+  @override
+  void initState() {
+    super.initState();
+    offerStream = OffersService().fetchUserOffers(context);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -66,7 +53,7 @@ class ServicesScreen extends StatelessWidget {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => PostServiceForm(),
+                        builder: (context) => const PostServiceForm(),
                       ),
                     );
                   },
@@ -97,27 +84,46 @@ class ServicesScreen extends StatelessWidget {
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
-              OfferCard(offer: service),
+              StreamBuilder<List<Offer>>(
+                stream: offerStream,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child: Text('Error: ${snapshot.error}'));
+                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                    return Center(
+                        child: Text('No offers available',
+                            style: theme.textTheme.displaySmall?.copyWith(
+                              fontSize: 18,
+                              color: Colors.white,
+                            )));
+                  } else {
+                    final offers = snapshot.data!;
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      physics: const NeverScrollableScrollPhysics(),
+                      padding: EdgeInsets.zero,
+                      itemCount: offers.length,
+                      itemBuilder: (context, index) {
+                        return Column(
+                          children: [
+                            OfferCard(offer: offers[index]),
+                            const SizedBox(height: 15),
+                          ],
+                        );
+                      },
+                    );
+                  }
+                },
+              ),
               const SizedBox(height: 30),
               Text(
                 'Your Offers',
                 style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 10),
-              Expanded(
-                child: ListView.builder(
-                  padding: EdgeInsets.zero,
-                  itemCount: offers.length,
-                  itemBuilder: (context, index) {
-                    return Column(
-                      children: [
-                        OfferCard(offer: offers[index]),
-                        // const SizedBox(height: 15),
-                      ],
-                    );
-                  },
-                ),
-              ),
+              // Additional content for "Your Offers" can be added here.
             ],
           ),
         )

@@ -18,6 +18,8 @@ class SignUp3 extends StatefulWidget {
   final String email;
   final String mobileNumber;
   final String district;
+  final File? selectedImage; // Image from previous screen
+  final Uint8List? webImage; // Web image from previous screen
 
   const SignUp3({
     super.key,
@@ -26,6 +28,8 @@ class SignUp3 extends StatefulWidget {
     required this.email,
     required this.mobileNumber,
     required this.district,
+    this.selectedImage,
+    this.webImage,
   });
 
   @override
@@ -33,26 +37,36 @@ class SignUp3 extends StatefulWidget {
 }
 
 class _SignUp3State extends State<SignUp3> {
-  // Variables for image and role selection
+  // Available roles for selection
   final List<String> availableItems = ['Farmer', 'Distributor', 'Retailer'];
-  List<String> selectedItems = []; // Store selected items
+  List<String> selectedItems = []; // Selected roles
 
-  File? _selectedImage; // File for mobile
-  Uint8List? _webImage; // Uint8List for web
+  // Image variables
+  File? _selectedImage;
+  Uint8List? _webImage;
 
+  // Password controllers and error messages
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
 
-  String? _passwordErrorMessage; // Error message for password validation
-  String? _rePasswordErrorMessage; // Error message for re-entered password
-  String? _rolesErrorMessage; // Error message for roles validation
+  String? _passwordErrorMessage;
+  String? _rePasswordErrorMessage;
+  String? _rolesErrorMessage;
 
+  // Form key
   final _formKey = GlobalKey<FormState>();
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedImage = widget.selectedImage;
+    _webImage = widget.webImage;
+  }
 
   // Method to handle role selection changes
   void _onSelectionChanged(List<String> selectedList) {
     setState(() {
-      selectedItems = selectedList; // Update selected items
+      selectedItems = selectedList;
       _rolesErrorMessage = null; // Clear error message when selection changes
     });
   }
@@ -101,17 +115,15 @@ class _SignUp3State extends State<SignUp3> {
     }
   }
 
+  // Complete the sign-up process
   Future<void> _completeSignUp(BuildContext context) async {
     // Get AuthProvider instance
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
 
     try {
-      // If using web, convert Uint8List to File for web handling
       File? imageFile = _selectedImage;
       if (kIsWeb && _webImage != null) {
-        // Convert Uint8List to Blob for web
-        // Since File.fromRawPath() is not supported on web, you can use a different approach here:
-        imageFile = File(_webImage!.toString());
+        imageFile = File(_webImage!.toString()); // Handle web image
       }
 
       await authProvider.createUserAccount(
@@ -161,28 +173,20 @@ class _SignUp3State extends State<SignUp3> {
                   bottom: MediaQuery.of(context).viewInsets.bottom,
                 ),
                 child: Form(
-                  key: _formKey, // Assign form key
+                  key: _formKey,
                   child: Column(
                     children: [
                       const SizedBox(height: 50),
                       Text(
-                        "Upload a Profile Picture",
+                        "Select your role/roles",
                         style: theme.textTheme.displaySmall
                             ?.copyWith(fontSize: 18),
                       ),
-                      const SizedBox(height: 10),
-                      // Use the ImageInputWidget for image selection
-                      ImageInputWidget(
-                        onImageSelected:
-                            _onImageSelected, // Handle mobile image
-                        onWebImageSelected:
-                            _onWebImageSelected, // Handle web image
-                      ),
                       const SizedBox(height: 20),
+                      // Image input widget
                       MultiSelectWidget(
                         items: availableItems,
-                        onSelectionChanged:
-                            _onSelectionChanged, // Handle selection changes
+                        onSelectionChanged: _onSelectionChanged,
                         errorMessage: _rolesErrorMessage,
                       ),
                       const SizedBox(height: 20),

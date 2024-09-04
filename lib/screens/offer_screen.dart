@@ -22,7 +22,7 @@ class OfferScreen extends StatelessWidget {
             height: 450,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage('assets/users/user2.png'),
+                image: AssetImage(offer.avatar),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover,
               ),

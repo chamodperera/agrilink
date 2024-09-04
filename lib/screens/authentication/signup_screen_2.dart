@@ -6,12 +6,10 @@ import 'package:agrilink/routes/auth_wrapper.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/screens/authentication/signup_screen_3.dart';
-import 'package:agrilink/widgets/form/input.dart';
-import 'package:agrilink/widgets/form/validators.dart';
 import 'package:provider/provider.dart';
 import '../../widgets/form/image_input.dart'; // Import your ImageInputWidget
-import '../../widgets/form/multi_select.dart'; // Import your MultiSelectWidget
 import '../../providers/auth_provider.dart'; // Import AuthProvider
+import '../../widgets/form/dropdown.dart'; // Import your custom DropdownInput widget
 
 class SignUp2 extends StatefulWidget {
   final String firstName;
@@ -33,39 +31,45 @@ class SignUp2 extends StatefulWidget {
 
 class _SignUp2State extends State<SignUp2> {
   // Variables for image and role selection
-  final List<String> availableItems = ['Farmer', 'Distributor', 'Retailer'];
   List<String> selectedItems = []; // Store selected items
 
   File? _selectedImage; // File for mobile
   Uint8List? _webImage; // Uint8List for web
 
-  final TextEditingController passwordController = TextEditingController();
-  final TextEditingController rePasswordController = TextEditingController();
-
-  String? _passwordErrorMessage; // Error message for password validation
-  String? _rePasswordErrorMessage; // Error message for re-entered password
-  String? _rolesErrorMessage; // Error message for roles validation
+  String? _districtErrorMessage; // Error message for district validation
 
   final _formKey = GlobalKey<FormState>();
 
   // List of districts in Sri Lanka
   final List<String> districts = [
-    'Ampara', 'Anuradhapura', 'Badulla', 'Batticaloa', 'Colombo', 'Galle',
-    'Gampaha', 'Hambantota', 'Jaffna', 'Kalutara', 'Kandy', 'Kegalle',
-    'Kilinochchi', 'Kurunegala', 'Mannar', 'Matale', 'Matara', 'Monaragala',
-    'Mullaitivu', 'Nuwara Eliya', 'Polonnaruwa', 'Puttalam', 'Ratnapura',
-    'Trincomalee', 'Vavuniya'
+    'Ampara',
+    'Anuradhapura',
+    'Badulla',
+    'Batticaloa',
+    'Colombo',
+    'Galle',
+    'Gampaha',
+    'Hambantota',
+    'Jaffna',
+    'Kalutara',
+    'Kandy',
+    'Kegalle',
+    'Kilinochchi',
+    'Kurunegala',
+    'Mannar',
+    'Matale',
+    'Matara',
+    'Monaragala',
+    'Mullaitivu',
+    'Nuwara Eliya',
+    'Polonnaruwa',
+    'Puttalam',
+    'Ratnapura',
+    'Trincomalee',
+    'Vavuniya'
   ];
 
   String? _selectedDistrict; // Selected district
-
-  // Method to handle role selection changes
-  void _onSelectionChanged(List<String> selectedList) {
-    setState(() {
-      selectedItems = selectedList; // Update selected items
-      _rolesErrorMessage = null; // Clear error message when selection changes
-    });
-  }
 
   // Method to handle image selection for mobile
   void _onImageSelected(File? image) {
@@ -83,7 +87,7 @@ class _SignUp2State extends State<SignUp2> {
 
   void _validateAndNavigate(BuildContext context) {
     if (_formKey.currentState!.validate()) {
-      // If all fields are valid, navigate to SignUp2
+      // If all fields are valid, navigate to SignUp3
       Navigator.of(context).push(
         MaterialPageRoute(
           builder: (context) => SignUp3(
@@ -92,44 +96,11 @@ class _SignUp2State extends State<SignUp2> {
             email: widget.email,
             mobileNumber: widget.mobileNumber,
             district: _selectedDistrict!,
+            selectedImage: _selectedImage, // Pass the selected image
+            webImage: _webImage, // Pass the web image (if applicable)
           ),
         ),
       );
-    }
-  }
-
-  Future<void> _completeSignUp(BuildContext context) async {
-    // Get AuthProvider instance
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-
-    try {
-      // If using web, convert Uint8List to File for web handling
-      File? imageFile = _selectedImage;
-      if (kIsWeb && _webImage != null) {
-        // Convert Uint8List to Blob for web
-        // Since File.fromRawPath() is not supported on web, you can use a different approach here:
-        imageFile = File(_webImage!.toString());
-      }
-
-      await authProvider.createUserAccount(
-        firstName: widget.firstName,
-        lastName: widget.lastName,
-        email: widget.email,
-        phone: widget.mobileNumber,
-        district: _selectedDistrict!,
-        roles: selectedItems,
-        password: passwordController.text,
-        imageFile: imageFile, // Pass image file if available
-      );
-
-      // Navigate to the main screen after successful sign-up
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(
-          builder: (context) => const AuthWrapper(),
-        ),
-      );
-    } catch (e) {
-      print(e.toString());
     }
   }
 
@@ -175,39 +146,37 @@ class _SignUp2State extends State<SignUp2> {
                         onWebImageSelected:
                             _onWebImageSelected, // Handle web image
                       ),
-                      const SizedBox(height: 40),
-                        Container(
-                        width: 250, // Set the desired width
-                        child: DropdownButtonFormField<String>(
-                          decoration: InputDecoration(
-                          labelText: 'Select District',
-                          border: OutlineInputBorder(),
-                          ),
-                          value: _selectedDistrict,
-                          items: districts.map((String district) {
-                          return DropdownMenuItem<String>(
-                            value: district,
-                            child: Text(
-                              district,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(fontSize: 14), // Modify the font size here
-                            ),
-                          );
-                          }).toList(),
-                          onChanged: (String? newValue) {
-                          setState(() {
-                            _selectedDistrict = newValue;
-                          });
-                          },
-                          validator: (value) =>
-                            value == null ? 'Please select a district' : null,
-                        ),
-                        ),
+                      const SizedBox(height: 50),
+                      Text(
+                        "Select Your Location",
+                        style: theme.textTheme.displaySmall
+                            ?.copyWith(fontSize: 18),
+                      ),
                       const SizedBox(height: 20),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 40),
+                        child: DropdownInput(
+                          hintText: 'Select Location',
+                          items: districts,
+                          selectedItem: _selectedDistrict,
+                          errorMessage: _districtErrorMessage,
+                          onChanged: (String? newValue) {
+                            setState(() {
+                              _selectedDistrict = newValue;
+                              _districtErrorMessage =
+                                  null; // Clear error message on change
+                            });
+                          },
+                          validator: (value) => value == null || value.isEmpty
+                              ? 'Please select a district'
+                              : null,
+                        ),
+                      ),
+                      const SizedBox(height: 60),
                       PrimaryButtonDark(
                         text: 'Next',
                         onPressed: () => _validateAndNavigate(context),
-                      )
+                      ),
                       // Add other form fields and buttons here
                     ],
                   ),

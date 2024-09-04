@@ -51,6 +51,32 @@ class OffersService {
     }
   }
 
+  Stream<List<Offer>> fetchUserOffers(BuildContext context) {
+    // Get the AuthProvider from the context
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final String? currentUserUid = authProvider.user?.uid;
+
+    // Log the current user UID to check if it's null
+    print('Current User UID: $currentUserUid');
+
+    // Return a stream that listens to changes in the offers collection
+    return _firestore
+        .collection('users')
+        .doc(currentUserUid)
+        .collection('offers')
+        .snapshots()
+        .map((QuerySnapshot querySnapshot) {
+      // Log the number of documents fetched
+      print('Number of documents fetched: ${querySnapshot.docs.length}');
+
+      // Parse the Firestore data into a list of Offer objects
+      return querySnapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+        return Offer.fromJson(data);
+      }).toList();
+    });
+  }
+
   // Method to post a new offer
   Future<void> postOffer(
     BuildContext context, {
@@ -65,6 +91,7 @@ class OffersService {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final String? currentUserUid = authProvider.user?.uid;
       final String? currentUserName = authProvider.user?.firstName;
+      final String? currentUserLocation = authProvider.user?.location;
       final String? currentUserAvatar =
           authProvider.user?.imageUrl ?? 'assets/users/user.png';
 
@@ -79,7 +106,7 @@ class OffersService {
         'name': currentUserName,
         'avatar': currentUserAvatar,
         'rating': '4.6',
-        'location': 'Colombo',
+        'location': currentUserLocation,
         'title': title,
         'subtitle': subtitle,
         'description': description,

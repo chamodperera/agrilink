@@ -7,6 +7,7 @@ class UserModel {
   final String lastName;
   final String phone;
   final List<String> roles;
+  final String location;
   final String? imageUrl;
 
   UserModel({
@@ -16,6 +17,7 @@ class UserModel {
     required this.lastName,
     required this.phone,
     required this.roles,
+    required this.location,
     this.imageUrl,
   });
 
@@ -28,6 +30,7 @@ class UserModel {
       firstName: data['firstName'] ?? '',
       lastName: data['lastName'] ?? '',
       phone: data['phone'] ?? '',
+      location: data['location'] ?? '',
       roles: List<String>.from(data['roles'] ?? []),
       imageUrl: data['imageUrl'],
     );
@@ -41,6 +44,7 @@ class UserModel {
       'lastName': lastName,
       'phone': phone,
       'roles': roles,
+      'location': location,
       'imageUrl': imageUrl,
     };
   }
