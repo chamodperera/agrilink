@@ -1,9 +1,9 @@
+import 'package:agrilink/widgets/form/dropdown.dart';
 import 'package:agrilink/widgets/form/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/services/services.dart';
-import 'package:provider/provider.dart'; 
 
 class PostServiceForm extends StatefulWidget {
   const PostServiceForm({super.key});
@@ -18,10 +18,14 @@ class _PostServiceFormState extends State<PostServiceForm> {
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
 
+  final List<String> _categories = ['Sell produces', 'Buy produces', 'Distribution Service'];
+
   String? _titleError;
   String? _subtitleError;
   String? _descriptionError;
   String? _priceError;
+  String? _selectedCategory;
+  String? _dropdownError;
 
   @override
   void dispose() {
@@ -81,11 +85,6 @@ class _PostServiceFormState extends State<PostServiceForm> {
         ),
         child: Stack(
           children: [
-            const Positioned(
-              top: 40,
-              left: 16,
-              child: BackButtonWidget(), // Custom back button widget
-            ),
             Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
@@ -113,6 +112,18 @@ class _PostServiceFormState extends State<PostServiceForm> {
                           controller: _subtitleController,
                           errorMessage: _subtitleError,
                         ),
+                        const SizedBox(height: 20),
+                        DropdownInput(
+              hintText: 'Select a Category',
+              items: _categories,
+              selectedItem: _selectedCategory,
+              errorMessage: _dropdownError, // Display error if any
+              onChanged: (value) {
+                setState(() {
+                  _selectedCategory = value;
+                });
+              },
+            ),
                       const SizedBox(height: 20),
                       TextInputField(
                           hintText: 'Description',
@@ -155,6 +166,11 @@ class _PostServiceFormState extends State<PostServiceForm> {
                   ),
                 ),
               ),
+            ),
+            const Positioned(
+              top: 40,
+              left: 16,
+              child: BackButtonWidget(), // Custom back button widget
             ),
           ],
         ),
