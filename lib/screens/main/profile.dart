@@ -9,7 +9,9 @@ import 'package:provider/provider.dart'; // Import provider
 import '../../providers/auth_provider.dart'; // Import AuthProvider
 
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({super.key});
+    final Function(Locale) changeLanguage;
+
+  ProfileScreen({required this.changeLanguage});
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -121,7 +123,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
                         builder: (context) =>
-                            const AuthWrapper(), // Navigate to login screen
+                            AuthWrapper(changeLanguage: widget.changeLanguage), // Navigate to login screen
                       ),
                     );
                   } catch (e) {

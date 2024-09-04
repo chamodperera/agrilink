@@ -6,9 +6,14 @@ import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/form/input.dart';
 import '../../widgets/form/validators.dart';
+import 'package:agrilink/app_localizations.dart';
+
 
 class SignUp1 extends StatelessWidget {
-  SignUp1({super.key});
+
+  final Function(Locale) changeLanguage;
+
+  SignUp1({required this.changeLanguage});
 
   // TextEditingControllers to capture input
   final TextEditingController firstNameController = TextEditingController();
@@ -30,6 +35,7 @@ class SignUp1 extends StatelessWidget {
             lastName: lastNameController.text,
             email: emailController.text,
             mobileNumber: mobileController.text,
+            changeLanguage: changeLanguage,
           ),
         ),
       );
@@ -39,6 +45,8 @@ class SignUp1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
@@ -52,11 +60,6 @@ class SignUp1 extends StatelessWidget {
         ),
         child: Stack(
           children: [
-            const Positioned(
-              top: 40,
-              left: 16,
-              child: BackButtonWidget(), // Add the BackButtonWidget here
-            ),
             Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
@@ -76,31 +79,31 @@ class SignUp1 extends StatelessWidget {
                       const SizedBox(height: 30),
                       // Use TextBox with controller
                       TextBox(
-                        text: 'First Name',
+                        text: localizations.translate('first_name'),
                         controller: firstNameController,
                         validator: validateName,
                       ),
                       const SizedBox(height: 10),
                       TextBox(
-                        text: 'Last Name',
+                        text: localizations.translate('last_name'),
                         controller: lastNameController,
                         validator: validateName,
                       ),
                       const SizedBox(height: 10),
                       TextBox(
-                        text: 'Email',
+                        text: localizations.translate('email'),
                         controller: emailController,
                         validator: validateEmail,
                       ),
                       const SizedBox(height: 10),
                       TextBox(
-                        text: 'Mobile Number',
+                        text: localizations.translate('mobile'),
                         controller: mobileController,
                         validator: validateMobile,
                       ),
                       const SizedBox(height: 20),
                       PrimaryButtonDark(
-                        text: 'Next',
+                        text: localizations.translate('next'),
                         onPressed: () => _validateAndNavigate(
                             context), // Call the validateAndNavigate function
                       ),
@@ -108,11 +111,11 @@ class SignUp1 extends StatelessWidget {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const Login(),
+                            builder: (context) => Login(changeLanguage: changeLanguage,),
                           ));
                         },
                         child: Text(
-                          "\nalready have an account?",
+                          localizations.translate('already_have_account'),
                           style: theme.textTheme.displaySmall?.copyWith(
                             color: theme.colorScheme.primary,
                             fontSize: 14,
@@ -124,6 +127,11 @@ class SignUp1 extends StatelessWidget {
                   ),
                 ),
               ),
+            ),
+              const Positioned(
+              top: 40,
+              left: 16,
+              child: BackButtonWidget(), // Add the BackButtonWidget here
             ),
           ],
         ),

@@ -8,7 +8,7 @@ class Offer {
   final String title;
   final String subtitle;
   final String description;
-  final String price;
+  final int price;
 
   Offer(
       {required this.uid,
