@@ -1,3 +1,4 @@
+import 'package:agrilink/widgets/form/text_input.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
@@ -12,10 +13,15 @@ class PostServiceForm extends StatefulWidget {
 }
 
 class _PostServiceFormState extends State<PostServiceForm> {
-  final TextEditingController _titleController = TextEditingController();
+   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _subtitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+
+  String? _titleError;
+  String? _subtitleError;
+  String? _descriptionError;
+  String? _priceError;
 
   @override
   void dispose() {
@@ -31,7 +37,17 @@ class _PostServiceFormState extends State<PostServiceForm> {
     final String subtitle = _subtitleController.text;
     final String description = _descriptionController.text;
     final String price = _priceController.text;
-  
+
+    setState(() {
+      _titleError = title.isEmpty ? 'Please enter a title' : null;
+      _subtitleError = subtitle.isEmpty ? 'Please enter a subtitle' : null;
+      _descriptionError = description.isEmpty ? 'Please enter a description' : null;
+      _priceError = price.isEmpty ? 'Please enter a price' : null;
+    });
+
+    if (_titleError != null || _subtitleError != null || _descriptionError != null || _priceError != null) {
+      return; // Stop further execution if validation fails
+    }
 
     // Post the offer using the service
     OffersService().postOffer(
@@ -41,7 +57,6 @@ class _PostServiceFormState extends State<PostServiceForm> {
       subtitle: subtitle, // Assuming subtitle is used as the category
       price: double.tryParse(price) ?? 0.0,
     );
-
 
     print('Service Posted Successfully!');
 
@@ -87,82 +102,36 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         style: theme.textTheme.displayMedium,
                       ),
                       const SizedBox(height: 30),
-                      TextField(
-                        controller: _titleController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey[850],
+                      TextInputField(
                           hintText: 'Add a title',
-                          hintStyle: theme.textTheme.displaySmall?.copyWith(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18), // Rounded input border
-                            borderSide: BorderSide.none,
-                          ),
+                          controller: _titleController,
+                          errorMessage: _titleError,
                         ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
                       const SizedBox(height: 20),
-                      TextField(
-                        controller: _subtitleController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey[850],
-                          hintText: 'Add a subtitle',
-                          hintStyle: theme.textTheme.displaySmall?.copyWith(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18), // Rounded input border
-                            borderSide: BorderSide.none,
-                          ),
+                      TextInputField(
+                          hintText: 'Add a sub title',
+                          controller: _subtitleController,
+                          errorMessage: _subtitleError,
                         ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
                       const SizedBox(height: 20),
-                      TextField(
-                        controller: _descriptionController,
-                        maxLines: 4,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.grey[850],
+                      TextInputField(
                           hintText: 'Description',
-                          hintStyle: theme.textTheme.displaySmall?.copyWith(
-                            fontSize: 14,
-                            color: Colors.grey,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(18), // Rounded input border
-                            borderSide: BorderSide.none,
-                          ),
+                          controller: _descriptionController,
+                          errorMessage: _descriptionError,
+                          minLines: 6,
+                          maxLines: 8,
+                          autoExpand: false,
                         ),
-                        style: const TextStyle(color: Colors.white),
-                      ),
                       const SizedBox(height: 20),
                       Row(
                         children: [
                           Expanded(
-                            child: TextField(
-                              controller: _priceController,
-                              decoration: InputDecoration(
-                                filled: true,
-                                fillColor: Colors.grey[850],
+                            child: TextInputField(
                                 hintText: 'Price',
-                                hintStyle: theme.textTheme.displaySmall?.copyWith(
-                                  fontSize: 14,
-                                  color: Colors.grey,
-                                ),
-                                border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(18), // Rounded input border
-                                  borderSide: BorderSide.none,
-                                ),
+                                controller: _priceController,
+                                errorMessage: _priceError,
+                                keyboardType: TextInputType.number,
                               ),
-                              keyboardType: TextInputType.number,
-                              style: const TextStyle(color: Colors.white),
-                            ),
                           ),
                           const SizedBox(width: 10),
                           Text(

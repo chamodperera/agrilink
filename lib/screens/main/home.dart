@@ -51,7 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
             children: [
               Text(
                 "Find Offers",
-                style: theme.textTheme.headline6,
+                style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 15),
               Row(
