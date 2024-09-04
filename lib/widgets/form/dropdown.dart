@@ -7,6 +7,7 @@ class DropdownInput extends StatefulWidget {
   final String? selectedItem;
   final ValueChanged<String?>? onChanged;
   final EdgeInsetsGeometry padding;
+  final String? Function(String?)? validator; // Add this parameter
 
   const DropdownInput({
     super.key,
@@ -16,6 +17,7 @@ class DropdownInput extends StatefulWidget {
     this.selectedItem,
     this.onChanged,
     this.padding = const EdgeInsets.only(left: 15, right: 15, bottom: 5),
+    this.validator, // Add this parameter
   });
 
   @override
@@ -51,7 +53,7 @@ class _DropdownInputFieldState extends State<DropdownInput> {
           hintStyle: theme.textTheme.displaySmall?.copyWith(
             color: theme.colorScheme.onSecondary,
           ),
-          errorText: widget.errorMessage,
+          errorText: widget.errorMessage, // Display external error if provided
         ),
         items: widget.items.map((String value) {
           return DropdownMenuItem<String>(
@@ -73,6 +75,7 @@ class _DropdownInputFieldState extends State<DropdownInput> {
           }
         },
         dropdownColor: theme.colorScheme.background,
+        validator: widget.validator, // Add validator
       ),
     );
   }

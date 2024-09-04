@@ -5,7 +5,7 @@ import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/models/offers_model.dart';
 
 Offer service = Offer(
-  uid: "1",
+    uid: "1",
     name: "G.Kodikara",
     category: "Farmer",
     avatar: "assets/users/user1.png",
@@ -15,7 +15,7 @@ Offer service = Offer(
     subtitle: "I have 30 kilos of Papayas.",
     description:
         "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
-    price: "Rs.170/kg");
+    price: 170);
 
 List<Offer> offers = [
   // Offer(
