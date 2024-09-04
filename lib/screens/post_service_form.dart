@@ -40,7 +40,13 @@ class _PostServiceFormState extends State<PostServiceForm> {
     super.dispose();
   }
 
+  bool _isLoading = false;
+
   Future<void> _postService() async {
+    setState(() {
+      _isLoading = true; // Set isLoading to true
+    });
+
     final String title = _titleController.text;
     final String subtitle = _subtitleController.text;
     final String description = _descriptionController.text;
@@ -71,6 +77,9 @@ class _PostServiceFormState extends State<PostServiceForm> {
         _descriptionError != null ||
         _priceError != null ||
         _dropdownError != null) {
+      setState(() {
+        _isLoading = false; // Set isLoading to false
+      });
       return; // Stop further execution if validation fails
     }
 
@@ -93,6 +102,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
     _priceController.clear();
     setState(() {
       _selectedCategory = null; // Reset selected category
+      _isLoading = false; // Set isLoading to false
     });
   }
 

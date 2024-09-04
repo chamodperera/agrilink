@@ -19,16 +19,6 @@ class LanguageSelectionScreen extends StatelessWidget {
           Center(
             child: Container(
               padding: const EdgeInsets.all(20),
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [
-                    Colors.black.withOpacity(0.6),
-                    Colors.black.withOpacity(0.3),
-                  ],
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                ),
-              ),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -37,7 +27,7 @@ class LanguageSelectionScreen extends StatelessWidget {
                     localizations.translate('select_language'),
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: Colors.white,
-                      fontWeight: FontWeight.bold,
+                      fontSize: 20,
                     ),
                   ),
                   const SizedBox(height: 30),
@@ -67,11 +57,13 @@ class LanguageSelectionScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildLanguageButton(BuildContext context, {required String label, required VoidCallback onPressed}) {
+  Widget _buildLanguageButton(BuildContext context,
+      {required String label, required VoidCallback onPressed}) {
     final theme = Theme.of(context);
     return ElevatedButton.icon(
       style: ElevatedButton.styleFrom(
-        foregroundColor: theme.colorScheme.primary, backgroundColor: theme.colorScheme.onBackground,
+        foregroundColor: theme.colorScheme.primary,
+        backgroundColor: theme.colorScheme.onBackground,
         padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(30),
@@ -81,10 +73,7 @@ class LanguageSelectionScreen extends StatelessWidget {
       icon: Icon(FluentIcons.globe_12_filled, color: theme.colorScheme.primary),
       label: Text(
         label,
-        style: const TextStyle(
-          fontSize: 18,
-          fontWeight: FontWeight.bold,
-        ),
+        style: const TextStyle(fontSize: 16),
       ),
     );
   }
