@@ -129,6 +129,7 @@ class AuthProvider extends ChangeNotifier {
           'email': email,
           'phone': phone,
           'roles': roles,
+          'location': district,
           if (imageUrl != null)
             'imageUrl': imageUrl, // Conditionally store image URL
           'createdAt': FieldValue.serverTimestamp(),
