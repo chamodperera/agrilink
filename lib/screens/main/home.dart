@@ -8,6 +8,8 @@ import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
+import 'package:agrilink/app_localizations.dart';
+
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -42,6 +44,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       body: SingleChildScrollView(
         child: Container(
@@ -50,15 +53,15 @@ class _HomeScreenState extends State<HomeScreen> {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Text(
-                "Find Offers",
-                style: theme.textTheme.headline6,
+                localizations.translate('find_offers'),
+                style: theme.textTheme.titleMedium,
               ),
               const SizedBox(height: 15),
               Row(
                 children: [
                   Expanded(
                     child: AppSearchBar(
-                      hintText: 'Search to find offers',
+                      hintText: localizations.translate('search'),
                       onSubmitted: (value) {
                         // Add your onSubmitted logic here
                       },
@@ -89,38 +92,38 @@ class _HomeScreenState extends State<HomeScreen> {
                     // Highlight the selected category button
                     selectedCategory == 'All'
                         ? CategoryButtonGreen(
-                            text: 'All',
+                            text: localizations.translate('all'),
                             onPressed: () => updateCategory('All'),
                           )
                         : CategoryButtonGrey(
-                            text: 'All',
+                            text: localizations.translate('all'),
                             onPressed: () => updateCategory('All'),
                           ),
                     selectedCategory == 'Farmer'
                         ? CategoryButtonGreen(
-                            text: 'Farmers',
+                            text: localizations.translate('farmer'),
                             onPressed: () => updateCategory('Farmer'),
                           )
                         : CategoryButtonGrey(
-                            text: 'Farmers',
+                            text: localizations.translate('farmer'),
                             onPressed: () => updateCategory('Farmer'),
                           ),
                     selectedCategory == 'Retailer'
                         ? CategoryButtonGreen(
-                            text: 'Retailers',
+                            text: localizations.translate('retailer'),
                             onPressed: () => updateCategory('Retailer'),
                           )
                         : CategoryButtonGrey(
-                            text: 'Retailers',
+                            text: localizations.translate('retailer'),
                             onPressed: () => updateCategory('Retailer'),
                           ),
                     selectedCategory == 'Distributor'
                         ? CategoryButtonGreen(
-                            text: 'Distributors',
+                            text: localizations.translate('distributor'),
                             onPressed: () => updateCategory('Distributor'),
                           )
                         : CategoryButtonGrey(
-                            text: 'Distributors',
+                            text: localizations.translate('distributor'),
                             onPressed: () => updateCategory('Distributor'),
                           ),
                   ],

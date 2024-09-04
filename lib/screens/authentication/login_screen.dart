@@ -10,10 +10,14 @@ import 'package:agrilink/widgets/form/input.dart';
 import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
 import '../../widgets/form/validators.dart'; // Import validators
-import '../../providers/auth_provider.dart'; // Import AuthProvider
+import '../../providers/auth_provider.dart';
+import 'package:agrilink/app_localizations.dart';
+ // Import AuthProvider
 
 class Login extends StatefulWidget {
-  const Login({super.key});
+  final Function(Locale) changeLanguage;
+
+  const Login({required this.changeLanguage});
 
   @override
   _LoginState createState() => _LoginState();
@@ -26,11 +30,13 @@ class _LoginState extends State<Login> {
 
   String? _emailError; // To store authentication error message
   String? _passwordError; // To store authentication error message
+  bool _isLoading = false; // To track loading state
 
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
 
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
@@ -45,11 +51,6 @@ class _LoginState extends State<Login> {
         ),
         child: Stack(
           children: [
-            const Positioned(
-              top: 40,
-              left: 16,
-              child: BackButtonWidget(),
-            ),
             Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
@@ -63,27 +64,27 @@ class _LoginState extends State<Login> {
                       const Logo(),
                       const SizedBox(height: 50),
                       Text(
-                        'Login To Your Account',
+                        localizations.translate('login'),
                         style: theme.textTheme.displayMedium,
                       ),
                       const SizedBox(height: 30),
                       // Use TextBox with email controller
                       TextBox(
-                          text: 'Email',
+                          text: localizations.translate('email'),
                           controller: emailController,
                           validator: validateEmail,
                           errorMessage: _emailError),
                       const SizedBox(height: 10),
                       // Use TextBox with password controller and dynamic error message
                       TextBox(
-                        text: 'Password',
+                        text: localizations.translate('password'),
                         isPassword: true,
                         controller: passwordController,
                         errorMessage: _passwordError, // Set the error message
                       ),
                       const SizedBox(height: 10),
                       Text(
-                        '\nforgot password?',
+                        localizations.translate('forgot_password'),
                         style: theme.textTheme.displaySmall?.copyWith(
                           color: theme.colorScheme.primary,
                           fontSize: 14,
@@ -98,44 +99,58 @@ class _LoginState extends State<Login> {
                       const SizedBox(height: 15),
                       GoogleLogin(),
                       const SizedBox(height: 20),
-                      PrimaryButtonDark(
-                        text: 'Login',
-                        onPressed: () async {
-                          // Validate form inputs
-                          if (_formKey.currentState!.validate()) {
-                            final email = emailController.text.trim();
-                            final password = passwordController.text.trim();
-                            try {
-                              // Attempt to sign in with email and password
-                              await authProvider.signInWithEmail(
-                                  email, password);
+                      _isLoading
+                          ? CircularProgressIndicator() // Show loading indicator if loading
+                          : PrimaryButtonDark(
+                              text: localizations.translate('login_button'),
+                              onPressed: () async {
+                                // Validate form inputs
+                                if (_formKey.currentState!.validate()) {
+                                  final email = emailController.text.trim();
+                                  final password =
+                                      passwordController.text.trim();
+                                  try {
+                                    // Start loading
+                                    setState(() {
+                                      _isLoading = true;
+                                    });
 
-                              // Navigate only if login is successful
-                              Navigator.of(context).pushReplacement(
-                                MaterialPageRoute(
-                                  builder: (context) =>
-                                      const AuthWrapper(), // Navigate to home screen
-                                ),
-                              );
-                            } catch (e) {
-                              // Set the authentication error message
-                              setState(() {
-                                _emailError = 'Email or password is incorrect';
-                                _passwordError =
-                                    'Email or password is incorrect';
-                              });
-                            }
-                          }
-                        },
-                      ),
+                                    // Attempt to sign in with email and password
+                                    await authProvider.signInWithEmail(
+                                        email, password);
+
+                                    // Navigate only if login is successful
+                                    Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            AuthWrapper(changeLanguage: widget.changeLanguage,), // Navigate to home screen
+                                      ),
+                                    );
+                                  } catch (e) {
+                                    // Set the authentication error message
+                                    setState(() {
+                                      _emailError =
+                                          localizations.translate('email_password_error');
+                                      _passwordError =
+                                          localizations.translate('email_password_error');
+                                    });
+                                  } finally {
+                                    // Stop loading
+                                    setState(() {
+                                      _isLoading = false;
+                                    });
+                                  }
+                                }
+                              },
+                            ),
                       const SizedBox(height: 10),
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => SignUp1()));
+                              builder: (context) => SignUp1(changeLanguage: widget.changeLanguage,)));
                         },
                         child: Text(
-                          "\ndon't have an account?",
+                          localizations.translate('dont_have_account'),
                           style: theme.textTheme.displaySmall?.copyWith(
                             color: theme.colorScheme.primary,
                             fontSize: 14,
@@ -147,6 +162,11 @@ class _LoginState extends State<Login> {
                   ),
                 ),
               ),
+            ),
+            const Positioned(
+              top: 40,
+              left: 16,
+              child: BackButtonWidget(),
             ),
           ],
         ),

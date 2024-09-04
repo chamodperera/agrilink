@@ -1,3 +1,4 @@
+import 'package:agrilink/screens/language_selection.dart';
 import 'package:agrilink/screens/onboarding/screen_1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -9,7 +10,9 @@ import '../screens/main/profile.dart';
 import '../screens/main/dashboard.dart';
 
 class AuthWrapper extends StatelessWidget {
-  const AuthWrapper({super.key});
+  final Function(Locale) changeLanguage;
+
+  AuthWrapper({required this.changeLanguage});
 
   @override
   Widget build(BuildContext context) {
@@ -23,13 +26,14 @@ class AuthWrapper extends StatelessWidget {
           HomeScreen(),
           const ServicesScreen(),
            DashboardScreen(),
-          const ProfileScreen(),
+          ProfileScreen(changeLanguage: changeLanguage,),
         ],
       );
     } else {
       // If user is not signed in, show the login screen
       print("Not signed in");
-      return const Intro1();
+      // Navigate to Intro1 Screen after language selection screen
+      return LanguageSelectionScreen(changeLanguage: changeLanguage);
     }
   }
 }

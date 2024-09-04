@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:agrilink/app_localizations.dart';
 
 class BottomMenu extends StatefulWidget {
   final ValueChanged<int> onItemSelected;
@@ -19,6 +20,7 @@ class _BottomMenuState extends State<BottomMenu> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Padding(
       padding: const EdgeInsets.all(12.0), // Adjust the padding as needed
       child: ClipRRect(
@@ -30,18 +32,18 @@ class _BottomMenuState extends State<BottomMenu> {
             mainAxisAlignment: MainAxisAlignment.spaceAround,
             children: [
               _buildNavItem(
-                  icon: FluentIcons.home_32_filled, label: 'Home', index: 0),
+                  icon: FluentIcons.home_32_filled, label: localizations.translate('home'), index: 0),
               _buildNavItem(
                   icon: FluentIcons.broad_activity_feed_24_filled,
-                  label: 'Services',
+                  label: localizations.translate('services'),
                   index: 1),
               _buildNavItem(
                   icon: FluentIcons.data_bar_vertical_32_filled,
-                  label: 'Dashboard',
+                  label: localizations.translate('support'),
                   index: 2),
               _buildNavItem(
                   icon: FluentIcons.person_32_filled,
-                  label: 'Profile',
+                  label: localizations.translate('profile'),
                   index: 3),
             ],
           ),

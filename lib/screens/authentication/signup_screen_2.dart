@@ -12,12 +12,16 @@ import 'package:provider/provider.dart';
 import '../../widgets/form/image_input.dart'; // Import your ImageInputWidget
 import '../../widgets/form/multi_select.dart'; // Import your MultiSelectWidget
 import '../../providers/auth_provider.dart'; // Import AuthProvider
+import 'package:agrilink/app_localizations.dart';
+
 
 class SignUp2 extends StatefulWidget {
   final String firstName;
   final String lastName;
   final String email;
   final String mobileNumber;
+    final Function(Locale) changeLanguage;
+
 
   const SignUp2({
     super.key,
@@ -25,6 +29,7 @@ class SignUp2 extends StatefulWidget {
     required this.lastName,
     required this.email,
     required this.mobileNumber,
+    required this.changeLanguage,
   });
 
   @override
@@ -92,6 +97,7 @@ class _SignUp2State extends State<SignUp2> {
             email: widget.email,
             mobileNumber: widget.mobileNumber,
             district: _selectedDistrict!,
+            changeLanguage: widget.changeLanguage,
           ),
         ),
       );
@@ -125,7 +131,7 @@ class _SignUp2State extends State<SignUp2> {
       // Navigate to the main screen after successful sign-up
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => const AuthWrapper(),
+          builder: (context) => AuthWrapper(changeLanguage: widget.changeLanguage),
         ),
       );
     } catch (e) {
@@ -136,6 +142,7 @@ class _SignUp2State extends State<SignUp2> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
@@ -147,11 +154,6 @@ class _SignUp2State extends State<SignUp2> {
         ),
         child: Stack(
           children: [
-            const Positioned(
-              top: 20,
-              left: 16,
-              child: BackButtonWidget(),
-            ),
             Center(
               child: SingleChildScrollView(
                 padding: EdgeInsets.only(
@@ -163,7 +165,7 @@ class _SignUp2State extends State<SignUp2> {
                     children: [
                       const SizedBox(height: 30),
                       Text(
-                        "Upload a Profile Picture",
+                        localizations.translate('upload_image'),
                         style: theme.textTheme.displaySmall
                             ?.copyWith(fontSize: 18),
                       ),
@@ -180,7 +182,7 @@ class _SignUp2State extends State<SignUp2> {
                         width: 250, // Set the desired width
                         child: DropdownButtonFormField<String>(
                           decoration: InputDecoration(
-                          labelText: 'Select District',
+                          labelText: localizations.translate('district'),
                           border: OutlineInputBorder(),
                           ),
                           value: _selectedDistrict,
@@ -200,12 +202,12 @@ class _SignUp2State extends State<SignUp2> {
                           });
                           },
                           validator: (value) =>
-                            value == null ? 'Please select a district' : null,
+                            value == null ? localizations.translate('select_district') : null,
                         ),
                         ),
                       const SizedBox(height: 20),
                       PrimaryButtonDark(
-                        text: 'Next',
+                        text: localizations.translate('next'),
                         onPressed: () => _validateAndNavigate(context),
                       )
                       // Add other form fields and buttons here
@@ -213,6 +215,11 @@ class _SignUp2State extends State<SignUp2> {
                   ),
                 ),
               ),
+            ),
+            const Positioned(
+              top: 20,
+              left: 16,
+              child: BackButtonWidget(),
             ),
           ],
         ),

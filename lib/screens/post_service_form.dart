@@ -5,7 +5,7 @@ import 'package:agrilink/services/services.dart';
 import 'package:provider/provider.dart'; 
 
 class PostServiceForm extends StatefulWidget {
-  const PostServiceForm({super.key});
+  const PostServiceForm({Key? key}) : super(key: key);
 
   @override
   _PostServiceFormState createState() => _PostServiceFormState();
@@ -16,6 +16,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
   final TextEditingController _subtitleController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
+  bool _isLoading = false; // Track loading state
 
   @override
   void dispose() {
@@ -31,10 +32,13 @@ class _PostServiceFormState extends State<PostServiceForm> {
     final String subtitle = _subtitleController.text;
     final String description = _descriptionController.text;
     final String price = _priceController.text;
-  
+
+    setState(() {
+      _isLoading = true; // Show loading indicator
+    });
 
     // Post the offer using the service
-    OffersService().postOffer(
+    await OffersService().postOffer(
       context,
       title: title,
       description: description,
@@ -42,8 +46,62 @@ class _PostServiceFormState extends State<PostServiceForm> {
       price: double.tryParse(price) ?? 0.0,
     );
 
+    setState(() {
+      _isLoading = false; // Hide loading indicator
+    });
 
-    print('Service Posted Successfully!');
+    //create a popup message saying that the service has been posted successfully and go back
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          contentPadding: EdgeInsets.all(20),
+          content: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(
+                Icons.check_circle,
+                color: Colors.green,
+                size: 48,
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Success!',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.bold,
+                ),
+              ),
+              SizedBox(height: 16),
+              Text(
+                'Your service has been posted successfully.',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontSize: 16,
+                ),
+              ),
+            ],
+          ),
+          actions: <Widget>[
+            Center(
+              child: TextButton(
+                child: Text(
+                  'OK',
+                  style: TextStyle(
+                    color: Color.fromARGB(255, 255, 120, 36),
+                    fontSize: 16,
+                  ),
+                ),
+                onPressed: () {
+                  Navigator.of(context).pop(); // Close the dialog
+                  Navigator.of(context).pop(); // Go back to the previous screen
+                },
+              ),
+            ),
+          ],
+        );
+      },
+    );
 
     // Clear the text fields
     _titleController.clear();
@@ -176,10 +234,12 @@ class _PostServiceFormState extends State<PostServiceForm> {
                       ),
                       const SizedBox(height: 30),
                       Center(
-                        child: PrimaryButtonDark(
-                          text: 'Post',
-                          onPressed: _postService,
-                        ),
+                        child: _isLoading
+                            ? CircularProgressIndicator() // Show loading indicator
+                            : PrimaryButtonDark(
+                                text: 'Post',
+                                onPressed: _postService,
+                              ),
                       ),
                       const SizedBox(height: 20),
                     ],
