@@ -1,17 +1,18 @@
-import 'package:agrilink/screens/PostServiceForm.dart';
+import 'package:agrilink/screens/post_service_form.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/models/offers_model.dart';
 
 Offer service = Offer(
+  uid: "1",
     name: "G.Kodikara",
     category: "Farmer",
     avatar: "assets/users/user1.png",
     rating: "4.8",
     location: "Horana",
     title: "Fresh Papayas",
-    subTitle: "I have 30 kilos of Papayas.",
+    subtitle: "I have 30 kilos of Papayas.",
     description:
         "Lorem ipsum dolor sit amet consectetur. Mollis vulputate ultrices pellentesque purus risus auctor. Maecenas viverra magna tellus dolor tellus quam porttitor. Malesuada urna eu ante nec sit tempor odio. Congue nulla turpis non id neque lectus.",
     price: "Rs.170/kg");

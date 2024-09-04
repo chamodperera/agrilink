@@ -22,7 +22,7 @@ class OfferScreen extends StatelessWidget {
             height: 450,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(offer.avatar),
+                image: AssetImage('assets/users/user2.png'),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover,
               ),
@@ -79,7 +79,7 @@ class OfferScreen extends StatelessWidget {
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontSize: 28,
                         )),
-                    Text(offer.subTitle,
+                    Text(offer.subtitle,
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSecondary,
                           fontSize: 18,

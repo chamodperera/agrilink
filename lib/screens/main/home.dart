@@ -1,6 +1,6 @@
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/screens/offer_screen.dart';
-import 'package:agrilink/services.dart';
+import 'package:agrilink/services/services.dart'; // Import the OffersService
 import 'package:agrilink/widgets/buttons/category_button_green.dart';
 import 'package:agrilink/widgets/buttons/category_button_grey.dart';
 import 'package:agrilink/widgets/buttons/icon_button.dart';
@@ -28,9 +28,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // Method to fetch offers based on the selected category
   Future<List<Offer>> fetchOffersByCategory(String category) {
-    return OffersService().fetchOffers(
-        category:
-            category); // Assuming fetchOffers method in OffersService handles category filtering
+    return OffersService().fetchOffers(context, category: category);
   }
 
   // Method to update the selected category and fetch offers accordingly

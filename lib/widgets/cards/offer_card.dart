@@ -66,7 +66,7 @@ class OfferCard extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: Colors.white)),
                     const SizedBox(height: 6),
-                    Text(offer.subTitle,
+                    Text(offer.subtitle,
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
