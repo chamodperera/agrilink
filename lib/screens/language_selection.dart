@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:agrilink/app_localizations.dart';
 import 'package:agrilink/screens/onboarding/screen_1.dart'; // Adjust the import according to your project structure
+import 'package:agrilink/widgets/logo.dart';
+
 
 class LanguageSelectionScreen extends StatelessWidget {
   final Function(Locale) changeLanguage;
@@ -16,15 +18,25 @@ class LanguageSelectionScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
+          Container(
+            decoration: BoxDecoration(
+              color: theme.scaffoldBackgroundColor,
+              image: const DecorationImage(
+                image: AssetImage('assets/patterns/full.png'),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
           Center(
             child: Container(
               padding: const EdgeInsets.all(20),
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
+                  const Logo(),
+                  const SizedBox(height: 50),
                   Text(
-                    localizations.translate('select_language'),
+                    "Select Your Language",
                     style: theme.textTheme.titleMedium?.copyWith(
                       color: Colors.white,
                       fontSize: 20,
@@ -48,6 +60,8 @@ class LanguageSelectionScreen extends StatelessWidget {
                       _navigateToIntroScreen(context);
                     },
                   ),
+                  const SizedBox(height: 20),
+
                 ],
               ),
             ),
