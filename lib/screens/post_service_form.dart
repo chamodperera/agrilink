@@ -15,7 +15,7 @@ class PostServiceForm extends StatefulWidget {
 
 class _PostServiceFormState extends State<PostServiceForm> {
   final TextEditingController _titleController = TextEditingController();
-  final TextEditingController _subtitleController = TextEditingController();
+  final TextEditingController _capacityController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
 
@@ -26,7 +26,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
   ];
 
   String? _titleError;
-  String? _subtitleError;
+  String? _capacityError;
   String? _descriptionError;
   String? _priceError;
   String? _selectedCategory;
@@ -35,7 +35,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
   @override
   void dispose() {
     _titleController.dispose();
-    _subtitleController.dispose();
+    _capacityController.dispose();
     _descriptionController.dispose();
     _priceController.dispose();
     super.dispose();
@@ -49,8 +49,8 @@ class _PostServiceFormState extends State<PostServiceForm> {
     });
 
     final String title = _titleController.text;
-    final String subtitle = _subtitleController.text;
     final String description = _descriptionController.text;
+    final String capacity = _capacityController.text;
     final String price = _priceController.text;
     final String category;
 
@@ -65,7 +65,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
 
     setState(() {
       _titleError = title.isEmpty ? 'Please enter a title' : null;
-      _subtitleError = subtitle.isEmpty ? 'Please enter a subtitle' : null;
+      _capacityError = capacity.isEmpty ? 'Please enter the capacity' : null;
       _descriptionError =
           description.isEmpty ? 'Please enter a description' : null;
       _priceError = price.isEmpty ? 'Please enter a price' : null;
@@ -74,7 +74,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
     });
 
     if (_titleError != null ||
-        _subtitleError != null ||
+        _capacityError != null ||
         _descriptionError != null ||
         _priceError != null ||
         _dropdownError != null) {
@@ -89,8 +89,8 @@ class _PostServiceFormState extends State<PostServiceForm> {
       context,
       title: title,
       description: description,
-      subtitle: subtitle, // Assuming subtitle is used as the category
       category: category,
+      capacity: int.tryParse(capacity) ?? 0,
       price: int.tryParse(price) ?? 0,
     );
 
@@ -112,7 +112,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
     Navigator.of(context).pop();
     // Clear the text fields
     _titleController.clear();
-    _subtitleController.clear();
+    _capacityController.clear();
     _descriptionController.clear();
     _priceController.clear();
     setState(() {
@@ -159,12 +159,11 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         errorMessage: _titleError,
                       ),
                       const SizedBox(height: 20),
-                      TextInputField(
-                        hintText: 'Add a sub title',
-                        controller: _subtitleController,
-                        errorMessage: _subtitleError,
-                      ),
-                      const SizedBox(height: 20),
+                      // TextInputField(
+                      //   hintText: 'Add a sub title',
+                      //   controller: _capacityController,
+                      //   errorMessage: _capacityError,
+                      // ),
                       DropdownInput(
                         hintText: 'Select a Category',
                         items: _categories,
@@ -183,6 +182,27 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         },
                       ),
                       const SizedBox(height: 20),
+                      Row(
+                        children: [
+                          Expanded(
+                            child: TextInputField(
+                              hintText: 'Enter the stock/capacity',
+                              controller: _capacityController,
+                              errorMessage: _capacityError,
+                              keyboardType: TextInputType.number,
+                            ),
+                          ),
+                          const SizedBox(width: 10),
+                          Text(
+                            'Kg',
+                            style: theme.textTheme.displaySmall?.copyWith(
+                              fontSize: 16,
+                              color: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 20),
                       TextInputField(
                         hintText: 'Description',
                         controller: _descriptionController,
@@ -196,7 +216,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         children: [
                           Expanded(
                             child: TextInputField(
-                              hintText: 'Price',
+                              hintText: 'Price per unit',
                               controller: _priceController,
                               errorMessage: _priceError,
                               keyboardType: TextInputType.number,

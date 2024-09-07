@@ -79,7 +79,8 @@ class OfferScreen extends StatelessWidget {
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontSize: 28,
                         )),
-                    Text(offer.subtitle,
+                    Text(
+                        '${offer.category == 'Retailer' ? 'I need' : 'I have'} ${offer.capacity} Kilos ${offer.category == 'Distributor' ? 'in capacity' : 'of produce'}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSecondary,
                           fontSize: 18,

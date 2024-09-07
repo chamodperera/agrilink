@@ -6,8 +6,8 @@ class Offer {
   final String rating;
   final String location;
   final String title;
-  final String subtitle;
   final String description;
+  final int capacity;
   final int price;
 
   Offer(
@@ -18,8 +18,8 @@ class Offer {
       required this.rating,
       required this.location,
       required this.title,
-      required this.subtitle,
       required this.description,
+      required this.capacity,
       required this.price});
 
   factory Offer.fromJson(Map<String, dynamic> json) {
@@ -31,8 +31,8 @@ class Offer {
         rating: json['rating'],
         location: json['location'],
         title: json['title'],
-        subtitle: json['subtitle'],
         description: json['description'],
+        capacity: json['capacity'],
         price: json['price']);
   }
 }

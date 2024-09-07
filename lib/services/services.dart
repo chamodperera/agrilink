@@ -61,8 +61,6 @@ class OffersService {
 
     // Return a stream that listens to changes in the offers collection
     return _firestore
-        .collection('users')
-        .doc(currentUserUid)
         .collection('offers')
         .snapshots()
         .map((QuerySnapshot querySnapshot) {
@@ -73,6 +71,8 @@ class OffersService {
       return querySnapshot.docs.map((doc) {
         final data = doc.data() as Map<String, dynamic>;
         return Offer.fromJson(data);
+      }).where((offer) {
+        return offer.uid == currentUserUid;
       }).toList();
     });
   }
@@ -81,8 +81,8 @@ class OffersService {
   Future<void> postOffer(
     BuildContext context, {
     required String title,
-    required String subtitle,
     required String description,
+    required int capacity,
     required String category,
     required int price,
   }) async {
@@ -108,26 +108,9 @@ class OffersService {
         'rating': '4.6',
         'location': currentUserLocation,
         'title': title,
-        'subtitle': subtitle,
         'description': description,
         'category': category,
-        'price': price
-      });
-
-      await _firestore
-          .collection('users')
-          .doc(currentUserUid)
-          .collection('offers')
-          .add({
-        'uid': currentUserUid,
-        'name': currentUserName,
-        'avatar': currentUserAvatar,
-        'rating': '4.6',
-        'location': 'Colombo',
-        'title': title,
-        'subtitle': subtitle,
-        'description': description,
-        'category': category,
+        'capacity': capacity,
         'price': price
       });
 

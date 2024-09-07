@@ -26,7 +26,12 @@ class OfferCard extends StatelessWidget {
                 children: [
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
-                    child: Image(width: 65, image: AssetImage(offer.avatar)),
+                    child: Image.network(
+                      offer.avatar, // Assuming offer.avatar is a valid URL
+                      width: 65,
+                      fit: BoxFit
+                          .cover, // Adjust how the image is displayed within the bounds
+                    ),
                   ),
                   const SizedBox(height: 5),
                   Text(offer.name,
@@ -66,7 +71,8 @@ class OfferCard extends StatelessWidget {
                             fontWeight: FontWeight.w500,
                             color: Colors.white)),
                     const SizedBox(height: 6),
-                    Text(offer.subtitle,
+                    Text(
+                        '${offer.category == 'Retailer' ? 'I need' : 'I have'} ${offer.capacity} Kilos ${offer.category == 'Distributor' ? 'in capacity' : 'of produce'}',
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,
