@@ -6,9 +6,15 @@ import 'package:flutter/material.dart';
 import 'google_maps.dart';
 
 class InfoScreen extends StatelessWidget {
-  final Offer offer;
+  final String location;
+  final String avatar;
+  final String name;
 
-  const InfoScreen({super.key, required this.offer});
+  const InfoScreen(
+      {super.key,
+      required this.location,
+      required this.avatar,
+      required this.name});
 
   @override
   Widget build(BuildContext context) {
@@ -17,7 +23,7 @@ class InfoScreen extends StatelessWidget {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          GoogleMapsScreen(address: offer.location+",Sri Lanka"),
+          GoogleMapsScreen(address: location + ",Sri Lanka"),
           const Positioned(
             top: 40, // Adjust the top position as needed
             left: 16, // Adjust the left position as needed
@@ -53,15 +59,14 @@ class InfoScreen extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
-                          child:
-                              Image(width: 80, image: AssetImage(offer.avatar)),
+                          child: Image(width: 80, image: AssetImage(avatar)),
                         ),
                         const SizedBox(width: 20),
                         Expanded(
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(offer.name,
+                              Text(name,
                                   style: GoogleFonts.poppins(
                                       fontSize: 18,
                                       fontWeight: FontWeight.w500,

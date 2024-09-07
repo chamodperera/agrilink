@@ -1,11 +1,12 @@
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/screens/info_screen.dart';
+import 'package:agrilink/services/services.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/category_button_green.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/draggable_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 
 class OfferScreen extends StatefulWidget {
@@ -27,6 +28,50 @@ class _OfferScreenState extends State<OfferScreen> {
   void initState() {
     super.initState();
     _negotiatePrice = widget.offer.price;
+  }
+
+  bool _isLoading = false;
+
+  Future<void> _placeOffer() async {
+    setState(() {
+      _isLoading = true; // Set isLoading to true
+    });
+
+    await OffersService().placeOffer(
+      context,
+      offerUid: widget.offer.uid,
+      offerTitle: widget.offer.title,
+      offerCategory: widget.offer.category,
+      amount: _requiredAmount,
+      negotiatedPrice: _negotiatePrice,
+    );
+
+    print('Service Posted Successfully!');
+
+    setState(() {
+      _isLoading = false; // Set isLoading to false
+    });
+
+    final theme = Theme.of(context);
+
+    toastification.show(
+        context: context,
+        type: ToastificationType.success,
+        style: ToastificationStyle.flatColored,
+        title: Text("Success!"),
+        description: Text("Your offer has been made successfully."),
+        alignment: Alignment.topCenter,
+        autoCloseDuration: const Duration(seconds: 4),
+        primaryColor: theme.colorScheme.primary,
+        backgroundColor: theme.colorScheme.background,
+        foregroundColor: Colors.white,
+        borderRadius: BorderRadius.circular(12.0),
+        showProgressBar: false);
+
+    setState(() {
+      _isSectionVisible = false; // Hide the section
+      _isButtonVisible = true; // Show the button
+    });
   }
 
   @override
@@ -75,8 +120,10 @@ class _OfferScreenState extends State<OfferScreen> {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) =>
-                                    InfoScreen(offer: widget.offer),
+                                builder: (context) => InfoScreen(
+                                    location: widget.offer.location,
+                                    avatar: widget.offer.avatar,
+                                    name: widget.offer.name),
                               ));
                         },
                         child: Icon(FluentIcons.location_28_regular,
@@ -321,7 +368,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                     ),
                                     const SizedBox(width: 10),
                                     Text(
-                                      'RS. ${_requiredAmount * _negotiatePrice}',
+                                      'Rs. ${_requiredAmount * _negotiatePrice}',
                                       style: theme.textTheme.displaySmall
                                           ?.copyWith(
                                         fontSize: 18,
@@ -333,10 +380,14 @@ class _OfferScreenState extends State<OfferScreen> {
                                 ),
                               ),
                               const SizedBox(height: 10),
-                              PrimaryButtonDark(
-                                text: "Place my Offer",
-                                onPressed: () {},
-                                expanded: true,
+                              Center(
+                                child: _isLoading
+                                    ? CircularProgressIndicator() // Show loading indicator
+                                    : PrimaryButtonDark(
+                                        text: 'Place my offer',
+                                        onPressed: _placeOffer,
+                                        expanded: true,
+                                      ),
                               ),
                             ],
                           ),

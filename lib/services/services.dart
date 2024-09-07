@@ -1,3 +1,4 @@
+import 'package:agrilink/models/request_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
@@ -77,6 +78,33 @@ class OffersService {
     });
   }
 
+  Stream<List<Request>> fetchUserRequests(BuildContext context) {
+    // Get the AuthProvider from the context
+    final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    final String? currentUserUid = authProvider.user?.uid;
+
+    // Log the current user UID to check if it's null
+    print('Current User UID: $currentUserUid');
+
+    // Return a stream that listens to changes in the offers collection
+    return _firestore
+        .collection('users')
+        .doc(currentUserUid)
+        .collection('requests')
+        .snapshots()
+        .map((QuerySnapshot querySnapshot) {
+      // Log the number of documents fetched
+      print('Number of documents fetched: ${querySnapshot.docs.length}');
+
+      // Parse the Firestore data into a list of Offer objects
+      return querySnapshot.docs.map((doc) {
+        final data = doc.data() as Map<String, dynamic>;
+
+        return Request.fromJson(data);
+      }).toList();
+    });
+  }
+
   // Method to post a new offer
   Future<void> postOffer(
     BuildContext context, {
@@ -112,6 +140,51 @@ class OffersService {
         'category': category,
         'capacity': capacity,
         'price': price
+      });
+
+      print('Offer posted successfully');
+    } catch (e) {
+      print('Error posting offer: $e');
+    }
+  }
+
+  Future<void> placeOffer(
+    BuildContext context, {
+    required String offerUid,
+    required String offerTitle,
+    required String offerCategory,
+    required int amount,
+    required int negotiatedPrice,
+  }) async {
+    try {
+      // Get the AuthProvider from the context
+      final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final String? currentUserUid = authProvider.user?.uid;
+      final String? currentUserName = authProvider.user?.firstName;
+      final String? currentUserLocation = authProvider.user?.location;
+      final String? currentUserAvatar =
+          authProvider.user?.imageUrl ?? 'assets/users/user.png';
+
+      if (currentUserUid == null || currentUserName == null) {
+        print('User is not logged in');
+        return;
+      }
+
+      // Create a new offer document
+      await _firestore
+          .collection('users')
+          .doc(offerUid)
+          .collection('requests')
+          .add({
+        'uid': currentUserUid,
+        'name': currentUserName,
+        'avatar': currentUserAvatar,
+        'rating': '4.6',
+        'location': currentUserLocation,
+        'title': offerTitle,
+        'category': offerCategory,
+        'amount': amount,
+        'negotiatedPrice': negotiatedPrice,
       });
 
       print('Offer posted successfully');

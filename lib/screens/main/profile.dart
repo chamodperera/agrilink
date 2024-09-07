@@ -9,7 +9,7 @@ import 'package:provider/provider.dart'; // Import provider
 import '../../providers/auth_provider.dart'; // Import AuthProvider
 
 class ProfileScreen extends StatefulWidget {
-    final Function(Locale) changeLanguage;
+  final Function(Locale) changeLanguage;
 
   ProfileScreen({required this.changeLanguage});
 
@@ -29,7 +29,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     // Check if user is available
     if (user == null) {
-      return Center(
+      return const Center(
           child:
               CircularProgressIndicator()); // Show loading indicator if user is null
     }
@@ -42,10 +42,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             decoration: BoxDecoration(
               image: DecorationImage(
                 image: user.imageUrl != null && user.imageUrl!.isNotEmpty
-                    ? NetworkImage(
-                        user.imageUrl!) // Display user's profile image
+                    ? NetworkImage(user.imageUrl!)
                     : const AssetImage('assets/users/user.png')
-                        as ImageProvider, // Display default image
+                        as ImageProvider, // Default image
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover,
               ),
@@ -54,7 +53,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
           ),
           DraggableWidget(
             children: [
-              // Display user roles dynamically
               Center(
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -122,8 +120,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     await authProvider.signOut(); // Call sign out method
                     Navigator.of(context).pushReplacement(
                       MaterialPageRoute(
-                        builder: (context) =>
-                            AuthWrapper(changeLanguage: widget.changeLanguage), // Navigate to login screen
+                        builder: (context) => AuthWrapper(
+                            changeLanguage: widget
+                                .changeLanguage), // Navigate to login screen
                       ),
                     );
                   } catch (e) {

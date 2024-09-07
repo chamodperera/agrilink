@@ -96,18 +96,21 @@ class _PostServiceFormState extends State<PostServiceForm> {
 
     print('Service Posted Successfully!');
 
+    final theme = Theme.of(context);
+
     toastification.show(
-      context: context,
-      type: ToastificationType.success,
-      style: ToastificationStyle.flat,
-      title: Text("Success!"),
-      description: Text("Your Offer Successfully Posted!"),
-      alignment: Alignment.topCenter,
-      autoCloseDuration: const Duration(
-        seconds: 3,
-        milliseconds: 500,
-      ),
-    );
+        context: context,
+        type: ToastificationType.success,
+        style: ToastificationStyle.flatColored,
+        title: Text("Success!"),
+        description: Text("Your offer have been posted successfully!"),
+        alignment: Alignment.topCenter,
+        autoCloseDuration: const Duration(seconds: 4),
+        primaryColor: theme.colorScheme.primary,
+        backgroundColor: theme.colorScheme.background,
+        foregroundColor: Colors.white,
+        borderRadius: BorderRadius.circular(12.0),
+        showProgressBar: false);
 
     Navigator.of(context).pop();
     // Clear the text fields
