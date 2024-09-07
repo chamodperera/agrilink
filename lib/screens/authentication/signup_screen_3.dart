@@ -44,6 +44,7 @@ class _SignUp3State extends State<SignUp3> {
   // Available roles for selection
   final List<String> availableItems = ['Farmer', 'Distributor', 'Retailer'];
   List<String> selectedItems = []; // Selected roles
+  bool _isLoading = false;
 
   // Image variables
   File? _selectedImage;
@@ -75,19 +76,6 @@ class _SignUp3State extends State<SignUp3> {
     });
   }
 
-  // Method to handle image selection for mobile
-  void _onImageSelected(File? image) {
-    setState(() {
-      _selectedImage = image;
-    });
-  }
-
-  // Method to handle image selection for web
-  void _onWebImageSelected(Uint8List? imageBytes) {
-    setState(() {
-      _webImage = imageBytes;
-    });
-  }
 
   // Validate all fields and navigate or show error messages
   void _validateAndSubmit(BuildContext context) async {
@@ -123,6 +111,7 @@ class _SignUp3State extends State<SignUp3> {
   Future<void> _completeSignUp(BuildContext context) async {
     // Get AuthProvider instance
     final authProvider = Provider.of<AuthProvider>(context, listen: false);
+    _isLoading = true;
 
     try {
       File? imageFile = _selectedImage;
@@ -149,6 +138,10 @@ class _SignUp3State extends State<SignUp3> {
       );
     } catch (e) {
       print(e.toString());
+    } finally {
+      setState(() {
+        _isLoading = false;
+      });
     }
   }
 
@@ -204,10 +197,12 @@ class _SignUp3State extends State<SignUp3> {
                         errorMessage: _rePasswordErrorMessage,
                       ),
                       const SizedBox(height: 30),
-                      PrimaryButtonDark(
-                        text: 'Sign Up',
-                        onPressed: () => _validateAndSubmit(context),
-                      ),
+                      _isLoading
+                          ? const CircularProgressIndicator()
+                          : PrimaryButtonDark(
+                              text: 'Sign Up',
+                              onPressed: () => _validateAndSubmit(context),
+                            ),
                     ],
                   ),
                 ),

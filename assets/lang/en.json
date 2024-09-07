@@ -1,6 +1,6 @@
 {
     "find_perfect_retailer": "Find Your Perfect\n    Retailer here",
-    "find_retailer_description": "Here You Can find a retailer or a \n     Distributor for your harvest",
+    "find_retailer_description": "\n\nHere You Can find a retailer or a \n     Distributor for your harvest",
     "next": "Next",
     "harvest_lives": "AgriLink is where Your\n         Harvest Lives",
     "smooth_distribution":"\n\nEnjoy a fast and smooth distribution of \n                     your harvest",
@@ -27,6 +27,5 @@
     "home": "Home",
     "profile": "Profile",
     "support": "Support",
-    "services": "Services",
-    "select_language": "Select Language"
+    "services": "Services"
 }
