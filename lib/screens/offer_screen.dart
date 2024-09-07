@@ -256,8 +256,6 @@ class _OfferScreenState extends State<OfferScreen> {
                                         });
                                       },
                                     ),
-                                    // Display the required amount
-                                    const SizedBox(width: 5),
                                     Text(
                                       '$_requiredAmount Kg',
                                       style: theme.textTheme.displaySmall
@@ -266,8 +264,6 @@ class _OfferScreenState extends State<OfferScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    // Plus button
-                                    const SizedBox(width: 5),
                                     IconButton(
                                       icon: Icon(
                                           FluentIcons.caret_right_24_filled,
@@ -318,8 +314,6 @@ class _OfferScreenState extends State<OfferScreen> {
                                         });
                                       },
                                     ),
-                                    // Display the required amount
-                                    const SizedBox(width: 5),
                                     Text(
                                       '$_negotiatePrice ${widget.offer.category == 'distributer' ? 'Rs./Km' : 'Rs./Kg'}',
                                       style: theme.textTheme.displaySmall
@@ -328,8 +322,6 @@ class _OfferScreenState extends State<OfferScreen> {
                                         color: Colors.white,
                                       ),
                                     ),
-                                    // Plus button
-                                    const SizedBox(width: 5),
                                     IconButton(
                                       icon: Icon(
                                           FluentIcons.caret_right_24_filled,
