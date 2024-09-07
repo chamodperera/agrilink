@@ -59,7 +59,13 @@ class InfoScreen extends StatelessWidget {
                       children: [
                         ClipRRect(
                           borderRadius: BorderRadius.circular(20.0),
-                          child: Image(width: 80, image: AssetImage(avatar)),
+                          child: Image.network(
+                            avatar,
+                            width: 80,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Icon(Icons.error, size: 80);
+                            },
+                          ),
                         ),
                         const SizedBox(width: 20),
                         Expanded(

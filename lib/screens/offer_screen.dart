@@ -84,7 +84,7 @@ class _OfferScreenState extends State<OfferScreen> {
             height: 450,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(widget.offer.avatar),
+                image: NetworkImage(widget.offer.avatar),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover,
               ),
@@ -257,7 +257,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                       },
                                     ),
                                     // Display the required amount
-                                    const SizedBox(width: 10),
+                                    const SizedBox(width: 5),
                                     Text(
                                       '$_requiredAmount Kg',
                                       style: theme.textTheme.displaySmall
@@ -267,7 +267,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                       ),
                                     ),
                                     // Plus button
-                                    const SizedBox(width: 10),
+                                    const SizedBox(width: 5),
                                     IconButton(
                                       icon: Icon(
                                           FluentIcons.caret_right_24_filled,
@@ -319,7 +319,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                       },
                                     ),
                                     // Display the required amount
-                                    const SizedBox(width: 10),
+                                    const SizedBox(width: 5),
                                     Text(
                                       '$_negotiatePrice ${widget.offer.category == 'distributer' ? 'Rs./Km' : 'Rs./Kg'}',
                                       style: theme.textTheme.displaySmall
@@ -329,7 +329,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                       ),
                                     ),
                                     // Plus button
-                                    const SizedBox(width: 10),
+                                    const SizedBox(width: 5),
                                     IconButton(
                                       icon: Icon(
                                           FluentIcons.caret_right_24_filled,
