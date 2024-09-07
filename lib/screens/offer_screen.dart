@@ -5,12 +5,29 @@ import 'package:agrilink/widgets/buttons/category_button_green.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/draggable_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
 
-class OfferScreen extends StatelessWidget {
+class OfferScreen extends StatefulWidget {
   final Offer offer;
 
   const OfferScreen({super.key, required this.offer});
+
+  @override
+  _OfferScreenState createState() => _OfferScreenState();
+}
+
+class _OfferScreenState extends State<OfferScreen> {
+  bool _isSectionVisible = false; // Track the visibility of the section
+  bool _isButtonVisible = true; // Track the visibility of the button
+  int _requiredAmount = 0; // Track the required amount
+  late int _negotiatePrice; // Track the required amount
+
+  @override
+  void initState() {
+    super.initState();
+    _negotiatePrice = widget.offer.price;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +39,7 @@ class OfferScreen extends StatelessWidget {
             height: 450,
             decoration: BoxDecoration(
               image: DecorationImage(
-                image: AssetImage(offer.avatar),
+                image: AssetImage(widget.offer.avatar),
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover,
               ),
@@ -35,15 +52,20 @@ class OfferScreen extends StatelessWidget {
             child: BackButtonWidget(),
           ),
           DraggableWidget(
+            initialChildSize: _isSectionVisible ? 0.8 : 0.6,
+            maxChildSize: 0.9,
             children: [
               const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  CategoryButtonGreen(text: offer.category, onPressed: () {}),
+                  CategoryButtonGreen(
+                    text: widget.offer.category,
+                    onPressed: () {},
+                  ),
                   Row(
                     children: [
-                      Text(offer.location,
+                      Text(widget.offer.location,
                           style: theme.textTheme.displaySmall?.copyWith(
                             color: theme.colorScheme.onSecondary,
                           )),
@@ -53,7 +75,8 @@ class OfferScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => InfoScreen(offer: offer),
+                                builder: (context) =>
+                                    InfoScreen(offer: widget.offer),
                               ));
                         },
                         child: Icon(FluentIcons.location_28_regular,
@@ -75,12 +98,12 @@ class OfferScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(offer.title,
+                    Text(widget.offer.title,
                         style: theme.textTheme.titleMedium?.copyWith(
                           fontSize: 28,
                         )),
                     Text(
-                        '${offer.category == 'Retailer' ? 'I need' : 'I have'} ${offer.capacity} Kilos ${offer.category == 'Distributor' ? 'in capacity' : 'of produce'}',
+                        '${widget.offer.category == 'Retailer' ? 'I need' : 'I have'} ${widget.offer.capacity} Kilos ${widget.offer.category == 'Distributor' ? 'in capacity' : 'of produce'}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSecondary,
                           fontSize: 18,
@@ -94,7 +117,7 @@ class OfferScreen extends StatelessWidget {
                   Icon(FluentIcons.star_three_quarter_28_regular,
                       color: theme.colorScheme.primary),
                   const SizedBox(width: 10),
-                  Text(offer.rating,
+                  Text(widget.offer.rating,
                       style: theme.textTheme.displaySmall?.copyWith(
                           color: theme.colorScheme.onSecondary, fontSize: 18)),
                   const SizedBox(width: 40),
@@ -107,15 +130,221 @@ class OfferScreen extends StatelessWidget {
                 ],
               ),
               const SizedBox(height: 30),
-              Text(offer.description,
+              Text(widget.offer.description,
                   textAlign: TextAlign.justify,
                   style: theme.textTheme.displaySmall?.copyWith(fontSize: 15)),
               const SizedBox(height: 30),
-              PrimaryButtonDark(
-                text: "Make an offer",
-                onPressed: () {},
-                expanded: true,
-              )
+
+              // Button that toggles the visibility of the extra section
+              Visibility(
+                visible: _isButtonVisible,
+                child: PrimaryButtonDark(
+                  text: "Make an offer",
+                  onPressed: () {
+                    setState(() {
+                      _isSectionVisible = true; // Show the section
+                      _isButtonVisible = false; // Hide the button
+                    });
+                  },
+                  expanded: true,
+                ),
+              ),
+              const SizedBox(height: 20),
+
+              // Animated appearance of the extra section
+              AnimatedOpacity(
+                opacity: _isSectionVisible ? 1.0 : 0.0,
+                duration:
+                    const Duration(milliseconds: 500), // Animation duration
+                child: AnimatedContainer(
+                  duration:
+                      const Duration(milliseconds: 500), // Animation duration
+                  curve: Curves.easeInOut, // Animation curve for smoothness
+                  child: _isSectionVisible
+                      ? Container(
+                          padding: const EdgeInsets.all(16.0),
+                          decoration: BoxDecoration(
+                            color: theme.colorScheme.onBackground,
+                            borderRadius: BorderRadius.circular(15.0),
+                          ),
+                          child: Column(
+                            crossAxisAlignment:
+                                CrossAxisAlignment.start, // Align left
+                            mainAxisSize: MainAxisSize
+                                .min, // Take only the available space
+                            children: [
+                              const SizedBox(height: 10),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 10.0),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.secondary,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        '${widget.offer.category == 'retailer' ? 'Provided' : "Required"} ${widget.offer.category == 'distributer' ? 'capacity' : "stock"}',
+                                        style: theme.textTheme.displaySmall
+                                            ?.copyWith(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    // Minus button
+                                    IconButton(
+                                      icon: Icon(
+                                          FluentIcons.caret_left_24_filled,
+                                          color: theme.colorScheme.primary),
+                                      onPressed: () {
+                                        setState(() {
+                                          if (_requiredAmount > 0) {
+                                            _requiredAmount--;
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    // Display the required amount
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      '$_requiredAmount Kg',
+                                      style: theme.textTheme.displaySmall
+                                          ?.copyWith(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    // Plus button
+                                    const SizedBox(width: 10),
+                                    IconButton(
+                                      icon: Icon(
+                                          FluentIcons.caret_right_24_filled,
+                                          color: theme.colorScheme.primary),
+                                      color: theme.colorScheme.primary,
+                                      onPressed: () {
+                                        setState(() {
+                                          _requiredAmount++;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 10.0),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.secondary,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Negotiate price',
+                                        style: theme.textTheme.displaySmall
+                                            ?.copyWith(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    // Minus button
+                                    IconButton(
+                                      icon: Icon(
+                                          FluentIcons.caret_left_24_filled,
+                                          color: theme.colorScheme.primary),
+                                      onPressed: () {
+                                        setState(() {
+                                          if (_negotiatePrice > 0) {
+                                            _negotiatePrice -= 10;
+                                          }
+                                        });
+                                      },
+                                    ),
+                                    // Display the required amount
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      '$_negotiatePrice ${widget.offer.category == 'distributer' ? 'Rs./Km' : 'Rs./Kg'}',
+                                      style: theme.textTheme.displaySmall
+                                          ?.copyWith(
+                                        fontSize: 18,
+                                        color: Colors.white,
+                                      ),
+                                    ),
+                                    // Plus button
+                                    const SizedBox(width: 10),
+                                    IconButton(
+                                      icon: Icon(
+                                          FluentIcons.caret_right_24_filled,
+                                          color: theme.colorScheme.primary),
+                                      color: theme.colorScheme.primary,
+                                      onPressed: () {
+                                        setState(() {
+                                          _negotiatePrice += 10;
+                                        });
+                                      },
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              Container(
+                                padding: const EdgeInsets.symmetric(
+                                    horizontal: 15.0, vertical: 10.0),
+                                decoration: BoxDecoration(
+                                  color: theme.colorScheme.secondary,
+                                  borderRadius: BorderRadius.circular(15.0),
+                                ),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      child: Text(
+                                        'Total price',
+                                        style: theme.textTheme.displaySmall
+                                            ?.copyWith(
+                                          fontSize: 16,
+                                          color: Colors.white,
+                                        ),
+                                      ),
+                                    ),
+                                    const SizedBox(width: 10),
+                                    Text(
+                                      'RS. ${_requiredAmount * _negotiatePrice}',
+                                      style: theme.textTheme.displaySmall
+                                          ?.copyWith(
+                                        fontSize: 18,
+                                        color: theme.colorScheme.primary,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 20),
+                                  ],
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              PrimaryButtonDark(
+                                text: "Place my Offer",
+                                onPressed: () {},
+                                expanded: true,
+                              ),
+                            ],
+                          ),
+                        )
+                      : const SizedBox.shrink(),
+                ),
+              ),
+              const SizedBox(height: 20),
             ],
           ),
         ],
