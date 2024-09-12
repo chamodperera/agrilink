@@ -112,6 +112,7 @@ class OffersService {
     required String description,
     required int capacity,
     required String category,
+    required String produce,
     required int price,
   }) async {
     try {
@@ -138,6 +139,7 @@ class OffersService {
         'title': title,
         'description': description,
         'category': category,
+        'produce': produce,
         'capacity': capacity,
         'price': price
       });

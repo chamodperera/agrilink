@@ -10,7 +10,6 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/app_localizations.dart';
 
-
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
@@ -21,11 +20,25 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Offer>> futureOffers;
   String selectedCategory = 'All'; // State variable for the selected category
+  TextEditingController searchController = TextEditingController();
+  String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
     futureOffers = fetchOffersByCategory(selectedCategory);
+    searchController.addListener(() {
+      setState(() {
+        searchQuery = searchController.text;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    searchController
+        .dispose(); // Dispose of the controller when the widget is disposed
+    super.dispose();
   }
 
   // Method to fetch offers based on the selected category
@@ -39,6 +52,19 @@ class _HomeScreenState extends State<HomeScreen> {
       selectedCategory = category;
       futureOffers = fetchOffersByCategory(selectedCategory);
     });
+  }
+
+  // Method to filter offers based on the search query
+  List<Offer> filterOffers(List<Offer> offers) {
+    if (searchQuery.isEmpty) {
+      return offers;
+    } else {
+      return offers
+          .where((offer) =>
+              offer.title.toLowerCase().contains(searchQuery.toLowerCase()) ||
+              offer.produce.toLowerCase().contains(searchQuery.toLowerCase()))
+          .toList();
+    }
   }
 
   @override
@@ -61,6 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 children: [
                   Expanded(
                     child: AppSearchBar(
+                      controller: searchController, // Add the controller here
                       hintText: localizations.translate('search'),
                       onSubmitted: (value) {
                         // Add your onSubmitted logic here
@@ -85,11 +112,9 @@ class _HomeScreenState extends State<HomeScreen> {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Wrap(
-                  //space evenly
                   spacing: 10,
                   runSpacing: 10,
                   children: [
-                    // Highlight the selected category button
                     selectedCategory == 'All'
                         ? CategoryButtonGreen(
                             text: localizations.translate('all'),
@@ -140,10 +165,10 @@ class _HomeScreenState extends State<HomeScreen> {
                   } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                     return const Center(child: Text('No offers available'));
                   } else {
-                    final offers = snapshot.data!;
+                    final offers = filterOffers(snapshot.data!);
                     return ListView.builder(
                       shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
+                      physics: const NeverScrollableScrollPhysics(),
                       padding: EdgeInsets.zero,
                       itemCount: offers.length,
                       itemBuilder: (context, index) {
