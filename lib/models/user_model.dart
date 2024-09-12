@@ -2,13 +2,13 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class UserModel {
   final String uid;
-  final String email;
-  final String firstName;
-  final String lastName;
-  final String phone;
+  String email;
+  String firstName;
+  String lastName;
+  String phone;
   final List<String> roles;
   final String location;
-  final String? imageUrl;
+  String imageUrl;
 
   UserModel({
     required this.uid,
@@ -18,7 +18,7 @@ class UserModel {
     required this.phone,
     required this.roles,
     required this.location,
-    this.imageUrl,
+    required this.imageUrl,
   });
 
   // Factory method to create a UserModel from Firestore data

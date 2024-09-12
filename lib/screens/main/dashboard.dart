@@ -4,6 +4,7 @@ import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/screens/chatbot_screen.dart';
+import 'package:agrilink/app_localizations.dart';
 
 class DashboardScreen extends StatelessWidget {
   DashboardScreen({super.key});
@@ -11,6 +12,7 @@ class DashboardScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       // Added Scaffold to provide proper layout
       body: Container(
@@ -19,7 +21,7 @@ class DashboardScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Support",
+              localizations.translate('support'),
               style: theme.textTheme.titleMedium,
             ),
             SizedBox(height: 15),
@@ -28,7 +30,7 @@ class DashboardScreen extends StatelessWidget {
                 Expanded(
                   // Ensures the search bar takes up available width
                   child: AppSearchBar(
-                    hintText: 'Need any assistance?',
+                    hintText: localizations.translate('ask_agribot'),
                     onSubmitted: (inputText) {
                       Navigator.push(
                         context,
@@ -55,7 +57,7 @@ class DashboardScreen extends StatelessWidget {
                   children: [
                     SizedBox(height: 10),
                     Text(
-                      "Current Market",
+                      localizations.translate("current_market"),
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: 15),
@@ -66,7 +68,7 @@ class DashboardScreen extends StatelessWidget {
                     ),
                     const SizedBox(height: 40),
                     Text(
-                      "Resources",
+                      localizations.translate("resources"),
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: 15),
@@ -87,7 +89,7 @@ class DashboardScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Maximize Your Harvest',
+                                    localizations.translate("learn_more"),
                                     style:
                                         theme.textTheme.displayMedium?.copyWith(
                                       color: Colors.white,
@@ -95,7 +97,7 @@ class DashboardScreen extends StatelessWidget {
                                   ),
                                   SizedBox(height: 25),
                                   PrimaryButtonLight(
-                                      text: "Learn More", onPressed: () {})
+                                      text: localizations.translate("learn_more"), onPressed: () {})
                                 ],
                               )))
                     ]),
@@ -117,7 +119,7 @@ class DashboardScreen extends StatelessWidget {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    'Current Trends',
+                                    localizations.translate("current_trends"),
                                     style:
                                         theme.textTheme.displayMedium?.copyWith(
                                       color: Colors.white,
@@ -125,7 +127,7 @@ class DashboardScreen extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 25),
                                   PrimaryButtonLight(
-                                      text: "Learn More", onPressed: () {})
+                                      text: localizations.translate("learn_more"), onPressed: () {})
                                 ],
                               )))
                     ]),

@@ -5,8 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 
 class OfferCard extends StatelessWidget {
   final Offer offer;
+  final bool isUser;
 
-  const OfferCard({super.key, required this.offer});
+  const OfferCard({super.key, required this.offer, this.isUser = false});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +28,8 @@ class OfferCard extends StatelessWidget {
                   ClipRRect(
                     borderRadius: BorderRadius.circular(20.0),
                     child: Image.network(
-                      offer.avatar, // Assuming offer.avatar is a valid URL
+                      // add user image
+                      offer.avatar,
                       width: 65,
                       fit: BoxFit
                           .cover, // Adjust how the image is displayed within the bounds
@@ -92,6 +94,7 @@ class OfferCard extends StatelessWidget {
               ),
             ],
           ),
+          if (!isUser)
           const Positioned(
             bottom: 4,
             right: 0,

@@ -27,5 +27,15 @@
     "home": "Home",
     "profile": "Profile",
     "support": "Support",
-    "services": "Services"
+    "services": "Services",
+    "post_service": "Post a Service",
+    "add_service": "Add a New Service",
+    "latest_services": "Your Latest Services",
+    "no_offers": "No Offers Avaialble",
+    "requests": "Requests",
+    "no_requests": "No Requests Available",
+    "ask_agribot": "Ask AgriBot",
+    "current_market": "Current Market",
+    "resources": "Resources"
+
 }

@@ -7,6 +7,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/models/offers_model.dart';
+import 'package:agrilink/app_localizations.dart';
 
 class ServicesScreen extends StatefulWidget {
   const ServicesScreen({Key? key}) : super(key: key);
@@ -29,6 +30,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       body: SingleChildScrollView(
         // Make the entire screen scrollable
@@ -49,7 +51,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Post a service',
+                    localizations.translate("post_service"),
                     style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 10),
@@ -77,7 +79,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           const Icon(FluentIcons.add_circle_32_regular,
                               size: 36, color: Colors.black),
                           const SizedBox(height: 10),
-                          Text('Add new service',
+                          Text(localizations.translate("add_service"),
                               style: theme.textTheme.displaySmall?.copyWith(
                                 fontSize: 14,
                                 color: Colors.black,
@@ -88,7 +90,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   ),
                   const SizedBox(height: 30),
                   Text(
-                    'Your Latest Services',
+                    localizations.translate("latest_services"),
                     style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 10),
@@ -101,7 +103,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return Center(
-                            child: Text('No offers available',
+                            child: Text(localizations.translate('no_offers'),
                                 style: theme.textTheme.displaySmall?.copyWith(
                                   fontSize: 18,
                                   color: Colors.white,
@@ -117,7 +119,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                OfferCard(offer: offers[index]),
+                                OfferCard(offer: offers[index],isUser: true,),
                                 const SizedBox(height: 15),
                               ],
                             );
@@ -128,7 +130,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                   ),
                   const SizedBox(height: 30),
                   Text(
-                    'Requests',
+                    localizations.translate("requests"),
                     style: theme.textTheme.titleMedium,
                   ),
                   const SizedBox(height: 10),
@@ -141,7 +143,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                         return Center(child: Text('Error: ${snapshot.error}'));
                       } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
                         return Center(
-                            child: Text('No requests available',
+                            child: Text(localizations.translate('no_requests'),
                                 style: theme.textTheme.displaySmall?.copyWith(
                                   fontSize: 18,
                                   color: Colors.white,
