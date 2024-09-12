@@ -1,3 +1,5 @@
+import 'dart:io';
+import 'dart:typed_data';
 import 'package:flutter/material.dart';
 import 'package:google_generative_ai/google_generative_ai.dart';
 import 'package:intl/intl.dart';
@@ -6,8 +8,15 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class ChatbotScreen extends StatefulWidget {
   final String initialMessage;
-  const ChatbotScreen({Key? key, required this.initialMessage})
-      : super(key: key);
+  final File? capturedImage; // Optional image from mobile
+  final Uint8List? webImage; // Optional image from web
+
+  const ChatbotScreen({
+    Key? key,
+    required this.initialMessage,
+    this.capturedImage,
+    this.webImage,
+  }) : super(key: key);
 
   @override
   State<ChatbotScreen> createState() => _ChatbotScreenState();
@@ -24,7 +33,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
 
   final List<Message> _messages = [];
   final String prompt =
-      'You are an agriculture expert. Your task is to help farmers with their queries. for example, you can help them with crop management, pest control, and soil health. If the user asked something that do not fall under agriculture domain, you can say "I am an agriculture expert, I can only help you with agriculture-related queries."';
+      'You are an agriculture expert. Your task is to help farmers with their queries. For example, you can help them with crop management, pest control, and soil health. You should also resposnd to images of plants or pests.  If the user asks something that does not fall under the agriculture domain, you can say "I am an agriculture expert, I can only help you with agriculture-related queries."';
 
   @override
   void initState() {
@@ -56,17 +65,57 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       ));
     });
 
-    final content =
-        _messages.map((message) => Content.text(message.message)).toList();
-    final response = await model.generateContent(content);
+    // If an image is provided, process it first
+    if (widget.capturedImage != null || widget.webImage != null) {
+      List<DataPart> imageDataParts = [];
 
-    setState(() {
-      _messages.add(Message(
-        isUser: false,
-        message: response.text ?? 'No response',
-        date: DateTime.now(),
-      ));
-    });
+      // Handle captured image from mobile
+      if (widget.capturedImage != null) {
+        final bytes = await widget.capturedImage!.readAsBytes();
+        imageDataParts.add(DataPart('image/jpeg', bytes));
+      }
+
+      // Handle image from web (Uint8List)
+      if (widget.webImage != null) {
+        imageDataParts.add(DataPart('image/jpeg', widget.webImage!));
+      }
+
+      // Create multi-part content with text and image data
+      final content = [
+        Content.text(_messages[0].message),
+        Content.text(_messages[1].message),
+        Content.multi(
+          imageDataParts,
+        ),
+        ..._messages
+            .sublist(2)
+            .map((message) => Content.text(message.message))
+            .toList(),
+      ];
+
+      final response = await model.generateContent(content);
+
+      setState(() {
+        _messages.add(Message(
+          isUser: false,
+          message: response.text ?? 'No response',
+          date: DateTime.now(),
+        ));
+      });
+    } else {
+      // If no image, just process the message as usual
+      final content =
+          _messages.map((message) => Content.text(message.message)).toList();
+      final response = await model.generateContent(content);
+
+      setState(() {
+        _messages.add(Message(
+          isUser: false,
+          message: response.text ?? 'No response',
+          date: DateTime.now(),
+        ));
+      });
+    }
   }
 
   @override
@@ -82,6 +131,20 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
+          if (widget.capturedImage != null || widget.webImage != null) ...[
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: widget.capturedImage != null
+                  ? ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.file(widget.capturedImage!, height: 150),
+                    )
+                  : ClipRRect(
+                      borderRadius: BorderRadius.circular(10),
+                      child: Image.memory(widget.webImage!, height: 150),
+                    ),
+            ),
+          ],
           Expanded(
             child: ListView.builder(
               itemCount: _messages.length - 1,
@@ -119,7 +182,6 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                     backgroundColor:
                         MaterialStateProperty.all(theme.colorScheme.primary),
                     foregroundColor: MaterialStateProperty.all(Colors.black),
-                    //box with radius
                     shape: MaterialStateProperty.all(
                       RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20),

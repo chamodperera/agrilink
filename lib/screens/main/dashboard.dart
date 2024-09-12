@@ -1,8 +1,13 @@
+import 'dart:io';
+import 'dart:typed_data';
+import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
+import 'package:image_picker/image_picker.dart'; // For image selection
+import 'package:file_picker/file_picker.dart'; // For web image picking
 import 'package:agrilink/widgets/buttons/icon_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_light.dart';
 import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/material.dart';
 import 'package:agrilink/screens/chatbot_screen.dart';
 
 class DashboardScreen extends StatefulWidget {
@@ -13,14 +18,84 @@ class DashboardScreen extends StatefulWidget {
 }
 
 class _DashboardScreenState extends State<DashboardScreen> {
-  // Declare the TextEditingController
   final TextEditingController searchController = TextEditingController();
+  File? _selectedImage; // Variable to store the captured image for mobile
+  Uint8List? _webImage; // Variable to store the image for web
+
+  final ImagePicker _picker =
+      ImagePicker(); // Create an instance of ImagePicker
 
   @override
   void dispose() {
-    // Dispose the controller when the widget is disposed
     searchController.dispose();
     super.dispose();
+  }
+
+  // Method to pick image from mobile camera or gallery
+  Future<void> _pickImage(ImageSource source) async {
+    if (kIsWeb) {
+      // Handle web image picking
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['png', 'jpg', 'jpeg'], // Restrict to PNG and JPG
+      );
+
+      if (result != null && result.files.single.bytes != null) {
+        if (_validateFileType(result.files.single.extension)) {
+          setState(() {
+            _webImage = result.files.single.bytes; // Use Uint8List for web
+          });
+          // Navigate to ChatbotScreen and pass the web image
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatbotScreen(
+                initialMessage: searchController.text,
+                webImage: _webImage, // Pass the web image
+              ),
+            ),
+          );
+        } else {
+          _showInvalidFileTypeMessage(); // Show error if file type is not supported
+        }
+      }
+    } else {
+      // Handle mobile image picking (camera or gallery)
+      final pickedFile = await _picker.pickImage(source: source);
+      if (pickedFile != null) {
+        if (_validateFileType(pickedFile.path.split('.').last)) {
+          setState(() {
+            _selectedImage = File(pickedFile.path); // Update selected image
+          });
+          // Navigate to ChatbotScreen and pass the mobile image
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => ChatbotScreen(
+                initialMessage: searchController.text,
+                capturedImage: _selectedImage, // Pass the mobile image
+              ),
+            ),
+          );
+        } else {
+          _showInvalidFileTypeMessage(); // Show error if file type is not supported
+        }
+      }
+    }
+  }
+
+  bool _validateFileType(String? extension) {
+    // Validate file type
+    return extension != null &&
+        (extension.toLowerCase() == 'png' ||
+            extension.toLowerCase() == 'jpg' ||
+            extension.toLowerCase() == 'jpeg');
+  }
+
+  void _showInvalidFileTypeMessage() {
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(content: Text('Please select a PNG or JPG image.')),
+    );
   }
 
   @override
@@ -40,16 +115,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
             Row(
               children: [
                 Expanded(
-                  // Ensures the search bar takes up available width
                   child: AppSearchBar(
-                    controller: searchController, // Add the controller here
+                    controller: searchController,
                     hintText: 'Need any assistance?',
                     onSubmitted: (inputText) {
                       Navigator.push(
                         context,
                         MaterialPageRoute(
-                          builder: (context) =>
-                              ChatbotScreen(initialMessage: inputText),
+                          builder: (context) => ChatbotScreen(
+                            initialMessage: inputText,
+                          ),
                         ),
                       );
                     },
@@ -57,9 +132,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                 ),
                 const SizedBox(width: 10),
                 IconButtonWidget(
-                  icon: FluentIcons.camera_28_regular,
-                  onPressed: () {},
-                ),
+                    icon: FluentIcons.camera_28_regular,
+                    onPressed: () => _pickImage(ImageSource.camera)),
               ],
             ),
             const SizedBox(height: 20),
