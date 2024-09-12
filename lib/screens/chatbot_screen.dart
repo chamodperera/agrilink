@@ -4,10 +4,10 @@ import 'package:intl/intl.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
-
 class ChatbotScreen extends StatefulWidget {
   final String initialMessage;
-  const ChatbotScreen({Key? key, required this.initialMessage}) : super(key: key);
+  const ChatbotScreen({Key? key, required this.initialMessage})
+      : super(key: key);
 
   @override
   State<ChatbotScreen> createState() => _ChatbotScreenState();
@@ -23,11 +23,22 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
   );
 
   final List<Message> _messages = [];
+  final String prompt =
+      'You are an agriculture expert. Your task is to help farmers with their queries. for example, you can help them with crop management, pest control, and soil health. If the user asked something that do not fall under agriculture domain, you can say "I am an agriculture expert, I can only help you with agriculture-related queries."';
 
-    @override
+  @override
   void initState() {
     super.initState();
     _userMessage = TextEditingController(text: widget.initialMessage);
+
+    setState(() {
+      _messages.add(Message(
+        isUser: false,
+        message: prompt,
+        date: DateTime.now(),
+      ));
+    });
+
     if (widget.initialMessage.isNotEmpty) {
       sendMessage();
     }
@@ -44,8 +55,9 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
         date: DateTime.now(),
       ));
     });
-    
-    final content = [Content.text(message)];
+
+    final content =
+        _messages.map((message) => Content.text(message.message)).toList();
     final response = await model.generateContent(content);
 
     setState(() {
@@ -56,12 +68,13 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       ));
     });
   }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('AgriChat',style: theme.textTheme.titleMedium),
+        title: Text('AgriChat', style: theme.textTheme.titleMedium),
         backgroundColor: theme.colorScheme.background,
         leading: const BackButtonWidget(),
         centerTitle: true,
@@ -71,9 +84,9 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
         children: [
           Expanded(
             child: ListView.builder(
-              itemCount: _messages.length,
+              itemCount: _messages.length - 1,
               itemBuilder: (context, index) {
-                final message = _messages[index];
+                final message = _messages[index + 1];
                 return Messages(
                   isUser: message.isUser,
                   message: message.message,
@@ -83,25 +96,28 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             ),
           ),
           Padding(
-            padding: const EdgeInsets.only(bottom: 30, left: 10, right: 10, top: 10),
+            padding:
+                const EdgeInsets.only(bottom: 30, left: 10, right: 10, top: 10),
             child: Row(
               children: [
-              Expanded(
-                flex: 15,
-                child: TextFormField(
+                Expanded(
+                  flex: 15,
+                  child: TextFormField(
                     controller: _userMessage,
                     decoration: InputDecoration(
-                      border: OutlineInputBorder(borderRadius: BorderRadius.circular(50)),
+                      border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(50)),
                       label: const Text('  Type your message here'),
                     ),
                   ),
-              ),
+                ),
                 SizedBox(width: 15),
                 IconButton(
                   padding: const EdgeInsets.all(15),
                   iconSize: 25,
                   style: ButtonStyle(
-                    backgroundColor: MaterialStateProperty.all(theme.colorScheme.primary),
+                    backgroundColor:
+                        MaterialStateProperty.all(theme.colorScheme.primary),
                     foregroundColor: MaterialStateProperty.all(Colors.black),
                     //box with radius
                     shape: MaterialStateProperty.all(
@@ -129,83 +145,81 @@ class Messages extends StatelessWidget {
   final String message;
   final String date;
   const Messages(
-    {super.key,
-    required this.isUser,
-    required this.message,
-    required this.date}
-  );
+      {super.key,
+      required this.isUser,
+      required this.message,
+      required this.date});
 
-@override
-Widget build(BuildContext context) {
-  final theme = Theme.of(context);
-  return Wrap(
-    children: [
-      Align(
-        alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
-        child: ConstrainedBox(
-          constraints: BoxConstraints(
-            maxWidth: MediaQuery.of(context).size.width * 0.9,
-            minWidth: MediaQuery.of(context).size.width * 0.25,
-          ),
-          child: Container(
-            padding: const EdgeInsets.all(10),  
-            margin: const EdgeInsets.all(10),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _buildMessageText(message, isUser),
-                if (isUser) SizedBox(height: 10),
-                Text(
-                  date,
-                  style: TextStyle(
-                    fontSize: 10,
-                    color: isUser ? Colors.black : Colors.white,
+  @override
+  Widget build(BuildContext context) {
+    final theme = Theme.of(context);
+    return Wrap(
+      children: [
+        Align(
+          alignment: isUser ? Alignment.centerRight : Alignment.centerLeft,
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              maxWidth: MediaQuery.of(context).size.width * 0.9,
+              minWidth: MediaQuery.of(context).size.width * 0.25,
+            ),
+            child: Container(
+              padding: const EdgeInsets.all(10),
+              margin: const EdgeInsets.all(10),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _buildMessageText(message, isUser),
+                  if (isUser) SizedBox(height: 10),
+                  Text(
+                    date,
+                    style: TextStyle(
+                      fontSize: 10,
+                      color: isUser ? Colors.black : Colors.white,
+                    ),
                   ),
+                ],
+              ),
+              decoration: BoxDecoration(
+                color: isUser
+                    ? theme.colorScheme.primary
+                    : theme.colorScheme.onPrimary,
+                borderRadius: BorderRadius.only(
+                  topLeft: const Radius.circular(10),
+                  topRight: const Radius.circular(10),
+                  bottomLeft: isUser ? const Radius.circular(10) : Radius.zero,
+                  bottomRight: isUser ? Radius.zero : const Radius.circular(10),
                 ),
-              ],
-            ),
-            decoration: BoxDecoration(
-              color: isUser
-                  ? theme.colorScheme.primary
-                  : theme.colorScheme.onPrimary,
-              borderRadius: BorderRadius.only(
-                topLeft: const Radius.circular(10),
-                topRight: const Radius.circular(10),
-                bottomLeft: isUser ? const Radius.circular(10) : Radius.zero,
-                bottomRight: isUser ? Radius.zero : const Radius.circular(10),
               ),
             ),
           ),
         ),
-      ),
-    ],
-  );
-}
-}
-
-  Widget _buildMessageText(String text, bool isUser) {
-    if (!isUser) {
-      final parts = text.split('**');
-      return RichText(
-        text: TextSpan(
-          children: parts.map((part) {
-            final isBold = part.startsWith('**') && part.endsWith('**');
-            return TextSpan(
-              text: isBold ? part.substring(2, part.length - 2) : part,
-              style: TextStyle(
-                fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-                fontSize: 14,
-                color: Colors.white,
-              ),
-            );
-          }).toList(),
-        ),
-      );
-    } else {
-      return Text(text, style: TextStyle(fontSize: 14, color:  Colors.black));
-    }
+      ],
+    );
   }
+}
 
+Widget _buildMessageText(String text, bool isUser) {
+  if (!isUser) {
+    final parts = text.split('**');
+    return RichText(
+      text: TextSpan(
+        children: parts.map((part) {
+          final isBold = part.startsWith('**') && part.endsWith('**');
+          return TextSpan(
+            text: isBold ? part.substring(2, part.length - 2) : part,
+            style: TextStyle(
+              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
+              fontSize: 14,
+              color: Colors.white,
+            ),
+          );
+        }).toList(),
+      ),
+    );
+  } else {
+    return Text(text, style: TextStyle(fontSize: 14, color: Colors.black));
+  }
+}
 
 class Message {
   final bool isUser;
