@@ -1,22 +1,26 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:flutter/widgets.dart';
 
 class AppSearchBar extends StatelessWidget {
   final String hintText;
   final Function(String) onSubmitted;
+  final TextEditingController
+      controller; // Accept controller from parent widget
 
-  const AppSearchBar({Key? key, required this.hintText, required this.onSubmitted})
-      : super(key: key);
+  const AppSearchBar({
+    Key? key,
+    required this.hintText,
+    required this.onSubmitted,
+    required this.controller, // Add controller as a required parameter
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final searchBarTheme = theme.searchBarTheme;
-    final TextEditingController textEditingController = TextEditingController();
 
     void handleSubmit(String message) {
-      onSubmitted(textEditingController.text);
+      onSubmitted(controller.text);
     }
 
     return Container(
@@ -26,7 +30,7 @@ class AppSearchBar extends StatelessWidget {
         borderRadius: BorderRadius.circular(15.0),
       ),
       child: TextField(
-        controller: textEditingController,
+        controller: controller, // Use the provided controller
         onSubmitted: handleSubmit,
         decoration: InputDecoration(
           hintText: hintText,

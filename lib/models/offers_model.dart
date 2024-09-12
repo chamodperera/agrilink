@@ -2,6 +2,7 @@ class Offer {
   final String uid;
   String name;
   final String category;
+  final String produce;
   final String avatar;
   final String rating;
   final String location;
@@ -14,6 +15,7 @@ class Offer {
       {required this.uid,
       required this.name,
       required this.category,
+      required this.produce,
       required this.avatar,
       required this.rating,
       required this.location,
@@ -27,6 +29,7 @@ class Offer {
         uid: json['uid'],
         name: json['name'],
         category: json['category'],
+        produce: json['produce'],
         avatar: json['avatar'],
         rating: json['rating'],
         location: json['location'],

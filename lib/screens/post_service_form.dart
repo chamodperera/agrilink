@@ -17,6 +17,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
   final TextEditingController _titleController = TextEditingController();
   final TextEditingController _capacityController = TextEditingController();
   final TextEditingController _descriptionController = TextEditingController();
+  final TextEditingController _produceController = TextEditingController();
   final TextEditingController _priceController = TextEditingController();
 
   final List<String> _categories = [
@@ -30,6 +31,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
   String? _descriptionError;
   String? _priceError;
   String? _selectedCategory;
+  String? _produceError;
   String? _dropdownError;
 
   @override
@@ -38,6 +40,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
     _capacityController.dispose();
     _descriptionController.dispose();
     _priceController.dispose();
+    _produceController.dispose();
     super.dispose();
   }
 
@@ -52,6 +55,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
     final String description = _descriptionController.text;
     final String capacity = _capacityController.text;
     final String price = _priceController.text;
+    final String produce = _produceController.text;
     final String category;
 
     //set category to farmer if selectedcategory is sell produces
@@ -68,6 +72,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
       _capacityError = capacity.isEmpty ? 'Please enter the capacity' : null;
       _descriptionError =
           description.isEmpty ? 'Please enter a description' : null;
+      _produceError = produce.isEmpty ? 'Please enter the produce' : null;
       _priceError = price.isEmpty ? 'Please enter a price' : null;
       _dropdownError =
           _selectedCategory == null ? 'Please select a category' : null;
@@ -77,6 +82,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
         _capacityError != null ||
         _descriptionError != null ||
         _priceError != null ||
+        _produceError != null ||
         _dropdownError != null) {
       setState(() {
         _isLoading = false; // Set isLoading to false
@@ -90,6 +96,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
       title: title,
       description: description,
       category: category,
+      produce: produce,
       capacity: int.tryParse(capacity) ?? 0,
       price: int.tryParse(price) ?? 0,
     );
@@ -167,6 +174,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
                       //   controller: _capacityController,
                       //   errorMessage: _capacityError,
                       // ),
+
                       DropdownInput(
                         hintText: 'Select a Category',
                         items: _categories,
@@ -183,6 +191,12 @@ class _PostServiceFormState extends State<PostServiceForm> {
                           }
                           return null;
                         },
+                      ),
+                      const SizedBox(height: 20),
+                      TextInputField(
+                        hintText: 'Enter produce/produces',
+                        controller: _produceController,
+                        errorMessage: _produceError,
                       ),
                       const SizedBox(height: 20),
                       Row(

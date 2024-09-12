@@ -2,24 +2,19 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:agrilink/routes/auth_wrapper.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/screens/authentication/signup_screen_3.dart';
-import 'package:provider/provider.dart';
 import '../../widgets/form/image_input.dart'; // Import your ImageInputWidget
-import '../../providers/auth_provider.dart'; // Import AuthProvider
 import '../../widgets/form/dropdown.dart'; // Import your custom DropdownInput widget
 import 'package:agrilink/app_localizations.dart';
-
 
 class SignUp2 extends StatefulWidget {
   final String firstName;
   final String lastName;
   final String email;
   final String mobileNumber;
-    final Function(Locale) changeLanguage;
-
+  final Function(Locale) changeLanguage;
 
   const SignUp2({
     super.key,
@@ -169,8 +164,9 @@ class _SignUp2State extends State<SignUp2> {
                                   null; // Clear error message on change
                             });
                           },
-                          validator: (value) =>
-                            value == null ? localizations.translate('select_district') : null,
+                          validator: (value) => value == null
+                              ? localizations.translate('select_district')
+                              : null,
                         ),
                       ),
                       const SizedBox(height: 60),
