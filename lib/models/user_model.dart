@@ -8,7 +8,7 @@ class UserModel {
   String phone;
   final List<String> roles;
   final String location;
-  String imageUrl;
+  String? imageUrl;
 
   UserModel({
     required this.uid,
@@ -18,7 +18,7 @@ class UserModel {
     required this.phone,
     required this.roles,
     required this.location,
-    required this.imageUrl,
+    this.imageUrl,
   });
 
   // Factory method to create a UserModel from Firestore data

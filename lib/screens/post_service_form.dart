@@ -114,7 +114,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
         alignment: Alignment.topCenter,
         autoCloseDuration: const Duration(seconds: 4),
         primaryColor: theme.colorScheme.primary,
-        backgroundColor: theme.colorScheme.background,
+        backgroundColor: theme.colorScheme.primary,
         foregroundColor: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
         showProgressBar: false);

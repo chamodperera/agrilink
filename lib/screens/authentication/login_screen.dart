@@ -13,7 +13,8 @@ import '../../providers/auth_provider.dart';
 import '../../widgets/form/validators.dart'; // Import validators
 import '../../providers/auth_provider.dart';
 import 'package:agrilink/app_localizations.dart';
- // Import AuthProvider
+import 'package:toastification/toastification.dart';
+// Import AuthProvider
 
 class Login extends StatefulWidget {
   final Function(Locale) changeLanguage;
@@ -32,6 +33,7 @@ class _LoginState extends State<Login> {
   String? _emailError; // To store authentication error message
   String? _passwordError; // To store authentication error message
   bool _isLoading = false; // To track loading state
+  bool _isResetLoading = false; // To track loading state
 
   @override
   Widget build(BuildContext context) {
@@ -84,22 +86,82 @@ class _LoginState extends State<Login> {
                         errorMessage: _passwordError, // Set the error message
                       ),
                       const SizedBox(height: 10),
-                      Text(
-                        localizations.translate('forgot_password'),
-                        style: theme.textTheme.displaySmall?.copyWith(
-                          color: theme.colorScheme.primary,
-                          fontSize: 14,
-                          decoration: TextDecoration.underline,
+
+                      GestureDetector(
+                        onTap: _isResetLoading
+                            ? null
+                            : () async {
+                                final email = emailController.text.trim();
+                                if (email.isNotEmpty) {
+                                  setState(() {
+                                    _isResetLoading = true;
+                                  });
+                                  try {
+                                    await authProvider
+                                        .sendPasswordResetEmail(email);
+                                    toastification.show(
+                                        context: context,
+                                        type: ToastificationType.success,
+                                        style: ToastificationStyle.flatColored,
+                                        title: Text("Success!"),
+                                        description: Text(
+                                            "Password reset email sent successfully!"),
+                                        alignment: Alignment.topCenter,
+                                        autoCloseDuration:
+                                            const Duration(seconds: 4),
+                                        primaryColor: theme.colorScheme.primary,
+                                        backgroundColor:
+                                            theme.colorScheme.primary,
+                                        foregroundColor: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        showProgressBar: false);
+                                  } catch (e) {
+                                    toastification.show(
+                                        context: context,
+                                        type: ToastificationType.error,
+                                        style: ToastificationStyle.flatColored,
+                                        title: Text("Error!"),
+                                        description: Text("Email not found!"),
+                                        alignment: Alignment.topCenter,
+                                        autoCloseDuration:
+                                            const Duration(seconds: 4),
+                                        primaryColor: theme.colorScheme.error,
+                                        backgroundColor:
+                                            theme.colorScheme.error,
+                                        foregroundColor: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(12.0),
+                                        showProgressBar: false);
+                                  } finally {
+                                    setState(() {
+                                      _isResetLoading = false;
+                                    });
+                                  }
+                                } else {
+                                  setState(() {
+                                    _emailError = localizations
+                                        .translate('email_required');
+                                  });
+                                }
+                              },
+                        child: Text(
+                          localizations.translate('forgot_password'),
+                          style: theme.textTheme.displaySmall?.copyWith(
+                            color: theme.colorScheme.primary,
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                          ),
                         ),
                       ),
                       const SizedBox(height: 25),
-                      Text(
-                        'Continue with',
-                        style: theme.textTheme.displaySmall,
-                      ),
-                      const SizedBox(height: 15),
-                      GoogleLogin(),
-                      const SizedBox(height: 20),
+                      // Text(
+                      //   'Continue with',
+                      //   style: theme.textTheme.displaySmall,
+                      // ),
+                      // const SizedBox(height: 15),
+                      // GoogleLogin(),
+                      // const SizedBox(height: 20),
                       _isLoading
                           ? CircularProgressIndicator() // Show loading indicator if loading
                           : PrimaryButtonDark(
@@ -123,17 +185,18 @@ class _LoginState extends State<Login> {
                                     // Navigate only if login is successful
                                     Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
-                                        builder: (context) =>
-                                            AuthWrapper(changeLanguage: widget.changeLanguage,), // Navigate to home screen
+                                        builder: (context) => AuthWrapper(
+                                          changeLanguage: widget.changeLanguage,
+                                        ), // Navigate to home screen
                                       ),
                                     );
                                   } catch (e) {
                                     // Set the authentication error message
                                     setState(() {
-                                      _emailError =
-                                          localizations.translate('email_password_error');
-                                      _passwordError =
-                                          localizations.translate('email_password_error');
+                                      _emailError = localizations
+                                          .translate('email_password_error');
+                                      _passwordError = localizations
+                                          .translate('email_password_error');
                                     });
                                   } finally {
                                     // Stop loading
@@ -148,7 +211,9 @@ class _LoginState extends State<Login> {
                       InkWell(
                         onTap: () {
                           Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => SignUp1(changeLanguage: widget.changeLanguage,)));
+                              builder: (context) => SignUp1(
+                                    changeLanguage: widget.changeLanguage,
+                                  )));
                         },
                         child: Text(
                           localizations.translate('dont_have_account'),

@@ -7,7 +7,6 @@ import 'package:path/path.dart' as path;
 
 // Import your UserModel class
 import '../models/user_model.dart';
-import '../models/offers_model.dart';
 
 // Import the Firebase instances from firebase_provider.dart
 import 'firebase_provider.dart';
@@ -162,15 +161,15 @@ class AuthProvider extends ChangeNotifier {
         throw Exception('No user is currently signed in.');
       }
 
-
       // Extract the file extension from the image file
       final String fileExtension = path.extension(imageFile.path);
-      final String imagePath = 'user_images/${user.uid}/profile_image$fileExtension'; // Define path for image
+      final String imagePath =
+          'user_images/${user.uid}/profile_image$fileExtension'; // Define path for image
 
       // Upload image to Firebase Storage
-      final TaskSnapshot uploadTask = await _firebaseStorage.ref().child(imagePath).putFile(imageFile);
+      final TaskSnapshot uploadTask =
+          await _firebaseStorage.ref().child(imagePath).putFile(imageFile);
       final imageUrl = await uploadTask.ref.getDownloadURL();
-
 
       // Update user's photo URL in Firebase Authentication
       await user.updatePhotoURL(imageUrl);
@@ -185,59 +184,64 @@ class AuthProvider extends ChangeNotifier {
       await user.reload();
       _userModel?.imageUrl = imageUrl;
       notifyListeners();
-
     } catch (e) {
       print('Failed to update profile image: $e');
       throw e;
     }
   }
+
 // update user first name and last name
-Future<void> updateUserProfile({
-  required String firstName,
-  required String lastName,
-  required String phone,
-  required String email,
-}) async {
-  try {
-    final user = _firebaseAuth.currentUser;
+  Future<void> updateUserProfile({
+    required String firstName,
+    required String lastName,
+    required String phone,
+    required String email,
+  }) async {
+    try {
+      final user = _firebaseAuth.currentUser;
 
-    if (user == null) {
-      throw Exception('No user is currently signed in.');
-    }
+      if (user == null) {
+        throw Exception('No user is currently signed in.');
+      }
 
-    // Update user's first name and last name in Firestore
-    await _firestore.collection('users').doc(user.uid).update({
-      'firstName': firstName,
-      'lastName': lastName,
-      'phone': phone,
-      'email': email,
-    });
-
-    //go through firestore offers section and and find where the uid is equal to the user.uid and update the name
-    final offers = await _firestore.collection('offers').where('uid', isEqualTo: user.uid).get();
-    for (final offer in offers.docs) {
-      await offer.reference.update({
-        'name': '$firstName',
+      // Update user's first name and last name in Firestore
+      await _firestore.collection('users').doc(user.uid).update({
+        'firstName': firstName,
+        'lastName': lastName,
+        'phone': phone,
+        'email': email,
       });
-    }
 
-    // Reload user to apply changes
-    await user.reload();
-    _userModel?.firstName = firstName;
-    _userModel?.lastName = lastName;
-    _userModel?.phone = phone;
-    _userModel?.email = email;
-    notifyListeners();
-  } catch (e) {
-    print('Failed to update profile: $e');
-    throw e;
+      //go through firestore offers section and and find where the uid is equal to the user.uid and update the name
+      final offers = await _firestore
+          .collection('offers')
+          .where('uid', isEqualTo: user.uid)
+          .get();
+      for (final offer in offers.docs) {
+        await offer.reference.update({
+          'name': '$firstName',
+        });
+      }
+
+      // Reload user to apply changes
+      await user.reload();
+      _userModel?.firstName = firstName;
+      _userModel?.lastName = lastName;
+      _userModel?.phone = phone;
+      _userModel?.email = email;
+      notifyListeners();
+    } catch (e) {
+      print('Failed to update profile: $e');
+      throw e;
+    }
+  }
+
+// Method to send password reset email
+  Future<void> sendPasswordResetEmail(String email) async {
+    try {
+      await _firebaseAuth.sendPasswordResetEmail(email: email);
+    } catch (e) {
+      throw e; // Handle errors appropriately in your UI
+    }
   }
 }
-}
-
-
-
-
-
-
-
