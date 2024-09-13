@@ -94,13 +94,13 @@ class _HomeScreenState extends State<HomeScreen> {
                       },
                     ),
                   ),
-                  const SizedBox(width: 10),
-                  IconButtonWidget(
-                    icon: FluentIcons.text_grammar_settings_24_regular,
-                    onPressed: () {
-                      // Add your onPressed logic here
-                    },
-                  ),
+                  // const SizedBox(width: 10),
+                  // IconButtonWidget(
+                  //   icon: FluentIcons.text_grammar_settings_24_regular,
+                  //   onPressed: () {
+                  //     // Add your onPressed logic here
+                  //   },
+                  // ),
                 ],
               ),
               const SizedBox(height: 15),

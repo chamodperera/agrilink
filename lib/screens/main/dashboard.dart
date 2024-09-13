@@ -2,6 +2,7 @@ import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:image_picker/image_picker.dart'; // For image selection
 import 'package:file_picker/file_picker.dart'; // For web image picking
 import 'package:agrilink/widgets/buttons/icon_button.dart';
@@ -185,7 +186,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                   const SizedBox(height: 25),
                                   PrimaryButtonLight(
-                                      text: "Learn More", onPressed: () {})
+                                      text: "Learn More",
+                                      onPressed: () async {
+                                        const url =
+                                            'https://www.trade.gov/country-commercial-guides/sri-lanka-agricultural-sector'; // Replace with your link
+                                        if (await canLaunch(url)) {
+                                          await launch(url);
+                                        } else {
+                                          throw 'Could not launch $url';
+                                        }
+                                      })
                                 ],
                               ))),
                     ]),
@@ -215,7 +225,16 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                   ),
                                   const SizedBox(height: 25),
                                   PrimaryButtonLight(
-                                      text: "Learn More", onPressed: () {})
+                                      text: "Learn More",
+                                      onPressed: () async {
+                                        const url =
+                                            'https://www.srilankabusiness.com/fruits-and-vegetables/exporter-information/new-agriculture-trends.html'; // Replace with your link
+                                        if (await canLaunch(url)) {
+                                          await launch(url);
+                                        } else {
+                                          throw 'Could not launch $url';
+                                        }
+                                      })
                                 ],
                               ))),
                     ]),
