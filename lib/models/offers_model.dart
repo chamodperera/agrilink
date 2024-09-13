@@ -1,6 +1,6 @@
 class Offer {
   final String uid;
-  final String name;
+  String name;
   final String category;
   final String produce;
   final String avatar;

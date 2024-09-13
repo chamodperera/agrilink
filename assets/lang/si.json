@@ -27,5 +27,17 @@
   "home": "මුල් පිටුව",
   "profile": "ගිණුම",
   "support": "සහාය",
-  "services": "සේවා"
+  "services": "සේවා",
+  "post_service": "සේවාවක් එකතු කරන්න",
+  "add_service": "නව සේවාවක් එකතු කරන්න",
+  "latest_services": "ඔබේ නවතම සේවාවන්",
+  "no_offers": "සේවාවන් නැත",
+  "requests": "ඉල්ලීම්",
+  "no_requests": "ඉල්ලීම් නැත",
+  "ask_agribot": "AgriBot ගෙන් අසන්න",
+  "current_market": "වත්මන් වෙළෙඳපොළ",
+  "resources": "සම්පත්",
+  "maximize_harvest": "ඔබේ අස්වැන්න උපරිම කරන්න",
+  "learn_more":"වැඩිදුර",
+  "current_trends": "වත්මන් තිරය"
 }

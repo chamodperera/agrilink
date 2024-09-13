@@ -1,15 +1,22 @@
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
 class SettingsButton extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final IconData icon;
+  final Color iconColor;
+  final bool isExpanded;
+  final bool isDropdown;
 
   const SettingsButton({
     Key? key,
     required this.text,
     required this.icon,
     required this.onPressed,
+    this.iconColor = const Color(0xFF53E88B),
+    this.isExpanded = false,
+    this.isDropdown = false,
   }) : super(key: key);
 
   @override
@@ -31,12 +38,23 @@ class SettingsButton extends StatelessWidget {
             ),
             child: Row(
               children: [
-                Icon(icon, color: theme.colorScheme.primary),
+                Icon(icon, color: iconColor),
                 const SizedBox(width: 15),
                 Text(text,
                     style: theme.textTheme.bodySmall?.copyWith(
                       fontSize: 16,
                     )),
+                if (isDropdown) ...[
+                  const Spacer(),
+                  AnimatedRotation(
+                    turns: isExpanded ? 0.5 : 0.0,
+                    duration: Duration(milliseconds: 200),
+                    child: Icon(
+                      FluentIcons.chevron_down_20_regular,
+                      color: theme.colorScheme.primary,
+                    ),
+                  ),
+                ],
               ],
             ),
           ),

@@ -28,7 +28,7 @@ class _ImageInputWidgetState extends State<ImageInputWidget> {
       // Handle web image picking
       final result = await FilePicker.platform.pickFiles(
         type: FileType.custom,
-        allowedExtensions: ['png', 'jpg', 'jpeg'], // Restrict to PNG and JPG
+        allowedExtensions: ['jpg', 'jpeg'], // Restrict to PNG and JPG
       );
 
       if (result != null && result.files.single.bytes != null) {
