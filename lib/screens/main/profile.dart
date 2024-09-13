@@ -4,16 +4,16 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agrilink/providers/auth_provider.dart';
 import 'package:agrilink/routes/auth_wrapper.dart';
-import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:agrilink/widgets/buttons/settings_button.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../profile/edit_profile.dart';
 
-
 class ProfileScreen extends StatefulWidget {
   final Function(Locale) changeLanguage;
 
-  const ProfileScreen({Key? key, required this.changeLanguage}) : super(key: key);
+  const ProfileScreen({Key? key, required this.changeLanguage})
+      : super(key: key);
 
   @override
   _ProfileScreenState createState() => _ProfileScreenState();
@@ -21,6 +21,13 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isSettingsExpanded = false; // Ensure the state is properly initialized
+
+  Future<void> _redirect(String urlString) async {
+    final Uri _url = Uri.parse(urlString);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -43,7 +50,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               image: DecorationImage(
                 image: user.imageUrl != null && user.imageUrl!.isNotEmpty
                     ? NetworkImage(user.imageUrl!)
-                    : const AssetImage('assets/users/user.png') as ImageProvider,
+                    : const AssetImage('assets/users/user.png')
+                        as ImageProvider,
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover,
               ),
@@ -116,7 +124,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 onPressed: () {
                   setState(() {
                     _isSettingsExpanded = !_isSettingsExpanded;
-
                   });
                 },
               ),
@@ -148,42 +155,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   icon: FluentIcons.delete_20_regular,
                   iconColor: theme.colorScheme.error,
                   onPressed: () async {
-                    bool confirm = await showDialog(
-                      context: context,
-                      builder: (context) => AlertDialog(
-                        title: const Text('Delete Account'),
-                        content: const Text(
-                            'Are you sure you want to delete your account? This action cannot be undone.'),
-                        actions: [
-                          TextButton(
-                            onPressed: () =>
-                                Navigator.of(context).pop(false),
-                            child: const Text('Cancel'),
-                          ),
-                          TextButton(
-                            onPressed: () =>
-                                Navigator.of(context).pop(true),
-                            child: const Text('Delete'),
-                          ),
-                        ],
-                      ),
-                    );
-                    if (confirm) {
-                      try {
-                        // await authProvider.deleteAccount(); // Call delete account method
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => AuthWrapper(
-                                changeLanguage:
-                                    widget.changeLanguage), // Navigate to login screen
-                          ),
-                        );
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Failed to delete account: $e')),
-                        );
-                      }
-                    }
+                    await _redirect(
+                        'https://docs.google.com/forms/d/e/1FAIpQLSeuoPUeY0m1qP9clRAHLLQYFJotZjqX0x9xlLMcMlJEyRkGLQ/viewform');
                   },
                 ),
               ],

@@ -100,6 +100,13 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  Future<void> _redirect(String urlString) async {
+    final Uri _url = Uri.parse(urlString);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -192,13 +199,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       text:
                                           localizations.translate("learn_more"),
                                       onPressed: () async {
-                                        const url =
-                                            'https://www.trade.gov/country-commercial-guides/sri-lanka-agricultural-sector'; // Replace with your link
-                                        if (await canLaunch(url)) {
-                                          await launch(url);
-                                        } else {
-                                          throw 'Could not launch $url';
-                                        }
+                                        await _redirect(
+                                            'https://www.trade.gov/country-commercial-guides/sri-lanka-agricultural-sector'); // Replace with your link
                                       })
                                 ],
                               ))),
@@ -232,13 +234,8 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                       text:
                                           localizations.translate("learn_more"),
                                       onPressed: () async {
-                                        const url =
-                                            'https://www.srilankabusiness.com/fruits-and-vegetables/exporter-information/new-agriculture-trends.html'; // Replace with your link
-                                        if (await canLaunch(url)) {
-                                          await launch(url);
-                                        } else {
-                                          throw 'Could not launch $url';
-                                        }
+                                        await _redirect(
+                                            'https://www.srilankabusiness.com/fruits-and-vegetables/exporter-information/new-agriculture-trends.html'); // Replace with your link
                                       })
                                 ],
                               ))),
