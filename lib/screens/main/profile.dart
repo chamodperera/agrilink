@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agrilink/providers/auth_provider.dart';
 import 'package:agrilink/routes/auth_wrapper.dart';
-import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:agrilink/widgets/buttons/settings_button.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../profile/edit_profile.dart';
@@ -24,6 +24,14 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isSettingsExpanded = false; // Ensure the state is properly initialized
+
+  Future<void> _redirect(String urlString) async {
+    final Uri _url = Uri.parse(urlString);
+    if (!await launchUrl(_url)) {
+      throw 'Could not launch $_url';
+    }
+  }
+
   bool _isLanguageExpanded = false;
   Locale get currentLocale => Localizations.localeOf(context);
   @override
@@ -54,7 +62,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
               image: DecorationImage(
                 image: user.imageUrl != null && user.imageUrl!.isNotEmpty
                     ? NetworkImage(user.imageUrl!)
-                    : const AssetImage('assets/users/user.png') as ImageProvider,
+                    : const AssetImage('assets/users/user.png')
+                        as ImageProvider,
                 alignment: Alignment.topCenter,
                 fit: BoxFit.cover,
               ),
