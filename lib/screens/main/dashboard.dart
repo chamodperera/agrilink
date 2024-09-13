@@ -11,6 +11,8 @@ import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:agrilink/screens/chatbot_screen.dart';
 import 'package:agrilink/app_localizations.dart';
+import 'package:fl_chart/fl_chart.dart';
+import 'package:agrilink/widgets/line_chart.dart';
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({super.key});
@@ -100,6 +102,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -153,11 +156,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: 15),
-                    ClipRRect(
-                      borderRadius: BorderRadius.circular(20.0),
-                      child: const Image(
-                          image: AssetImage('assets/images/sales_figure.png')),
-                    ),
+                    MarketChart(),
                     const SizedBox(height: 40),
                     Text(
                       localizations.translate("resources"),
@@ -181,7 +180,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    localizations.translate("learn_more"),
+                                    localizations.translate("maximize_harvest"),
                                     style:
                                         theme.textTheme.displayMedium?.copyWith(
                                       color: Colors.white,

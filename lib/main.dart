@@ -39,6 +39,7 @@ class _AgriLinkAppState extends State<AgriLinkApp> {
         supportedLocales: const [
           Locale('en'),
           Locale('si'),
+          Locale('ta'),
         ],
         localizationsDelegates: [
           AppLocalizations.delegate,

@@ -73,7 +73,7 @@ class SignUp1 extends StatelessWidget {
                       const Logo(),
                       const SizedBox(height: 40),
                       Text(
-                        'Sign Up For Free',
+                        localizations.translate('sign_up'),
                         style: theme.textTheme.displayMedium,
                       ),
                       const SizedBox(height: 30),

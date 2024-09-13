@@ -8,6 +8,7 @@ import 'package:agrilink/widgets/draggable_widget.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
+import 'package:agrilink/app_localizations.dart';
 
 class OfferScreen extends StatefulWidget {
   final Offer offer;
@@ -36,6 +37,7 @@ class _OfferScreenState extends State<OfferScreen> {
     setState(() {
       _isLoading = true; // Set isLoading to true
     });
+    final localizations = AppLocalizations.of(context);
 
     await OffersService().placeOffer(
       context,
@@ -46,7 +48,7 @@ class _OfferScreenState extends State<OfferScreen> {
       negotiatedPrice: _negotiatePrice,
     );
 
-    print('Service Posted Successfully!');
+    print(localizations.translate('service_posted'));
 
     setState(() {
       _isLoading = false; // Set isLoading to false
@@ -58,8 +60,8 @@ class _OfferScreenState extends State<OfferScreen> {
         context: context,
         type: ToastificationType.success,
         style: ToastificationStyle.flatColored,
-        title: Text("Success!"),
-        description: Text("Your offer has been made successfully."),
+        title: Text(localizations.translate("Success!")),
+        description: Text(localizations.translate('offer_made')),
         alignment: Alignment.topCenter,
         autoCloseDuration: const Duration(seconds: 4),
         primaryColor: theme.colorScheme.primary,
@@ -77,6 +79,7 @@ class _OfferScreenState extends State<OfferScreen> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       body: Stack(
         children: [
@@ -100,7 +103,6 @@ class _OfferScreenState extends State<OfferScreen> {
             initialChildSize: _isSectionVisible ? 0.8 : 0.6,
             maxChildSize: 0.9,
             children: [
-              const SizedBox(height: 15),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -108,33 +110,33 @@ class _OfferScreenState extends State<OfferScreen> {
                     text: widget.offer.category,
                     onPressed: () {},
                   ),
-                  Row(
-                    children: [
-                      Text(widget.offer.location,
-                          style: theme.textTheme.displaySmall?.copyWith(
-                            color: theme.colorScheme.onSecondary,
-                          )),
-                      const SizedBox(width: 10),
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => InfoScreen(
-                                    location: widget.offer.location,
-                                    avatar: widget.offer.avatar,
-                                    name: widget.offer.name),
-                              ));
-                        },
-                        child: Icon(FluentIcons.location_28_regular,
+                  
+                  const SizedBox(width: 10),
+                  GestureDetector(
+                    onTap: () async {
+                      final phoneNumber = await OffersService().fetchPhoneNumber(widget.offer.uid);
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => InfoScreen(
+                                location: widget.offer.location,
+                                avatar: widget.offer.avatar,
+                                name: widget.offer.name,
+                                description: widget.offer.description,
+                                phone: phoneNumber),
+                          ));
+                    },
+                    child: Row(
+                      children: [
+                        Text("Find on Map",
+                      style: theme.textTheme.displaySmall?.copyWith(
+                        color: theme.colorScheme.onSecondary,
+                      )),
+                        const SizedBox(width: 10),
+                        Icon(FluentIcons.location_28_regular,
                             color: theme.colorScheme.primary),
-                      ),
-                      const SizedBox(width: 10),
-                      Text('19 km',
-                          style: theme.textTheme.displaySmall?.copyWith(
-                              color: theme.colorScheme.onSecondary,
-                              fontSize: 18))
-                    ],
+                      ],
+                    ),
                   )
                 ],
               ),
@@ -174,6 +176,7 @@ class _OfferScreenState extends State<OfferScreen> {
                   Text('10+ offers',
                       style: theme.textTheme.displaySmall?.copyWith(
                           color: theme.colorScheme.onSecondary, fontSize: 18))
+                  
                 ],
               ),
               const SizedBox(height: 30),
@@ -186,7 +189,7 @@ class _OfferScreenState extends State<OfferScreen> {
               Visibility(
                 visible: _isButtonVisible,
                 child: PrimaryButtonDark(
-                  text: "Make an offer",
+                  text: localizations.translate('Make an offer'),
                   onPressed: () {
                     setState(() {
                       _isSectionVisible = true; // Show the section
@@ -234,7 +237,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        '${widget.offer.category == 'retailer' ? 'Provided' : "Required"} ${widget.offer.category == 'distributer' ? 'capacity' : "stock"}',
+                                        '${widget.offer.category == 'retailer' ? localizations.translate('Provided') : localizations.translate('Required')} ${widget.offer.category == 'distributer' ? localizations.translate('Capacity') : localizations.translate('Stock')}',
                                         style: theme.textTheme.displaySmall
                                             ?.copyWith(
                                           fontSize: 16,
@@ -292,7 +295,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'Negotiate price',
+                                        localizations.translate('Negotiate Price'),
                                         style: theme.textTheme.displaySmall
                                             ?.copyWith(
                                           fontSize: 16,
@@ -350,7 +353,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        'Total price',
+                                        localizations.translate('Total Price'),
                                         style: theme.textTheme.displaySmall
                                             ?.copyWith(
                                           fontSize: 16,
@@ -376,7 +379,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                 child: _isLoading
                                     ? CircularProgressIndicator() // Show loading indicator
                                     : PrimaryButtonDark(
-                                        text: 'Place my offer',
+                                        text: localizations.translate('Place Offer'),
                                         onPressed: _placeOffer,
                                         expanded: true,
                                       ),

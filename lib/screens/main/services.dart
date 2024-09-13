@@ -160,7 +160,8 @@ class _ServicesScreenState extends State<ServicesScreen> {
                             return Column(
                               children: [
                                 GestureDetector(
-                                  onTap: () {
+                                  onTap: () async {
+                                    final phone = await OffersService().fetchPhoneNumber(requests[index].uid);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
@@ -168,9 +169,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                               location:
                                                   requests[index].location,
                                               avatar: requests[index].avatar,
-                                              name: requests[index].name),
+                                              name: requests[index].name,
+                                              description: 'I ${requests[index].offerCategory == 'Retailer' ? 'can supply' : 'request'} ${requests[index].amount} Kilos of ${requests[index].offerCategory == 'Distributer' ? 'capacity' : 'produce'}',
+                                              phone: phone,
+                                          ),
                                         ));
                                   },
+                                  
                                   child: RequestCard(request: requests[index]),
                                 ),
                                 const SizedBox(height: 15),

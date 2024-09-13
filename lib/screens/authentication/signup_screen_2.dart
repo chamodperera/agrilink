@@ -40,34 +40,7 @@ class _SignUp2State extends State<SignUp2> {
 
   final _formKey = GlobalKey<FormState>();
 
-  // List of districts in Sri Lanka
-  final List<String> districts = [
-    'Ampara',
-    'Anuradhapura',
-    'Badulla',
-    'Batticaloa',
-    'Colombo',
-    'Galle',
-    'Gampaha',
-    'Hambantota',
-    'Jaffna',
-    'Kalutara',
-    'Kandy',
-    'Kegalle',
-    'Kilinochchi',
-    'Kurunegala',
-    'Mannar',
-    'Matale',
-    'Matara',
-    'Monaragala',
-    'Mullaitivu',
-    'Nuwara Eliya',
-    'Polonnaruwa',
-    'Puttalam',
-    'Ratnapura',
-    'Trincomalee',
-    'Vavuniya'
-  ];
+
 
   String? _selectedDistrict; // Selected district
 
@@ -109,6 +82,35 @@ class _SignUp2State extends State<SignUp2> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
+      // List of districts in Sri Lanka
+  final List<String> districts = [
+    'Ampara',
+    'Anuradhapura',
+    'Badulla',
+    'Batticaloa',
+    'Colombo',
+    'Galle',
+    'Gampaha',
+    'Hambantota',
+    'Jaffna',
+    'Kalutara',
+    'Kandy',
+    'Kegalle',
+    'Kilinochchi',
+    'Kurunegala',
+    'Mannar',
+    'Matale',
+    'Matara',
+    'Monaragala',
+    'Mullaitivu',
+    'Nuwara Eliya',
+    'Polonnaruwa',
+    'Puttalam',
+    'Ratnapura',
+    'Trincomalee',
+    'Vavuniya'
+  ];
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
@@ -145,7 +147,7 @@ class _SignUp2State extends State<SignUp2> {
                       ),
                       const SizedBox(height: 50),
                       Text(
-                        "Select Your Location",
+                        localizations.translate('select_district'),
                         style: theme.textTheme.displaySmall
                             ?.copyWith(fontSize: 18),
                       ),
@@ -153,7 +155,7 @@ class _SignUp2State extends State<SignUp2> {
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 40),
                         child: DropdownInput(
-                          hintText: 'Select Location',
+                          hintText: localizations.translate('district'),
                           items: districts,
                           selectedItem: _selectedDistrict,
                           errorMessage: _districtErrorMessage,
@@ -165,7 +167,7 @@ class _SignUp2State extends State<SignUp2> {
                             });
                           },
                           validator: (value) => value == null
-                              ? localizations.translate('select_district')
+                              ? localizations.translate('district')
                               : null,
                         ),
                       ),

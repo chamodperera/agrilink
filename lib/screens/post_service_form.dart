@@ -5,6 +5,7 @@ import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/services/services.dart';
 import 'package:toastification/toastification.dart';
+import 'package:agrilink/app_localizations.dart';
 
 class PostServiceForm extends StatefulWidget {
   const PostServiceForm({Key? key}) : super(key: key);
@@ -57,6 +58,8 @@ class _PostServiceFormState extends State<PostServiceForm> {
     final String price = _priceController.text;
     final String produce = _produceController.text;
     final String category;
+    final localizations = AppLocalizations.of(context);
+
 
     //set category to farmer if selectedcategory is sell produces
     if (_selectedCategory == 'Sell produces') {
@@ -68,14 +71,14 @@ class _PostServiceFormState extends State<PostServiceForm> {
     }
 
     setState(() {
-      _titleError = title.isEmpty ? 'Please enter a title' : null;
-      _capacityError = capacity.isEmpty ? 'Please enter the capacity' : null;
+      _titleError = title.isEmpty ? localizations.translate('Please enter a title') : null;
+      _capacityError = capacity.isEmpty ? localizations.translate('Please enter the capacity') : null;
       _descriptionError =
-          description.isEmpty ? 'Please enter a description' : null;
-      _produceError = produce.isEmpty ? 'Please enter the produce' : null;
-      _priceError = price.isEmpty ? 'Please enter a price' : null;
+          description.isEmpty ? localizations.translate('Please enter a description') : null;
+      _produceError = produce.isEmpty ? localizations.translate('Please enter the produce') : null;
+      _priceError = price.isEmpty ? localizations.translate('Please enter a price') : null;
       _dropdownError =
-          _selectedCategory == null ? 'Please select a category' : null;
+          _selectedCategory == null ? localizations.translate('Please select a category') : null;
     });
 
     if (_titleError != null ||
@@ -101,7 +104,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
       price: int.tryParse(price) ?? 0,
     );
 
-    print('Service Posted Successfully!');
+    print(localizations.translate('service_posted'));
 
     final theme = Theme.of(context);
 
@@ -109,8 +112,8 @@ class _PostServiceFormState extends State<PostServiceForm> {
         context: context,
         type: ToastificationType.success,
         style: ToastificationStyle.flatColored,
-        title: Text("Success!"),
-        description: Text("Your offer have been posted successfully!"),
+        title: Text(localizations.translate('Success!')),
+        description: Text(localizations.translate('offer_made')),
         alignment: Alignment.topCenter,
         autoCloseDuration: const Duration(seconds: 4),
         primaryColor: theme.colorScheme.primary,
@@ -134,6 +137,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
@@ -159,12 +163,12 @@ class _PostServiceFormState extends State<PostServiceForm> {
                     children: [
                       const SizedBox(height: 30),
                       Text(
-                        'Post a Service',
+                        localizations.translate('Post a Service'),
                         style: theme.textTheme.displayMedium,
                       ),
                       const SizedBox(height: 30),
                       TextInputField(
-                        hintText: 'Add a title',
+                        hintText: localizations.translate('Add a title'),
                         controller: _titleController,
                         errorMessage: _titleError,
                       ),
@@ -176,7 +180,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
                       // ),
 
                       DropdownInput(
-                        hintText: 'Select a Category',
+                        hintText: localizations.translate('Select a category'),
                         items: _categories,
                         selectedItem: _selectedCategory,
                         errorMessage: _dropdownError, // Display error if any
@@ -187,14 +191,14 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return 'Please select a category';
+                            return localizations.translate('Please select a category');
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 20),
                       TextInputField(
-                        hintText: 'Enter produce/produces',
+                        hintText: localizations.translate('Enter produce/produces'),
                         controller: _produceController,
                         errorMessage: _produceError,
                       ),
@@ -203,7 +207,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         children: [
                           Expanded(
                             child: TextInputField(
-                              hintText: 'Enter the stock/capacity',
+                              hintText: localizations.translate('Enter the stock/capacity'),
                               controller: _capacityController,
                               errorMessage: _capacityError,
                               keyboardType: TextInputType.number,
@@ -221,7 +225,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
                       ),
                       const SizedBox(height: 20),
                       TextInputField(
-                        hintText: 'Description',
+                        hintText:localizations.translate('Description'),
                         controller: _descriptionController,
                         errorMessage: _descriptionError,
                         minLines: 6,
@@ -233,7 +237,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         children: [
                           Expanded(
                             child: TextInputField(
-                              hintText: 'Price per unit',
+                              hintText: localizations.translate('Price per unit'),
                               controller: _priceController,
                               errorMessage: _priceError,
                               keyboardType: TextInputType.number,
@@ -256,7 +260,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         child: _isLoading
                             ? CircularProgressIndicator() // Show loading indicator
                             : PrimaryButtonDark(
-                                text: 'Post',
+                                text: localizations.translate('Post'),
                                 onPressed: _postService,
                               ),
                       ),

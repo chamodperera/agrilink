@@ -4,12 +4,14 @@ class PrimaryButtonDark extends StatelessWidget {
   final String text;
   final VoidCallback onPressed;
   final bool expanded;
+  final IconData? icon;
 
   const PrimaryButtonDark({
     Key? key,
     required this.text,
     required this.onPressed,
-    this.expanded = false, // Default to false if not specified
+    this.expanded = false,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -27,12 +29,20 @@ class PrimaryButtonDark extends StatelessWidget {
             borderRadius: BorderRadius.circular(15),
           ),
         ),
-        child: Text(
-          text,
-          style: theme.textTheme.displaySmall?.copyWith(
-            fontSize: 16,
-            color: theme.colorScheme.background,
-          ),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            if (icon != null) 
+            Icon(icon!),
+            const SizedBox(width: 5),
+            Text(
+              text,
+              style: theme.textTheme.displaySmall?.copyWith(
+                fontSize: 16,
+                color: theme.colorScheme.background,
+              ),
+            ),
+          ],
         ),
       ),
     );

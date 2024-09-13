@@ -194,4 +194,15 @@ class OffersService {
       print('Error posting offer: $e');
     }
   }
+
+  Future<String> fetchPhoneNumber (String uid) async {
+    try {
+      final DocumentSnapshot documentSnapshot = await _firestore.collection('users').doc(uid).get();
+      final data = documentSnapshot.data() as Map<String, dynamic>;
+      return data['phone'];
+    } catch (e) {
+      print('Error fetching phone number: $e');
+      return '';
+    }
+  }
 }

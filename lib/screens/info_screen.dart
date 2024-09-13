@@ -1,24 +1,42 @@
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
+import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'google_maps.dart';
+import 'package:agrilink/app_localizations.dart';
 
 class InfoScreen extends StatelessWidget {
   final String location;
   final String avatar;
   final String name;
+  final String description;
+  final String phone;
 
   const InfoScreen(
       {super.key,
       required this.location,
       required this.avatar,
-      required this.name});
+      required this.name, 
+      this.description = '',
+      required this.phone});
+
+  Future<void> _makePhoneCall(String phoneNumber) async {
+    // Add your call logic here
+    final Uri launchUri = Uri(
+      scheme: 'tel',
+      path: phoneNumber,
+    );
+    await launch(launchUri.toString());
+  }
+
 
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Scaffold(
       body: Stack(
         fit: StackFit.expand,
@@ -44,7 +62,7 @@ class InfoScreen extends StatelessWidget {
                 mainAxisSize: MainAxisSize.min, // Take only the available space
                 children: [
                   Text(
-                    "Discover",
+                    localizations.translate('Discover'),
                     style: theme.textTheme.displayMedium,
                   ),
                   const SizedBox(height: 10),
@@ -79,7 +97,7 @@ class InfoScreen extends StatelessWidget {
                                       color: Colors.white)),
                               const SizedBox(height: 5),
                               Text(
-                                  "Lorem ipsum dolor sit amet consectetur. Leo adipiscing.",
+                                  description,
                                   style: GoogleFonts.poppins(
                                     fontSize: 12,
                                     fontWeight: FontWeight.w400,
@@ -93,8 +111,12 @@ class InfoScreen extends StatelessWidget {
                   ),
                   const SizedBox(height: 10),
                   PrimaryButtonDark(
-                    text: "Call",
-                    onPressed: () {},
+                    icon: FluentIcons.call_16_regular,
+                    text: localizations.translate('Call'),
+                    onPressed: () {
+                      // Add your call logic here
+                      _makePhoneCall(phone);
+                    },
                     expanded: true,
                   )
                 ],

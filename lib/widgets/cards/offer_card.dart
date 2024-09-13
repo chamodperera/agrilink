@@ -2,6 +2,7 @@ import 'package:agrilink/widgets/buttons/forward_button.dart';
 import 'package:flutter/material.dart';
 import '../../models/offers_model.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:agrilink/app_localizations.dart';
 
 class OfferCard extends StatelessWidget {
   final Offer offer;
@@ -12,6 +13,7 @@ class OfferCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10.0),
       decoration: BoxDecoration(
@@ -51,7 +53,7 @@ class OfferCard extends StatelessWidget {
                       borderRadius: BorderRadius.circular(10.0),
                     ),
                     child: Text(
-                      offer.category,
+                      localizations.translate(offer.category),
                       style: GoogleFonts.poppins(
                         fontSize: 10,
                         fontWeight: FontWeight.w500,

@@ -9,6 +9,8 @@ import 'package:provider/provider.dart';
 import 'package:agrilink/providers/auth_provider.dart';
 import 'package:flutter/foundation.dart';
 import 'dart:io';
+import 'package:agrilink/app_localizations.dart';
+
 
 class EditProfilePage extends StatefulWidget {
   @override
@@ -38,6 +40,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
   Future<void> _updateProfileImage() async {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
+      final localizations = AppLocalizations.of(context);
       if (_profileImage != null) {
         await authProvider.updateUserImage(_profileImage!);
       }
@@ -45,7 +48,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Profile image updated',
+            localizations.translate('profile_image_updated'),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
@@ -54,9 +57,11 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       );
     } catch (e) {
+      final localizations = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to update profile image: $e'),
+          content: Text(localizations.translate('failed_profile_image_update') +
+              ': $e'),
         ),
       );
     } finally {
@@ -71,6 +76,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
     try {
       final authProvider = Provider.of<AuthProvider>(context, listen: false);
       final user = authProvider.user;
+      final localizations = AppLocalizations.of(context);
 
       if (user == null) {
         throw Exception('No user is currently signed in.');
@@ -88,7 +94,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Profile information saved',
+            localizations.translate('profile_saved'),
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
                 color: Colors.black, fontSize: 16, fontWeight: FontWeight.w600),
             textAlign: TextAlign.center,
@@ -97,9 +103,10 @@ class _EditProfilePageState extends State<EditProfilePage> {
         ),
       );
     } catch (e) {
+      final localizations = AppLocalizations.of(context);
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
-          content: Text('Failed to update profile information: $e'),
+          content: Text(localizations.translate('failed_profile_save') + ': $e'),
         ),
       );
     }
@@ -140,7 +147,7 @@ class _EditProfilePageState extends State<EditProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    localizations.translate('Edit Profile'),
+                    localizations.translate('edit_profile_two'),
                     style: theme.textTheme.titleMedium,
                   ),
                   SizedBox(height: 30),
@@ -171,31 +178,34 @@ class _EditProfilePageState extends State<EditProfilePage> {
                   TextField(
                     controller: _firstNameController,
                     decoration: InputDecoration(
-                      labelText: "First Name",
+                      labelText: localizations.translate('first_name'),
                     ),
                   ),
+                  SizedBox(height: 10),
                   TextField(
                     controller: _lastNameController,
                     decoration: InputDecoration(
-                      labelText: 'Last Name',
+                      labelText: localizations.translate('last_name'),
                     ),
                   ),
+                  SizedBox(height: 10),
                   TextField(
                     controller: _emailController,
                     decoration: InputDecoration(
-                      labelText: 'Email',
+                      labelText: localizations.translate('email'),
                     ),
                   ),
+                  SizedBox(height: 10),
                   TextField(
                     controller: _phoneController,
                     decoration: InputDecoration(
-                      labelText: 'Phone',
+                      labelText: localizations.translate('mobile'),
                     ),
                   ),
                   SizedBox(height: 30),
                   Center(
                     child: PrimaryButtonDark(
-                        text: 'Save',
+                        text: localizations.translate('save'),
                         onPressed: () {
                           _updateProfile();                          
                         }),

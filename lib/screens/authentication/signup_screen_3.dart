@@ -42,7 +42,7 @@ final Function(Locale) changeLanguage;
 
 class _SignUp3State extends State<SignUp3> {
   // Available roles for selection
-  final List<String> availableItems = ['Farmer', 'Distributor', 'Retailer'];
+  
   List<String> selectedItems = []; // Selected roles
   bool _isLoading = false;
 
@@ -50,6 +50,7 @@ class _SignUp3State extends State<SignUp3> {
   File? _selectedImage;
   Uint8List? _webImage;
 
+  final List<String> availableItems = ['Farmer','Distributor','Retailer'];
   // Password controllers and error messages
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
@@ -84,6 +85,7 @@ class _SignUp3State extends State<SignUp3> {
       _rePasswordErrorMessage = null;
       _rolesErrorMessage = null;
     });
+
 
     if (_formKey.currentState!.validate()) {
       // Check if passwords match
@@ -148,6 +150,8 @@ class _SignUp3State extends State<SignUp3> {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
+    
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
@@ -170,7 +174,7 @@ class _SignUp3State extends State<SignUp3> {
                     children: [
                       const SizedBox(height: 50),
                       Text(
-                        "Select your role/roles",
+                        localizations.translate('select_role'),
                         style: theme.textTheme.displaySmall
                             ?.copyWith(fontSize: 18),
                       ),
@@ -183,7 +187,7 @@ class _SignUp3State extends State<SignUp3> {
                       ),
                       const SizedBox(height: 20),
                       TextBox(
-                        text: 'Password',
+                        text: localizations.translate('password'),
                         isPassword: true,
                         controller: passwordController,
                         validator: validatePassword,
@@ -191,7 +195,7 @@ class _SignUp3State extends State<SignUp3> {
                       ),
                       const SizedBox(height: 10),
                       TextBox(
-                        text: 'Re-enter Password',
+                        text: localizations.translate('re_enter_password'),
                         isPassword: true,
                         controller: rePasswordController,
                         errorMessage: _rePasswordErrorMessage,
@@ -200,7 +204,7 @@ class _SignUp3State extends State<SignUp3> {
                       _isLoading
                           ? const CircularProgressIndicator()
                           : PrimaryButtonDark(
-                              text: 'Sign Up',
+                              text: localizations.translate('sign_up'),
                               onPressed: () => _validateAndSubmit(context),
                             ),
                     ],
@@ -219,3 +223,6 @@ class _SignUp3State extends State<SignUp3> {
     );
   }
 }
+
+
+

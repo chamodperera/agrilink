@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
-import 'package:agrilink/app_localizations.dart';
 import 'package:agrilink/screens/onboarding/screen_1.dart'; // Adjust the import according to your project structure
 import 'package:agrilink/widgets/logo.dart';
 
@@ -13,7 +12,6 @@ class LanguageSelectionScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    final localizations = AppLocalizations.of(context);
 
     return Scaffold(
       body: Stack(
@@ -61,6 +59,14 @@ class LanguageSelectionScreen extends StatelessWidget {
                     },
                   ),
                   const SizedBox(height: 20),
+                  _buildLanguageButton(
+                    context,
+                    label: "தமிழ்",
+                    onPressed: () {
+                      changeLanguage(const Locale('ta'));
+                      _navigateToIntroScreen(context);
+                    },
+                  ),
 
                 ],
               ),

@@ -3,10 +3,8 @@ import 'package:agrilink/screens/offer_screen.dart';
 import 'package:agrilink/services/services.dart'; // Import the OffersService
 import 'package:agrilink/widgets/buttons/category_button_green.dart';
 import 'package:agrilink/widgets/buttons/category_button_grey.dart';
-import 'package:agrilink/widgets/buttons/icon_button.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/widgets/form/search_bar.dart';
-import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/app_localizations.dart';
 
@@ -117,38 +115,38 @@ class _HomeScreenState extends State<HomeScreen> {
                   children: [
                     selectedCategory == 'All'
                         ? CategoryButtonGreen(
-                            text: localizations.translate('all'),
+                            text: localizations.translate('All'),
                             onPressed: () => updateCategory('All'),
                           )
                         : CategoryButtonGrey(
-                            text: localizations.translate('all'),
+                            text: localizations.translate('All'),
                             onPressed: () => updateCategory('All'),
                           ),
                     selectedCategory == 'Farmer'
                         ? CategoryButtonGreen(
-                            text: localizations.translate('farmer'),
+                            text: localizations.translate('Farmers'),
                             onPressed: () => updateCategory('Farmer'),
                           )
                         : CategoryButtonGrey(
-                            text: localizations.translate('farmer'),
+                            text: localizations.translate('Farmers'),
                             onPressed: () => updateCategory('Farmer'),
                           ),
                     selectedCategory == 'Retailer'
                         ? CategoryButtonGreen(
-                            text: localizations.translate('retailer'),
+                            text: localizations.translate('Retailers'),
                             onPressed: () => updateCategory('Retailer'),
                           )
                         : CategoryButtonGrey(
-                            text: localizations.translate('retailer'),
+                            text: localizations.translate('Retailers'),
                             onPressed: () => updateCategory('Retailer'),
                           ),
                     selectedCategory == 'Distributor'
                         ? CategoryButtonGreen(
-                            text: localizations.translate('distributor'),
+                            text: localizations.translate('Distributors'),
                             onPressed: () => updateCategory('Distributor'),
                           )
                         : CategoryButtonGrey(
-                            text: localizations.translate('distributor'),
+                            text: localizations.translate('Distributor'),
                             onPressed: () => updateCategory('Distributor'),
                           ),
                   ],

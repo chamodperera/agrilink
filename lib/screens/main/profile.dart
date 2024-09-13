@@ -8,10 +8,13 @@ import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/buttons/settings_button.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import '../profile/edit_profile.dart';
+import 'package:agrilink/app_localizations.dart';
+
 
 
 class ProfileScreen extends StatefulWidget {
   final Function(Locale) changeLanguage;
+
 
   const ProfileScreen({Key? key, required this.changeLanguage}) : super(key: key);
 
@@ -21,18 +24,26 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   bool _isSettingsExpanded = false; // Ensure the state is properly initialized
-
+  bool _isLanguageExpanded = false;
+  Locale get currentLocale => Localizations.localeOf(context);
   @override
   Widget build(BuildContext context) {
     // Mocked authProvider for example purposes
     final authProvider = Provider.of<AuthProvider>(context);
     final theme = Theme.of(context);
+    final localizations = AppLocalizations.of(context);
 
     final user = authProvider.user;
 
     if (user == null) {
       return const Center(child: CircularProgressIndicator());
     }
+
+    IconData _selectIcon(String languageCode) {
+    return currentLocale.languageCode == languageCode
+        ? FluentIcons.checkbox_checked_16_regular
+        : FluentIcons.checkbox_unchecked_12_regular;
+  }
 
     return Scaffold(
       body: Stack(
@@ -58,7 +69,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   children: user.roles
                       .map(
                         (role) =>
-                            CategoryButtonGreen(text: role, onPressed: () {}),
+                            CategoryButtonGreen(text: localizations.translate(role), onPressed: () {}),
                       )
                       .toList(),
                 ),
@@ -86,7 +97,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ),
                   const SizedBox(width: 8),
                   Text(
-                    "4.6 Rating",
+                    "4.6 ${localizations.translate('rating')}",
                     style: theme.textTheme.bodySmall?.copyWith(
                       fontSize: 16,
                     ),
@@ -95,7 +106,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 30),
               SettingsButton(
-                text: 'Edit Profile Information',
+                text: localizations.translate('edit_profile_one'),
                 icon: FluentIcons.edit_settings_20_regular,
                 iconColor: theme.colorScheme.primary,
                 onPressed: () {
@@ -108,23 +119,61 @@ class _ProfileScreenState extends State<ProfileScreen> {
               ),
               const SizedBox(height: 8),
               SettingsButton(
-                text: "Settings",
+                text: localizations.translate('change_language'),
+                icon: FluentIcons.local_language_16_regular,
+                iconColor: theme.colorScheme.primary,
+                isDropdown: true,
+                onPressed: () => setState(() {
+                  _isLanguageExpanded = !_isLanguageExpanded;
+                }),
+                expandedItems: [
+                SettingsButton(
+                  text: 'English',
+                  icon: _selectIcon('en'),
+                  radius: 0,
+                  onPressed: () {
+                    widget.changeLanguage(const Locale('en'));
+                    setState(() {
+                      _isLanguageExpanded = false;
+                    });
+                  },
+                ),
+                SettingsButton(
+                  text: 'සිංහල',
+                  icon: _selectIcon('si'),
+                  radius: 0,
+                  onPressed: () {
+                    widget.changeLanguage(const Locale('si'));
+                    setState(() {
+                      _isLanguageExpanded = false;
+                    });
+                  },
+                ),
+                SettingsButton(
+                  text: 'தமிழ்',
+                  icon: _selectIcon('ta'),
+                  radius: 0,
+                  lastItem: true,
+                  onPressed: () {
+                    widget.changeLanguage(const Locale('ta'));
+                    setState(() {
+                      _isLanguageExpanded = false;
+                    });
+                  },
+                ),                
+                ],
+              ),
+              const SizedBox(height: 8),
+              SettingsButton(
+                text: localizations.translate('settings'),
                 icon: FluentIcons.settings_16_regular,
                 iconColor: theme.colorScheme.primary,
                 isDropdown: true,
-                isExpanded: _isSettingsExpanded,
-                onPressed: () {
-                  setState(() {
-                    _isSettingsExpanded = !_isSettingsExpanded;
-
-                  });
-                },
-              ),
-              if (_isSettingsExpanded) ...[
-                const SizedBox(height: 8),
-                SettingsButton(
+                expandedItems: [
+                  SettingsButton(
                   icon: FluentIcons.sign_out_20_regular,
-                  text: 'Sign Out',
+                  radius: 0,
+                  text: localizations.translate('sign_out'),
                   onPressed: () async {
                     try {
                       await authProvider.signOut(); // Call sign out method
@@ -137,21 +186,22 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       );
                     } catch (e) {
                       ScaffoldMessenger.of(context).showSnackBar(
-                        SnackBar(content: Text('Failed to sign out: $e')),
+                        SnackBar(content: Text(localizations.translate('failed_sign_out') + e.toString())),
                       );
                     }
                   },
                 ),
-                const SizedBox(height: 8),
                 SettingsButton(
-                  text: "Delete My Account",
+                  text: localizations.translate('delete_account'),
                   icon: FluentIcons.delete_20_regular,
                   iconColor: theme.colorScheme.error,
+                  radius: 0,
+                  lastItem: true,
                   onPressed: () async {
                     bool confirm = await showDialog(
                       context: context,
                       builder: (context) => AlertDialog(
-                        title: const Text('Delete Account'),
+                        title: Text(localizations.translate('delete_account')),
                         content: const Text(
                             'Are you sure you want to delete your account? This action cannot be undone.'),
                         actions: [
@@ -168,26 +218,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ],
                       ),
                     );
-                    if (confirm) {
-                      try {
-                        // await authProvider.deleteAccount(); // Call delete account method
-                        Navigator.of(context).pushReplacement(
-                          MaterialPageRoute(
-                            builder: (context) => AuthWrapper(
-                                changeLanguage:
-                                    widget.changeLanguage), // Navigate to login screen
-                          ),
-                        );
-                      } catch (e) {
-                        ScaffoldMessenger.of(context).showSnackBar(
-                          SnackBar(content: Text('Failed to delete account: $e')),
-                        );
-                      }
-                    }
-                  },
+                  }
                 ),
+                ],
+                onPressed: () {
+                  setState(() {
+                    _isSettingsExpanded = !_isSettingsExpanded;
+
+                  });
+                },
+              ),
               ],
-            ],
+            // ],
           ),
         ],
       ),

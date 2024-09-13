@@ -1,13 +1,16 @@
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:flutter/material.dart';
 
-class SettingsButton extends StatelessWidget {
+class SettingsButton extends StatefulWidget {
   final String text;
   final VoidCallback onPressed;
   final IconData icon;
   final Color iconColor;
-  final bool isExpanded;
   final bool isDropdown;
+  final Color backgroundColor;
+  final List<Widget> expandedItems;
+  final double radius;
+  final bool lastItem;
 
   const SettingsButton({
     Key? key,
@@ -15,9 +18,25 @@ class SettingsButton extends StatelessWidget {
     required this.icon,
     required this.onPressed,
     this.iconColor = const Color(0xFF53E88B),
-    this.isExpanded = false,
     this.isDropdown = false,
+    this.backgroundColor = const Color(0xFF2A2A2A),
+    this.expandedItems = const [],
+    this.radius = 15,
+    this.lastItem = false,
   }) : super(key: key);
+
+  @override
+  _SettingsButtonState createState() => _SettingsButtonState();
+}
+
+class _SettingsButtonState extends State<SettingsButton> {
+  bool isExpanded = false;
+
+  void _toggleExpand() {
+    setState(() {
+      isExpanded = !isExpanded;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,23 +47,33 @@ class SettingsButton extends StatelessWidget {
           width: MediaQuery.of(context).size.width * 0.85,
           height: 50,
           child: ElevatedButton(
-            onPressed: onPressed,
+            onPressed: () {
+              widget.onPressed();
+              if (widget.isDropdown) {
+                _toggleExpand();
+              }
+            },
             style: ElevatedButton.styleFrom(
-              backgroundColor: theme.colorScheme.secondary,
+              backgroundColor: widget.backgroundColor,
               elevation: 0,
               shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(widget.radius),
+                  topRight: Radius.circular(widget.radius),
+                  bottomLeft: Radius.circular(isExpanded ? 0 : widget.lastItem? 15 : widget.radius),
+                  bottomRight: Radius.circular(isExpanded ? 0 : widget.lastItem? 15 : widget.radius),
               ),
             ),
+          ),
             child: Row(
               children: [
-                Icon(icon, color: iconColor),
+                Icon(widget.icon, color: widget.iconColor),
                 const SizedBox(width: 15),
-                Text(text,
+                Text(widget.text,
                     style: theme.textTheme.bodySmall?.copyWith(
                       fontSize: 16,
                     )),
-                if (isDropdown) ...[
+                if (widget.isDropdown) ...[
                   const Spacer(),
                   AnimatedRotation(
                     turns: isExpanded ? 0.5 : 0.0,
@@ -59,6 +88,7 @@ class SettingsButton extends StatelessWidget {
             ),
           ),
         ),
+        if (isExpanded) ...widget.expandedItems,
       ],
     );
   }
