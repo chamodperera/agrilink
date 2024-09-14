@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/routes/auth_wrapper.dart';
@@ -8,7 +7,6 @@ import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/form/input.dart';
 import 'package:agrilink/widgets/form/validators.dart';
 import 'package:provider/provider.dart';
-import '../../widgets/form/image_input.dart'; // Import your ImageInputWidget
 import '../../widgets/form/multi_select.dart'; // Import your MultiSelectWidget
 import '../../providers/auth_provider.dart'; // Import AuthProvider
 import 'package:agrilink/app_localizations.dart';

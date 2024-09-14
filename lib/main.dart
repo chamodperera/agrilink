@@ -1,5 +1,4 @@
 import 'package:agrilink/app_localizations.dart';
-import 'package:agrilink/screens/language_selection.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
@@ -8,7 +7,6 @@ import 'firebase_options.dart';
 import 'providers/auth_provider.dart';
 import 'theme/theme.dart'; // Import your theme
 import 'screens/splash_screen.dart';
- // Import your GoogleMapsScreen
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

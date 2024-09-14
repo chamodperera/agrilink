@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -11,7 +10,6 @@ import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:agrilink/screens/chatbot_screen.dart';
 import 'package:agrilink/app_localizations.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:agrilink/widgets/line_chart.dart';
 
 class DashboardScreen extends StatefulWidget {

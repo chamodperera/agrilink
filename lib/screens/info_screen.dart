@@ -1,4 +1,3 @@
-import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';

@@ -2,7 +2,6 @@ import 'package:agrilink/routes/auth_wrapper.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'dart:async';
-import 'package:agrilink/app_localizations.dart';
 
 class SplashScreen extends StatefulWidget {
 

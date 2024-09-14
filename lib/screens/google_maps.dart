@@ -50,7 +50,6 @@ class _GoogleMapsScreenState extends State<GoogleMapsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
     return Scaffold(
       body: _center == null
           ? Center(child: CircularProgressIndicator())

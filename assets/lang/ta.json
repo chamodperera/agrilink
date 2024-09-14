@@ -112,11 +112,12 @@
     "Description": "விளக்கம்",
     "Price per unit": "ஒரு யூனிட்டுக்கு விலை",
     "Post": "பதிவு செய்ய",
-    "I need": "எனக்கு தேவை",
-    "I have": "எனக்கு உள்ளது",
+    "I need": "எனக்கு",
+    "I have": "என்னிடம்",
     "Kilos": "கிலோ",
-    "of produce": "உற்பத்தியில்",
-    "in capacity": "உள்ளிடவும்",
+    "of produce retailer": "விளைச்சல் வேண்டும்",
+    "of produce farmer": "விளைச்சல் உள்ளது",
+    "in capacity": "எடை உள்ளது",
     "Discover": "கண்டறி",
     "Call": "அழை"
 }

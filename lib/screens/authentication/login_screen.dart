@@ -1,21 +1,15 @@
 import 'package:agrilink/routes/auth_wrapper.dart';
 import 'package:agrilink/screens/authentication/signup_screen_1.dart';
-import 'package:agrilink/screens/authentication/signup_screen_2.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
-import 'package:agrilink/widgets/buttons/google.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/widgets/logo.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:agrilink/widgets/form/input.dart';
-import 'package:provider/provider.dart';
 import '../../providers/auth_provider.dart';
-import '../../widgets/form/validators.dart'; // Import validators
-import '../../providers/auth_provider.dart';
+import '../../widgets/form/validators.dart'; 
 import 'package:agrilink/app_localizations.dart';
 import 'package:toastification/toastification.dart';
-// Import AuthProvider
-
 class Login extends StatefulWidget {
   final Function(Locale) changeLanguage;
 

@@ -1,15 +1,11 @@
 import 'package:agrilink/widgets/buttons/back_button.dart';
-import 'package:agrilink/widgets/form/image_input.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/widgets/buttons/primary_button_dark.dart';
 import 'package:agrilink/app_localizations.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:provider/provider.dart';
 import 'package:agrilink/providers/auth_provider.dart';
-import 'package:flutter/foundation.dart';
 import 'dart:io';
-import 'package:agrilink/app_localizations.dart';
 
 
 class EditProfilePage extends StatefulWidget {

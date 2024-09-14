@@ -115,8 +115,9 @@
   "I need": "මට",
   "I have": "මා ළඟ",
   "Kilos": "කිලෝ",
-  "of produce": "අවශ්‍යයි",
-  "in capacity": "ඇත",
+  "of produce retailer": "නිෂ්පාදන අවශ්‍යයි",
+  "of produce farmer": "නිෂ්පාදන ඇත",
+  "in capacity": "ධාරිතාවක් ඇත",
   "Discover": "සොයා ගන්න",
   "Call": "අමතන්න"
 }

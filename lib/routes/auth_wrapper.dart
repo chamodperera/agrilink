@@ -1,5 +1,4 @@
 import 'package:agrilink/screens/language_selection.dart';
-import 'package:agrilink/screens/onboarding/screen_1.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../providers/auth_provider.dart'; // Import your auth provider

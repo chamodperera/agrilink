@@ -107,7 +107,7 @@ class _OfferScreenState extends State<OfferScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   CategoryButtonGreen(
-                    text: widget.offer.category,
+                    text: localizations.translate(widget.offer.category),
                     onPressed: () {},
                   ),
                   
@@ -152,7 +152,7 @@ class _OfferScreenState extends State<OfferScreen> {
                           fontSize: 28,
                         )),
                     Text(
-                        '${widget.offer.category == 'Retailer' ? 'I need' : 'I have'} ${widget.offer.capacity} Kilos ${widget.offer.category == 'Distributor' ? 'in capacity' : 'of produce'}',
+                        '${widget.offer.category == 'Retailer' ? localizations.translate('I need') : localizations.translate('I have')} ${widget.offer.capacity} ${localizations.translate('Kilos')} ${widget.offer.category == 'Distributor' ? localizations.translate('in capacity') : widget.offer.category == 'Retailer' ? localizations.translate('of produce retailer') : localizations.translate('of produce farmer')}',                        
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSecondary,
                           fontSize: 18,
