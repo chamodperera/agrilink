@@ -21,29 +21,33 @@ class PrimaryButtonDark extends StatelessWidget {
       width: expanded ? double.infinity : 140,
       height: 50,
       child: ElevatedButton(
-        onPressed: onPressed,
-        style: ElevatedButton.styleFrom(
-          foregroundColor: Colors.black,
-          backgroundColor: theme.colorScheme.primary,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
+      onPressed: onPressed,
+      style: ElevatedButton.styleFrom(
+        foregroundColor: Colors.black,
+        backgroundColor: theme.colorScheme.primary,
+        shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(15),
         ),
+      ),
+      child: FittedBox(
+        fit: BoxFit.scaleDown,
         child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            if (icon != null) 
-            Icon(icon!),
-            const SizedBox(width: 5),
-            Text(
-              text,
-              style: theme.textTheme.displaySmall?.copyWith(
-                fontSize: 16,
-                color: theme.colorScheme.background,
-              ),
-            ),
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          if (icon != null) ...[
+          Icon(icon!),
+          const SizedBox(width: 5),
           ],
+          Text(
+          text,
+          style: theme.textTheme.displaySmall?.copyWith(
+            fontSize: 16,
+            color: theme.colorScheme.background,
+          ),
+          ),
+        ],
         ),
+      ),
       ),
     );
   }
