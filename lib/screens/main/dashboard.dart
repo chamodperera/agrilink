@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:agrilink/theme/theme.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -197,11 +198,10 @@ class _DashboardScreenState extends State<DashboardScreen> {
               primary: theme
                   .colorScheme.primary, // Use primary color for selected date
               onPrimary:
-                  Colors.white, // Ensure selected date text is visible (white)
+                  Colors.black, // Ensure selected date text is visible (white)
               surface: theme
                   .colorScheme.secondary, // Set background color of the dialog
-              onSurface: theme.colorScheme
-                  .background, // Set text color for unselected dates
+              onSurface: Colors.white, // Set text color for unselected dates
             ),
             dialogBackgroundColor: Colors.white, // Dialog background color
           ),

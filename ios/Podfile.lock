@@ -1200,6 +1200,9 @@ PODS:
     - FirebaseAuth (~> 11.0.0)
   - Firebase/CoreOnly (11.0.0):
     - FirebaseCore (= 11.0.0)
+  - Firebase/Database (11.0.0):
+    - Firebase/CoreOnly
+    - FirebaseDatabase (~> 11.0.0)
   - Firebase/Firestore (11.0.0):
     - Firebase/CoreOnly
     - FirebaseFirestore (~> 11.0.0)
@@ -1212,6 +1215,10 @@ PODS:
     - Flutter
   - firebase_core (3.4.0):
     - Firebase/CoreOnly (= 11.0.0)
+    - Flutter
+  - firebase_database (11.1.1):
+    - Firebase/Database (= 11.0.0)
+    - firebase_core
     - Flutter
   - firebase_storage (12.2.0):
     - Firebase/Storage (= 11.0.0)
@@ -1236,6 +1243,12 @@ PODS:
     - FirebaseCore (~> 11.0)
   - FirebaseCoreInternal (11.1.0):
     - "GoogleUtilities/NSData+zlib (~> 8.0)"
+  - FirebaseDatabase (11.0.0):
+    - FirebaseAppCheckInterop (~> 11.0)
+    - FirebaseCore (~> 11.0)
+    - FirebaseSharedSwift (~> 11.0)
+    - GoogleUtilities/UserDefaults (~> 8.0)
+    - leveldb-library (~> 1.22)
   - FirebaseFirestore (11.0.0):
     - FirebaseCore (~> 11.0)
     - FirebaseCoreExtension (~> 11.0)
@@ -1307,6 +1320,9 @@ PODS:
     - GoogleUtilities/Privacy
   - GoogleUtilities/Privacy (8.0.2)
   - GoogleUtilities/Reachability (8.0.2):
+    - GoogleUtilities/Logger
+    - GoogleUtilities/Privacy
+  - GoogleUtilities/UserDefaults (8.0.2):
     - GoogleUtilities/Logger
     - GoogleUtilities/Privacy
   - "gRPC-C++ (1.65.5)":
@@ -1431,6 +1447,7 @@ DEPENDENCIES:
   - file_picker (from `.symlinks/plugins/file_picker/ios`)
   - firebase_auth (from `.symlinks/plugins/firebase_auth/ios`)
   - firebase_core (from `.symlinks/plugins/firebase_core/ios`)
+  - firebase_database (from `.symlinks/plugins/firebase_database/ios`)
   - firebase_storage (from `.symlinks/plugins/firebase_storage/ios`)
   - Flutter (from `Flutter`)
   - geocoding_ios (from `.symlinks/plugins/geocoding_ios/ios`)
@@ -1454,6 +1471,7 @@ SPEC REPOS:
     - FirebaseCore
     - FirebaseCoreExtension
     - FirebaseCoreInternal
+    - FirebaseDatabase
     - FirebaseFirestore
     - FirebaseFirestoreInternal
     - FirebaseSharedSwift
@@ -1481,6 +1499,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/firebase_auth/ios"
   firebase_core:
     :path: ".symlinks/plugins/firebase_core/ios"
+  firebase_database:
+    :path: ".symlinks/plugins/firebase_database/ios"
   firebase_storage:
     :path: ".symlinks/plugins/firebase_storage/ios"
   Flutter:
@@ -1509,6 +1529,7 @@ SPEC CHECKSUMS:
   Firebase: 9f574c08c2396885b5e7e100ed4293d956218af9
   firebase_auth: 16ac5db3d064db837ecd845080d7e18e4be7c66d
   firebase_core: ceec591a66629daaee82d3321551692c4a871493
+  firebase_database: 49a20e6b57093edcf3ce3b0221af85131196110d
   firebase_storage: 3b166e39a19e95b6a2d1c33b4ebff41e12a7615b
   FirebaseAppCheckInterop: e59b52f2c0e188e6ba77b9e3f6acead2117f2abf
   FirebaseAuth: d5cf28be74d7e82257f6a3f717509eff70d3cf4a
@@ -1516,6 +1537,7 @@ SPEC CHECKSUMS:
   FirebaseCore: 3cf438f431f18c12cdf2aaf64434648b63f7e383
   FirebaseCoreExtension: aa5c9779c2d0d39d83f1ceb3fdbafe80c4feecfa
   FirebaseCoreInternal: adefedc9a88dbe393c4884640a73ec9e8e790f8c
+  FirebaseDatabase: 47b021386877846d30a7f3527c4f4fad8fd04b19
   FirebaseFirestore: a1758850668dbb503537b7780a2a1fdc5e37c6ce
   FirebaseFirestoreInternal: 9fcc0ccb987ab73163f2249444e4bfd9eac63748
   FirebaseSharedSwift: 260a35e08943ec810d820a70bc0359136351d0c5

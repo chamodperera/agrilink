@@ -83,6 +83,7 @@ class _MarketChartState extends State<MarketChart> {
   List<FlSpot> getSpotsFromData() {
     List<FlSpot> spots = [];
     List<dynamic> dataPoints = widget.chartData['dataPoints'];
+    dataPoints.sort((a, b) => a['x'].compareTo(b['x']));
 
     print('Data Points: $dataPoints');
 
@@ -214,7 +215,7 @@ class _MarketChartState extends State<MarketChart> {
       lineBarsData: [
         LineChartBarData(
           spots: getSpotsFromData(), // Use dynamic data from JSON
-          isCurved: true,
+          isCurved: false,
           gradient: LinearGradient(
             colors: gradientColors,
           ),
@@ -298,7 +299,7 @@ class _MarketChartState extends State<MarketChart> {
           barWidth: 5,
           isStrokeCapRound: true,
           dotData: const FlDotData(
-            show: false,
+            show: true,
           ),
           belowBarData: BarAreaData(
             show: true,
