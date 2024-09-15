@@ -112,12 +112,12 @@ class _PostServiceFormState extends State<PostServiceForm> {
         context: context,
         type: ToastificationType.success,
         style: ToastificationStyle.flatColored,
-        title: Text(localizations.translate('Success!')),
+        title: Text(localizations.translate("Success!")),
         description: Text(localizations.translate('offer_made')),
         alignment: Alignment.topCenter,
         autoCloseDuration: const Duration(seconds: 4),
         primaryColor: theme.colorScheme.primary,
-        backgroundColor: theme.colorScheme.primary,
+        backgroundColor: theme.colorScheme.background,
         foregroundColor: Colors.white,
         borderRadius: BorderRadius.circular(12.0),
         showProgressBar: false);
@@ -162,9 +162,11 @@ class _PostServiceFormState extends State<PostServiceForm> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const SizedBox(height: 30),
-                      Text(
-                        localizations.translate('Post a Service'),
-                        style: theme.textTheme.displayMedium,
+                      Center(
+                        child: Text(
+                          localizations.translate('Post a Service'),
+                          style: theme.textTheme.displayMedium,
+                        ),
                       ),
                       const SizedBox(height: 30),
                       TextInputField(
