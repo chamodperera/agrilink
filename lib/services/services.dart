@@ -1,5 +1,6 @@
 import 'package:agrilink/models/request_model.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_database/firebase_database.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/offers_model.dart';
@@ -195,14 +196,44 @@ class OffersService {
     }
   }
 
-  Future<String> fetchPhoneNumber (String uid) async {
+  Future<String> fetchPhoneNumber(String uid) async {
     try {
-      final DocumentSnapshot documentSnapshot = await _firestore.collection('users').doc(uid).get();
+      final DocumentSnapshot documentSnapshot =
+          await _firestore.collection('users').doc(uid).get();
       final data = documentSnapshot.data() as Map<String, dynamic>;
       return data['phone'];
     } catch (e) {
       print('Error fetching phone number: $e');
       return '';
+    }
+  }
+}
+
+class ForecastService {
+  final FirebaseDatabase _realtimeDatabase = firebaseDatabase;
+
+  ForecastService(); // Constructor
+
+  // Fetch average prices from Firebase Realtime Database
+  Future<Map<dynamic, dynamic>> fetchForcastData() async {
+    try {
+      // Reference to the 'avgPrice' node in the Firebase Realtime Database
+      DatabaseReference data = _realtimeDatabase.ref().child('Carrot');
+      DataSnapshot snapshot = await data.get();
+
+      // Check if data exists
+      if (snapshot.value != null) {
+        final Map<dynamic, dynamic> forecastData =
+            Map<dynamic, dynamic>.from(snapshot.value as Map<dynamic, dynamic>);
+        print('data fetched');
+        return forecastData;
+      } else {
+        print('No data found in category');
+        return {};
+      }
+    } catch (e) {
+      print('Error fetching: $e');
+      return {};
     }
   }
 }
