@@ -21,6 +21,9 @@ final class _Env {
 
   static const String storageBucketWeb = 'agrilink-by-rysera.appspot.com';
 
+  static const String databaseURLWeb =
+      'https://agrilink-by-rysera-default-rtdb.asia-southeast1.firebasedatabase.app';
+
   static const String apiKeyAndroid = 'AIzaSyBVwQoGyGkeZiw67im7SqoGjxGcUBp1MWY';
 
   static const String appIdAndroid =
@@ -31,6 +34,9 @@ final class _Env {
   static const String projectIdAndroid = 'agrilink-by-rysera';
 
   static const String storageBucketAndroid = 'agrilink-by-rysera.appspot.com';
+
+  static const String databaseURLAndroid =
+      'https://agrilink-by-rysera-default-rtdb.asia-southeast1.firebasedatabase.app';
 
   static const String apiKeyIOS = 'AIzaSyBPhC1oztoDJzlkJh-sV4SsIctZ9l_CPTg';
 
@@ -46,4 +52,7 @@ final class _Env {
       '633808042190-vro232afr3go03m914lm1h2ie32ju26j.apps.googleusercontent.com';
 
   static const String iosBundleId = 'com.rysera.agrilink';
+
+  static const String databaseURLIOS =
+      'https://agrilink-by-rysera-default-rtdb.asia-southeast1.firebasedatabase.app';
 }

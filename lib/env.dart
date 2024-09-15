@@ -4,7 +4,8 @@ part 'env.g.dart';
 @Envied(path: '.env') // Specify the path to your .env file
 abstract class Env {
   @EnviedField(varName: 'FIREBASE_API_KEY_WEB')
-  static final String apiKeyWeb = _Env.apiKeyWeb; // Use obfuscate: true for extra security (optional)
+  static final String apiKeyWeb =
+      _Env.apiKeyWeb; // Use obfuscate: true for extra security (optional)
 
   @EnviedField(varName: 'FIREBASE_APP_ID_WEB')
   static final String appIdWeb = _Env.appIdWeb;
@@ -21,6 +22,9 @@ abstract class Env {
   @EnviedField(varName: 'FIREBASE_STORAGE_BUCKET_WEB')
   static final String storageBucketWeb = _Env.storageBucketWeb;
 
+  @EnviedField(varName: 'FIREBASE_DATABASE_URL_WEB')
+  static final String databaseURLWeb = _Env.databaseURLWeb;
+
   @EnviedField(varName: 'FIREBASE_API_KEY_ANDROID')
   static final String apiKeyAndroid = _Env.apiKeyAndroid;
 
@@ -35,6 +39,9 @@ abstract class Env {
 
   @EnviedField(varName: 'FIREBASE_STORAGE_BUCKET_ANDROID')
   static final String storageBucketAndroid = _Env.storageBucketAndroid;
+
+  @EnviedField(varName: 'FIREBASE_DATABASE_URL_ANDROID')
+  static final String databaseURLAndroid = _Env.databaseURLAndroid;
 
   @EnviedField(varName: 'FIREBASE_API_KEY_IOS')
   static final String apiKeyIOS = _Env.apiKeyIOS;
@@ -56,4 +63,7 @@ abstract class Env {
 
   @EnviedField(varName: 'FIREBASE_IOS_BUNDLE_ID')
   static final String iosBundleId = _Env.iosBundleId;
+
+  @EnviedField(varName: 'FIREBASE_DATABASE_URL_IOS')
+  static final String databaseURLIOS = _Env.databaseURLIOS;
 }

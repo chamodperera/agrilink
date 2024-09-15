@@ -11,6 +11,8 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:agrilink/screens/chatbot_screen.dart';
 import 'package:agrilink/app_localizations.dart';
 import 'package:agrilink/widgets/line_chart.dart';
+import 'package:agrilink/services/services.dart';
+import 'package:intl/intl.dart'; // For date formatting
 
 class DashboardScreen extends StatefulWidget {
   DashboardScreen({super.key});
@@ -21,11 +23,32 @@ class DashboardScreen extends StatefulWidget {
 
 class _DashboardScreenState extends State<DashboardScreen> {
   final TextEditingController searchController = TextEditingController();
+  final TextEditingController forcastController = TextEditingController();
   File? _selectedImage; // Variable to store the captured image for mobile
   Uint8List? _webImage; // Variable to store the image for web
+  Map<dynamic, dynamic> _forecastData = {}; // Store fetched forecast data
+  bool _isLoadingForecast = true; // Loading indicator for forecast data
 
   final ImagePicker _picker =
       ImagePicker(); // Create an instance of ImagePicker
+
+  final ForecastService _forecastService =
+      ForecastService(); // Instantiate ForecastService
+
+  DateTime? selectedDate; // For storing selected month
+
+  Map<String, double> filteredAvgPrices = {}; // To store filtered prices
+
+  @override
+  void initState() {
+    super.initState();
+
+    // Set the selectedDate to the current month
+    final now = DateTime.now();
+    selectedDate = DateTime(now.year, now.month);
+
+    _fetchForecastData(); // Fetch forecast data when the widget loads
+  }
 
   @override
   void dispose() {
@@ -100,10 +123,98 @@ class _DashboardScreenState extends State<DashboardScreen> {
     );
   }
 
+  // Fetch forecast data from the ForecastService
+  Future<void> _fetchForecastData() async {
+    final data = await _forecastService.fetchForcastData();
+    setState(() {
+      _forecastData = data;
+      _isLoadingForecast = false; // Data fetched, stop loading
+
+      // Filter data if a month is selected
+      if (selectedDate != null) {
+        _filterDataByMonth();
+      }
+    });
+  }
+
+  // Method to filter data by the selected month
+  void _filterDataByMonth() {
+    if (selectedDate != null && _forecastData.containsKey('avgPrice')) {
+      // Clear previously filtered data
+      filteredAvgPrices.clear();
+
+      // Aggregate by day and filter by the selected month
+      Map<String, List<double>> tempData = {};
+
+      _forecastData['avgPrice'].forEach((date, price) {
+        try {
+          final DateTime entryDate = DateFormat('yyyy-MM-dd').parse(date);
+          if (entryDate.year == selectedDate!.year &&
+              entryDate.month == selectedDate!.month) {
+            final day = entryDate.day.toString();
+
+            // Aggregate prices by day
+            if (tempData.containsKey(day)) {
+              tempData[day]!.add(price);
+            } else {
+              tempData[day] = [price];
+            }
+          }
+        } catch (e) {
+          print(e.toString());
+        }
+      });
+
+      // Calculate average prices for duplicate days
+      tempData.forEach((day, prices) {
+        final avgPrice = prices.reduce((a, b) => a + b) / prices.length;
+        filteredAvgPrices[day] = avgPrice;
+      });
+    }
+  }
+
   Future<void> _redirect(String urlString) async {
     final Uri _url = Uri.parse(urlString);
     if (!await launchUrl(_url)) {
       throw 'Could not launch $_url';
+    }
+  }
+
+  // Method to show month picker
+  Future<void> _selectMonth(BuildContext context) async {
+    final now = DateTime.now();
+    DateTime? pickedDate = await showDatePicker(
+      context: context,
+      initialDate: DateTime(now.year, now.month),
+      firstDate: DateTime(2020),
+      lastDate: DateTime(now.year + 1),
+      builder: (context, child) {
+        final theme = Theme.of(context);
+
+        return Theme(
+          data: theme.copyWith(
+            colorScheme: theme.colorScheme.copyWith(
+              primary: theme
+                  .colorScheme.primary, // Use primary color for selected date
+              onPrimary:
+                  Colors.white, // Ensure selected date text is visible (white)
+              surface: theme
+                  .colorScheme.secondary, // Set background color of the dialog
+              onSurface: theme.colorScheme
+                  .background, // Set text color for unselected dates
+            ),
+            dialogBackgroundColor: Colors.white, // Dialog background color
+          ),
+          child: child!,
+        );
+      },
+    );
+
+    if (pickedDate != null) {
+      setState(() {
+        selectedDate = DateTime(pickedDate.year, pickedDate.month);
+        _filterDataByMonth(); // Filter data based on the newly selected month
+      });
     }
   }
 
@@ -160,7 +271,37 @@ class _DashboardScreenState extends State<DashboardScreen> {
                       style: theme.textTheme.titleMedium,
                     ),
                     const SizedBox(height: 15),
-                    MarketChart(),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: AppSearchBar(
+                            controller: forcastController,
+                            hintText: localizations.translate('Search Market'),
+                            onSubmitted: (inputText) {},
+                          ),
+                        ),
+                        const SizedBox(width: 10),
+                        IconButtonWidget(
+                          icon: FluentIcons.filter_28_regular,
+                          onPressed: () => _selectMonth(context),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 15),
+                    _isLoadingForecast
+                        ? Center(child: CircularProgressIndicator())
+                        : MarketChart(
+                            chartData: {
+                              "dataPoints": filteredAvgPrices.entries
+                                  .map((entry) => {
+                                        "x": double.parse(
+                                            entry.key), // Day of month
+                                        "y": entry.value
+                                      })
+                                  .toList(),
+                            },
+                            produceName: "Carrots",
+                          ),
                     const SizedBox(height: 40),
                     Text(
                       localizations.translate("resources"),
