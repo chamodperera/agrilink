@@ -131,14 +131,14 @@ class _HomeScreenState extends State<HomeScreen> {
                             text: localizations.translate('Farmers'),
                             onPressed: () => updateCategory('Farmer'),
                           ),
-                    selectedCategory == 'Retailer'
+                    selectedCategory == 'Buyer'
                         ? CategoryButtonGreen(
-                            text: localizations.translate('Retailers'),
-                            onPressed: () => updateCategory('Retailer'),
+                            text: localizations.translate('Buyers'),
+                            onPressed: () => updateCategory('Buyer'),
                           )
                         : CategoryButtonGrey(
-                            text: localizations.translate('Retailers'),
-                            onPressed: () => updateCategory('Retailer'),
+                            text: localizations.translate('Buyers'),
+                            onPressed: () => updateCategory('Buyer'),
                           ),
                     selectedCategory == 'Distributor'
                         ? CategoryButtonGreen(

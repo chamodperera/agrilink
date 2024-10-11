@@ -76,7 +76,7 @@ class OfferCard extends StatelessWidget {
                             color: Colors.white)),
                     const SizedBox(height: 6),
                     Text(
-                        '${offer.category == 'Retailer' ? localizations.translate('I need') : localizations.translate('I have')} ${offer.capacity} ${localizations.translate('Kilos')} ${offer.category == 'Distributor' ? localizations.translate('in capacity') : offer.category == 'Retailer' ? localizations.translate('of produce retailer') : localizations.translate('of produce farmer')}',
+                        '${offer.category == 'Buyer' ? localizations.translate('I need') : localizations.translate('I have')} ${offer.capacity} ${localizations.translate('Kilos')} ${offer.category == 'Distributor' ? localizations.translate('in capacity') : offer.category == 'Buyer' ? localizations.translate('of produce buyer') : localizations.translate('of produce farmer')}',
                         style: GoogleFonts.poppins(
                           fontSize: 14,
                           fontWeight: FontWeight.w400,

@@ -152,7 +152,7 @@ class _OfferScreenState extends State<OfferScreen> {
                           fontSize: 28,
                         )),
                     Text(
-                        '${widget.offer.category == 'Retailer' ? localizations.translate('I need') : localizations.translate('I have')} ${widget.offer.capacity} ${localizations.translate('Kilos')} ${widget.offer.category == 'Distributor' ? localizations.translate('in capacity') : widget.offer.category == 'Retailer' ? localizations.translate('of produce retailer') : localizations.translate('of produce farmer')}',                        
+                        '${widget.offer.category == 'Buyer' ? localizations.translate('I need') : localizations.translate('I have')} ${widget.offer.capacity} ${localizations.translate('Kilos')} ${widget.offer.category == 'Distributor' ? localizations.translate('in capacity') : widget.offer.category == 'Buyer' ? localizations.translate('of produce buyer') : localizations.translate('of produce farmer')}',                        
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSecondary,
                           fontSize: 18,
@@ -237,7 +237,7 @@ class _OfferScreenState extends State<OfferScreen> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        '${widget.offer.category == 'retailer' ? localizations.translate('Provided') : localizations.translate('Required')} ${widget.offer.category == 'distributer' ? localizations.translate('Capacity') : localizations.translate('Stock')}',
+                                        '${widget.offer.category == 'buyer' ? localizations.translate('Provided') : localizations.translate('Required')} ${widget.offer.category == 'distributer' ? localizations.translate('Capacity') : localizations.translate('Stock')}',
                                         style: theme.textTheme.displaySmall
                                             ?.copyWith(
                                           fontSize: 16,

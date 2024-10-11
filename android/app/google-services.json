@@ -9,7 +9,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:633808042190:android:0f79f8d1d07034a69cb89f",
         "android_client_info": {
-          "package_name": "com.rysera.agrilink"
+          "package_name": "com.ryserainnovations.agrilink"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "633808042190-vro232afr3go03m914lm1h2ie32ju26j.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.rysera.agrilink"
+                "bundle_id": "com.ryserainnovations.agrilink"
               }
             }
           ]

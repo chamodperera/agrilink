@@ -60,25 +60,34 @@ class _PostServiceFormState extends State<PostServiceForm> {
     final String category;
     final localizations = AppLocalizations.of(context);
 
-
     //set category to farmer if selectedcategory is sell produces
     if (_selectedCategory == 'Sell produces') {
       category = 'Farmer';
     } else if (_selectedCategory == 'Buy produces') {
-      category = 'Retailer';
+      category = 'Buyer';
     } else {
       category = 'Distributor';
     }
 
     setState(() {
-      _titleError = title.isEmpty ? localizations.translate('Please enter a title') : null;
-      _capacityError = capacity.isEmpty ? localizations.translate('Please enter the capacity') : null;
-      _descriptionError =
-          description.isEmpty ? localizations.translate('Please enter a description') : null;
-      _produceError = produce.isEmpty ? localizations.translate('Please enter the produce') : null;
-      _priceError = price.isEmpty ? localizations.translate('Please enter a price') : null;
-      _dropdownError =
-          _selectedCategory == null ? localizations.translate('Please select a category') : null;
+      _titleError = title.isEmpty
+          ? localizations.translate('Please enter a title')
+          : null;
+      _capacityError = capacity.isEmpty
+          ? localizations.translate('Please enter the capacity')
+          : null;
+      _descriptionError = description.isEmpty
+          ? localizations.translate('Please enter a description')
+          : null;
+      _produceError = produce.isEmpty
+          ? localizations.translate('Please enter the produce')
+          : null;
+      _priceError = price.isEmpty
+          ? localizations.translate('Please enter a price')
+          : null;
+      _dropdownError = _selectedCategory == null
+          ? localizations.translate('Please select a category')
+          : null;
     });
 
     if (_titleError != null ||
@@ -193,14 +202,16 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return localizations.translate('Please select a category');
+                            return localizations
+                                .translate('Please select a category');
                           }
                           return null;
                         },
                       ),
                       const SizedBox(height: 20),
                       TextInputField(
-                        hintText: localizations.translate('Enter produce/produces'),
+                        hintText:
+                            localizations.translate('Enter produce/produces'),
                         controller: _produceController,
                         errorMessage: _produceError,
                       ),
@@ -209,7 +220,8 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         children: [
                           Expanded(
                             child: TextInputField(
-                              hintText: localizations.translate('Enter the stock/capacity'),
+                              hintText: localizations
+                                  .translate('Enter the stock/capacity'),
                               controller: _capacityController,
                               errorMessage: _capacityError,
                               keyboardType: TextInputType.number,
@@ -227,7 +239,7 @@ class _PostServiceFormState extends State<PostServiceForm> {
                       ),
                       const SizedBox(height: 20),
                       TextInputField(
-                        hintText:localizations.translate('Description'),
+                        hintText: localizations.translate('Description'),
                         controller: _descriptionController,
                         errorMessage: _descriptionError,
                         minLines: 6,
@@ -239,7 +251,8 @@ class _PostServiceFormState extends State<PostServiceForm> {
                         children: [
                           Expanded(
                             child: TextInputField(
-                              hintText: localizations.translate('Price per unit'),
+                              hintText:
+                                  localizations.translate('Price per unit'),
                               controller: _priceController,
                               errorMessage: _priceError,
                               keyboardType: TextInputType.number,

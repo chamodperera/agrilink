@@ -47,7 +47,7 @@ class RequestCard extends StatelessWidget {
               children: [
                 const SizedBox(height: 6),
                 Text(
-                    'I ${request.offerCategory == 'Retailer' ? 'can supply' : 'request'} ${request.amount} Kilos of ${request.offerCategory == 'Distributer' ? 'capacity' : 'produce'}',
+                    'I ${request.offerCategory == 'Buyer' ? 'can supply' : 'request'} ${request.amount} Kilos of ${request.offerCategory == 'Distributer' ? 'capacity' : 'produce'}',
                     style: GoogleFonts.poppins(
                         fontSize: 18,
                         fontWeight: FontWeight.w500,

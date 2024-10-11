@@ -119,7 +119,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           itemBuilder: (context, index) {
                             return Column(
                               children: [
-                                OfferCard(offer: offers[index],isUser: true,),
+                                OfferCard(
+                                  offer: offers[index],
+                                  isUser: true,
+                                ),
                                 const SizedBox(height: 15),
                               ],
                             );
@@ -161,21 +164,21 @@ class _ServicesScreenState extends State<ServicesScreen> {
                               children: [
                                 GestureDetector(
                                   onTap: () async {
-                                    final phone = await OffersService().fetchPhoneNumber(requests[index].uid);
+                                    final phone = await OffersService()
+                                        .fetchPhoneNumber(requests[index].uid);
                                     Navigator.push(
                                         context,
                                         MaterialPageRoute(
                                           builder: (context) => InfoScreen(
-                                              location:
-                                                  requests[index].location,
-                                              avatar: requests[index].avatar,
-                                              name: requests[index].name,
-                                              description: 'I ${requests[index].offerCategory == 'Retailer' ? 'can supply' : 'request'} ${requests[index].amount} Kilos of ${requests[index].offerCategory == 'Distributer' ? 'capacity' : 'produce'}',
-                                              phone: phone,
+                                            location: requests[index].location,
+                                            avatar: requests[index].avatar,
+                                            name: requests[index].name,
+                                            description:
+                                                'I ${requests[index].offerCategory == 'Buyer' ? 'can supply' : 'request'} ${requests[index].amount} Kilos of ${requests[index].offerCategory == 'Distributer' ? 'capacity' : 'produce'}',
+                                            phone: phone,
                                           ),
                                         ));
                                   },
-                                  
                                   child: RequestCard(request: requests[index]),
                                 ),
                                 const SizedBox(height: 15),

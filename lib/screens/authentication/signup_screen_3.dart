@@ -11,7 +11,6 @@ import '../../widgets/form/multi_select.dart'; // Import your MultiSelectWidget
 import '../../providers/auth_provider.dart'; // Import AuthProvider
 import 'package:agrilink/app_localizations.dart';
 
-
 class SignUp3 extends StatefulWidget {
   final String firstName;
   final String lastName;
@@ -20,7 +19,7 @@ class SignUp3 extends StatefulWidget {
   final String district;
   final File? selectedImage; // Image from previous screen
   final Uint8List? webImage; // Web image from previous screen
-final Function(Locale) changeLanguage;
+  final Function(Locale) changeLanguage;
 
   const SignUp3({
     super.key,
@@ -40,7 +39,7 @@ final Function(Locale) changeLanguage;
 
 class _SignUp3State extends State<SignUp3> {
   // Available roles for selection
-  
+
   List<String> selectedItems = []; // Selected roles
   bool _isLoading = false;
 
@@ -48,7 +47,7 @@ class _SignUp3State extends State<SignUp3> {
   File? _selectedImage;
   Uint8List? _webImage;
 
-  final List<String> availableItems = ['Farmer','Distributor','Retailer'];
+  final List<String> availableItems = ['Farmer', 'Distributor', 'Buyer'];
   // Password controllers and error messages
   final TextEditingController passwordController = TextEditingController();
   final TextEditingController rePasswordController = TextEditingController();
@@ -75,7 +74,6 @@ class _SignUp3State extends State<SignUp3> {
     });
   }
 
-
   // Validate all fields and navigate or show error messages
   void _validateAndSubmit(BuildContext context) async {
     setState(() {
@@ -83,7 +81,6 @@ class _SignUp3State extends State<SignUp3> {
       _rePasswordErrorMessage = null;
       _rolesErrorMessage = null;
     });
-
 
     if (_formKey.currentState!.validate()) {
       // Check if passwords match
@@ -133,7 +130,9 @@ class _SignUp3State extends State<SignUp3> {
       // Navigate to the main screen after successful sign-up
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(
-          builder: (context) => AuthWrapper(changeLanguage: widget.changeLanguage,),
+          builder: (context) => AuthWrapper(
+            changeLanguage: widget.changeLanguage,
+          ),
         ),
       );
     } catch (e) {
@@ -149,7 +148,7 @@ class _SignUp3State extends State<SignUp3> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
-    
+
     return Scaffold(
       backgroundColor: theme.scaffoldBackgroundColor,
       body: Container(
@@ -214,13 +213,10 @@ class _SignUp3State extends State<SignUp3> {
               top: 40,
               left: 16,
               child: BackButtonWidget(),
-            ),           
+            ),
           ],
         ),
       ),
     );
   }
 }
-
-
-
