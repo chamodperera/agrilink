@@ -6,37 +6,66 @@ import '../../widgets/buttons/back_button.dart';
 class PlantsScreen extends StatelessWidget {
   final List<Map<String, dynamic>> plants = [
     {
-      'name': 'Tomato',
-      'imageUrl': 'assets/images/tomato.png',
-      'category': 'Vegetables',
+      'name': 'Tea',
+      'imageUrl': 'assets/images/tea.jpg',
+      'category': 'Cash Crops',
       'description':
-          'Tomatoes are the major dietary source of the antioxidant lycopene, which has been linked to many health benefits, including reduced risk of heart disease and cancer. They are also a great source of vitamin C, potassium, folate, and vitamin K.',
+          'Tea thrives in cool, wet climates with hilly terrain. The slightly acidic, fertile soil is ideal for producing high-quality tea leaves, making it a key crop in the region.',
     },
     {
       'name': 'Carrot',
       'imageUrl': 'assets/images/carrot.png',
       'category': 'Root Vegetables',
       'description':
-          'Carrots are a particularly good source of beta carotene, fiber, vitamin K1, potassium, and antioxidants. They also have a number of health benefits. They’re a weight-loss-friendly food and have been linked to lower cholesterol levels and improved eye health.',
+          'Carrots grow exceptionally well in cool temperatures and fertile, well-drained soils. They are rich in beta carotene, vitamins, and antioxidants, making them a nutritious choice.',
+    },
+    {
+      'name': 'Avocado',
+      'imageUrl': 'assets/images/avocado.jpg',
+      'category': 'Fruits',
+      'description':
+          'Avocados flourish in fertile, organic-rich soils and areas with moderate rainfall, producing creamy, nutrient-dense fruits rich in healthy fats, vitamins, and minerals.',
+    },
+    {
+      'name': 'Cinnamon',
+      'imageUrl': 'assets/images/cinnamon.jpg',
+      'category': 'Spices',
+      'description':
+          'Cinnamon is well-suited to humid climates and slightly acidic soil. These conditions enhance the flavor and aroma of this highly valued spice.',
+    },
+    {
+      'name': 'Pepper',
+      'imageUrl': 'assets/images/pepper.jpg',
+      'category': 'Spices',
+      'description':
+          'Black pepper vines thrive in well-drained, fertile soil and humid environments. It is a lucrative spice crop with high demand globally.',
     },
     {
       'name': 'Lettuce',
       'imageUrl': 'assets/images/lettuce.png',
       'category': 'Leafy Greens',
       'description':
-          'Lettuce is a good source of vitamins A and K. It also provides some fiber, iron, and folate. It is a low-calorie food that is high in nutrients and water content, making it an excellent food for weight loss.',
+          'Lettuce grows well in cool and moist climates. Fertile soil supports nutrient-rich leaves that are an excellent source of vitamins A and K.',
+    },
+    {
+      'name': 'Pineapple',
+      'imageUrl': 'assets/images/pineapple.jpg',
+      'category': 'Fruits',
+      'description':
+          'Pineapples grow well in slightly acidic soils and areas with high rainfall. They produce sweet, juicy fruits packed with vitamin C and digestive enzymes.',
     },
     {
       'name': 'Cucumber',
       'imageUrl': 'assets/images/cucumber.png',
       'category': 'Vegetables',
       'description':
-          'Cucumbers are low in calories but high in many important vitamins and minerals. They contain antioxidants, promote hydration, and may aid in weight loss.',
+          'Cucumbers thrive in well-drained soil and areas with abundant rainfall. They are hydrating, nutrient-rich, and suitable for diverse agricultural conditions.',
     },
   ];
 
   @override
   Widget build(BuildContext context) {
+    final theme = Theme.of(context);
     return Scaffold(
       body: Container(
         child: Stack(
@@ -45,13 +74,23 @@ class PlantsScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(top: 100, left: 20, right: 20),
+                  padding: const EdgeInsets.only(top: 100, left: 30, right: 20),
                   child: Text(
-                    'My Plants',
+                    "Let's start by choosing a crop",
                     style: TextStyle(
-                      fontSize: 32,
+                      fontSize: 25,
                       fontWeight: FontWeight.bold,
                     ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                // add a description
+                Padding(
+                  padding: const EdgeInsets.only(left: 30, right: 20),
+                  child: Text(
+                    "Choosing the right crop is essential for a successful harvest. Select a crop to learn more about its growth requirements and benefits.",
+                    style: theme.textTheme.bodySmall?.copyWith(fontSize: 13),
+                    textAlign: TextAlign.justify,
                   ),
                 ),
                 Expanded(
