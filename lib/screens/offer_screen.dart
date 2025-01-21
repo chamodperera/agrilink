@@ -1,5 +1,9 @@
+import 'package:agrilink/layouts/main_layout.dart';
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/screens/info_screen.dart';
+import 'package:agrilink/screens/main/dashboard.dart';
+import 'package:agrilink/screens/main/profile.dart';
+import 'package:agrilink/screens/main/services.dart';
 import 'package:agrilink/services/services.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/category_button_green.dart';
@@ -203,7 +207,14 @@ class _OfferScreenState extends State<OfferScreen> {
                     onPressed: () {
                     Navigator.of(context).pushAndRemoveUntil(
                       MaterialPageRoute(
-                      builder: (context) => HomeScreen(initialCategory: 'Distributor'),
+                        builder: (context) => MainLayout(
+                          pages: [
+                            HomeScreen(initialCategory: 'Distributor'),
+                            ServicesScreen(),
+                            DashboardScreen(),
+                            ProfileDashboard(changeLanguage: (Locale locale) {}),
+                          ],
+                        ),
                       ),
                       (Route<dynamic> route) => false,
                     );
