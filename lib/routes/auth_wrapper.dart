@@ -25,7 +25,7 @@ class AuthWrapper extends StatelessWidget {
           HomeScreen(),
           const ServicesScreen(),
            DashboardScreen(),
-          ProfileScreen(changeLanguage: changeLanguage,),
+          ProfileDashboard(changeLanguage: changeLanguage,),
         ],
       );
     } else {
