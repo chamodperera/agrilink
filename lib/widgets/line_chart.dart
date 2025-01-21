@@ -35,7 +35,7 @@ class _MarketChartState extends State<MarketChart> {
       children: [
         Text(
           widget.produceName, // Display produce name
-          style: Theme.of(context).textTheme.headline6,
+          style: Theme.of(context).textTheme.titleLarge,
         ),
         const SizedBox(height: 10),
         Stack(
