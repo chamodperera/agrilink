@@ -9,6 +9,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/app_localizations.dart';
+import 'package:agrilink/screens/main/home.dart';
 
 class OfferScreen extends StatefulWidget {
   final Offer offer;
@@ -184,6 +185,50 @@ class _OfferScreenState extends State<OfferScreen> {
                   textAlign: TextAlign.justify,
                   style: theme.textTheme.displaySmall?.copyWith(fontSize: 15)),
               const SizedBox(height: 30),
+
+                if (widget.offer.category != 'Distributor')
+                Container(
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: LinearGradient(
+                    colors: [theme.colorScheme.primary, theme.colorScheme.error],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  ),
+                  padding: const EdgeInsets.all(2),
+                  child: SizedBox(
+                  width: 330,
+                  child: ElevatedButton(
+                    onPressed: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                      builder: (context) => HomeScreen(initialCategory: 'Distributor'),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
+                    },
+                    style: ElevatedButton.styleFrom(
+                    foregroundColor: theme.colorScheme.onPrimary, 
+                    backgroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    ),
+                    child: Text(
+                    localizations.translate('Find a Distributor'),
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    ),
+                  ),
+                  ),
+                ),
+
+              const SizedBox(height: 10),
 
               // Button that toggles the visibility of the extra section
               Visibility(

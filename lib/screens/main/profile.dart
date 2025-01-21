@@ -190,8 +190,9 @@ class _ProfileDashboardState extends State<ProfileDashboard> {
                     child: Text(
                       localizations.translate('Start Planning'),
                       style: theme.textTheme.labelLarge?.copyWith(
-                        fontSize: 15,
+                        fontSize: 16,
                         color: Colors.white,
+                        fontWeight: FontWeight.bold,
                       ),
                     ),
                   ),

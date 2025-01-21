@@ -9,7 +9,9 @@ import 'package:flutter/material.dart';
 import 'package:agrilink/app_localizations.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  final String? initialCategory;
+  
+  const HomeScreen({Key? key, this.initialCategory}) : super(key: key);
 
   @override
   _HomeScreenState createState() => _HomeScreenState();
@@ -17,13 +19,14 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late Future<List<Offer>> futureOffers;
-  String selectedCategory = 'All'; // State variable for the selected category
+  late String selectedCategory; // Remove the initialization here
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
 
   @override
   void initState() {
     super.initState();
+    selectedCategory = widget.initialCategory ?? 'All'; // Initialize with provided category or 'All'
     futureOffers = fetchOffersByCategory(selectedCategory);
     searchController.addListener(() {
       setState(() {
