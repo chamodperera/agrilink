@@ -31,89 +31,135 @@ class _ProfileDashboardState extends State<ProfileDashboard> {
     }
 
     return Scaffold(
-      body: Stack(
-        children: [
-          SingleChildScrollView(
-            child: Container(
-              padding: const EdgeInsets.only(top: 60), // Increased top padding for button space
-              child: Column(
-                children: [
-                  Center(
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: user.roles
-                          .map(
-                            (role) =>
-                                CategoryButtonGreen(text: localizations.translate(role), onPressed: () {}),
-                          )
-                          .toList(),
-                    ),
-                  ),
-                  CircleAvatar(
-                    radius: 60,
-                    backgroundImage: user.imageUrl != null
-                        ? NetworkImage(user.imageUrl!)
-                        : const AssetImage('assets/images/default_profile.png') as ImageProvider,
-                  ),
-                  const SizedBox(height: 10),
-                  Text(
-                    "${user.firstName} ${user.lastName}",
-                    style: theme.textTheme.titleMedium?.copyWith(
-                      fontSize: 25,
-                    ),
-                  ),
-                  Text(
-                    user.email,
-                    style: theme.textTheme.bodySmall?.copyWith(
-                      color: theme.colorScheme.onSecondary,
-                      fontSize: 14,
-                    ),
-                  ),
-                  const SizedBox(height: 20),
-                    Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    height: 200,
-                    width: 375,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(20),
-                      child: GoogleMap(
-                      initialCameraPosition: CameraPosition(
-                        target: LatLng(6.927079, 79.861244), // Example coordinates
-                        zoom: 10,
-                      ),
-                      myLocationButtonEnabled: false,
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              theme.colorScheme.primary.withOpacity(0.1),
+              Colors.transparent,
+            ],
+          ),
+        ),
+        child: Stack(
+          children: [
+            SingleChildScrollView(
+              child: Container(
+                padding: const EdgeInsets.only(top: 60),
+                child: Column(
+                  children: [
+                    // Role buttons
+                    Center(
+                      child: Wrap(
+                        spacing: 8,
+                        children: user.roles
+                            .map((role) => CategoryButtonGreen(
+                                text: localizations.translate(role),
+                                onPressed: () {}))
+                            .toList(),
                       ),
                     ),
-                    ),
-                  const SizedBox(height: 15),
-                   
                     const SizedBox(height: 5),
+                    // Profile image with decoration
                     Container(
-                      child: Column(
-                        children: [
-                           Text(
-                    localizations.translate('Colombo'),
-                    style: theme.textTheme.titleMedium,
-                    ),
-                    const SizedBox(height: 5),
-                          Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 30),
-                            child: Text(
-                            'Colombo is the commercial capital and largest city of Sri Lanka. It is located on the west coast of the island and adjacent to the Greater Colombo area which includes Sri Jayawardenepura Kotte, the legislative capital of Sri Lanka.',
-                            style: theme.textTheme.bodySmall,
-                            textAlign: TextAlign.center,
-                                
-                            ),
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: theme.colorScheme.primary.withOpacity(0.3),
+                            blurRadius: 20,
+                            spreadRadius: 5,
                           ),
-
                         ],
                       ),
+                      child: CircleAvatar(
+                        radius: 65,
+                        backgroundColor: theme.colorScheme.primary,
+                        child: CircleAvatar(
+                          radius: 60,
+                          backgroundImage: user.imageUrl != null
+                              ? NetworkImage(user.imageUrl!)
+                              : const AssetImage('assets/images/default_profile.png')
+                                  as ImageProvider,
+                        ),
+                      ),
                     ),
-                    const SizedBox(height: 25),
+                    const SizedBox(height: 15),
+                    // Name and email with enhanced styling
+                    Text(
+                      "${user.firstName} ${user.lastName}",
+                      style: theme.textTheme.headlineSmall?.copyWith(
+                        fontWeight: FontWeight.bold,
+                        letterSpacing: 0.5,
+                      ),
+                    ),
+                    const SizedBox(height: 5),
+                    Text(
+                      user.email,
+                      style: theme.textTheme.bodyMedium?.copyWith(
+                        fontSize: 16,
+                        color: theme.colorScheme.onSecondary,
+                      ),
+                    ),
+                    const SizedBox(height: 30),
+                    // Enhanced map container
                     Container(
+                      margin: const EdgeInsets.symmetric(horizontal: 20),
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            blurRadius: 10,
+                            offset: const Offset(0, 5),
+                          ),
+                        ],
+                      ),
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: SizedBox(
+                          height: 150,
+                          width: 325,
+                          child: GoogleMap(
+                            initialCameraPosition: CameraPosition(
+                              target: LatLng(6.927079, 79.861244),
+                              zoom: 10,
+                            ),
+                            myLocationButtonEnabled: false,
+                            mapType: MapType.hybrid,
+                          ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    // Location information with card styling
+                    Column(
+                      children: [
+                        Text(
+                          localizations.translate('Colombo'),
+                          style: theme.textTheme.titleLarge?.copyWith(
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        const SizedBox(height: 10),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 22),
+                          child: Text(
+                            // Description text
+                            '''${localizations.translate('Colombo is the commercial capital and largest city of Sri Lanka. According to the Brookings Institution, Colombo metropolitan area has a population of 5.6 million.')}''',
+                            style: theme.textTheme.bodySmall?.copyWith(
+                              fontSize: 14,
+                              height: 1.5,
+                            ),
+                            textAlign: TextAlign.center,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 30),
+                    // Enhanced planning button
+                     Container(
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       gradient: LinearGradient(
@@ -124,7 +170,7 @@ class _ProfileDashboardState extends State<ProfileDashboard> {
                     ),
                     padding: const EdgeInsets.all(2), // Border width
                 child: SizedBox(
-                  width: 345,
+                  width: 330,
                   child: ElevatedButton(
                     onPressed: () {
                       Navigator.of(context).push(
@@ -150,31 +196,33 @@ class _ProfileDashboardState extends State<ProfileDashboard> {
                     ),
                   ),
                 ),
+              ),
+                
+                    const SizedBox(height: 30),
+                  ],
+                ),
+              ),
+            ),
+            // Settings button remains unchanged
+            Positioned(
+              top: 50,
+              right: 10,
+              child: IconButton(
+                icon: Icon(
+                  FluentIcons.settings_28_regular,
+                  color: theme.colorScheme.primary,
+                ),
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ProfileScreen(changeLanguage: widget.changeLanguage),
                     ),
-                  // Add crops section here
-                  const SizedBox(height: 10),
-                ],
+                  );
+                },
               ),
             ),
-          ),
-          Positioned(
-            top: 50,
-            right: 10,
-            child: IconButton(
-              icon: Icon(
-                FluentIcons.settings_28_regular,
-                color: theme.colorScheme.primary,
-              ),
-              onPressed: () {
-                Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => ProfileScreen(changeLanguage: widget.changeLanguage),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
