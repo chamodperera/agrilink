@@ -9,21 +9,25 @@ class PlantsScreen extends StatelessWidget {
       'name': 'Tomato',
       'imageUrl': 'assets/images/tomato.png',
       'category': 'Vegetables',
+      'description': 'Tomatoes are the major dietary source of the antioxidant lycopene, which has been linked to many health benefits, including reduced risk of heart disease and cancer. They are also a great source of vitamin C, potassium, folate, and vitamin K.',
     },
     {
       'name': 'Carrot',
       'imageUrl': 'assets/images/carrot.png',
       'category': 'Root Vegetables',
+      'description': 'Carrots are a particularly good source of beta carotene, fiber, vitamin K1, potassium, and antioxidants. They also have a number of health benefits. They’re a weight-loss-friendly food and have been linked to lower cholesterol levels and improved eye health.',
     },
     {
       'name': 'Lettuce',
       'imageUrl': 'assets/images/lettuce.png',
       'category': 'Leafy Greens',
+      'description': 'Lettuce is a good source of vitamins A and K. It also provides some fiber, iron, and folate. It is a low-calorie food that is high in nutrients and water content, making it an excellent food for weight loss.',
     },
     {
       'name': 'Cucumber',
       'imageUrl': 'assets/images/cucumber.png',
       'category': 'Vegetables',
+      'description': 'Cucumbers are low in calories but high in many important vitamins and minerals. They contain antioxidants, promote hydration, and may aid in weight loss.',
     },
   ];
 
@@ -65,6 +69,7 @@ class PlantsScreen extends StatelessWidget {
                             plantName: plants[index]['name']!,
                             imageUrl: plants[index]['imageUrl']!,
                             category: plants[index]['category']!,
+                            plantDescription: plants[index]['description']!,
                           ),
                         );
                       },
@@ -89,11 +94,13 @@ class PlantCard extends StatelessWidget {
   final String plantName;
   final String imageUrl;
   final String category;
+  final String plantDescription;
 
   const PlantCard({
     required this.plantName,
     required this.imageUrl,
     required this.category,
+    required this.plantDescription,
   });
 
   @override
@@ -115,7 +122,7 @@ class PlantCard extends StatelessWidget {
                   plantName: plantName,
                   imageUrl: imageUrl,
                   category: category,
-                ),
+                  plantDescription: plantDescription,),
               ),
             );
           },
