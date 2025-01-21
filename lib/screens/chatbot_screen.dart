@@ -1,12 +1,16 @@
+import 'dart:convert';
+import 'package:http/http.dart' as http;
 import 'dart:io';
 import 'dart:typed_data';
 import 'package:flutter/material.dart';
-import 'package:google_generative_ai/google_generative_ai.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:intl/intl.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 
 class ChatbotScreen extends StatefulWidget {
+  final String location;
+  final String district;
   final String initialMessage;
   final File? capturedImage; // Optional image from mobile
   final Uint8List? webImage; // Optional image from web
@@ -14,6 +18,8 @@ class ChatbotScreen extends StatefulWidget {
   const ChatbotScreen({
     Key? key,
     required this.initialMessage,
+    required this.location,
+    required this.district,
     this.capturedImage,
     this.webImage,
   }) : super(key: key);
@@ -25,28 +31,16 @@ class ChatbotScreen extends StatefulWidget {
 class _ChatbotScreenState extends State<ChatbotScreen> {
   TextEditingController _userMessage = TextEditingController();
 
-  static const apiKey = "AIzaSyBRc-tNaAPK1jFEOZKre03mOxogtSa5il8";
-  final GenerativeModel model = GenerativeModel(
-    apiKey: apiKey,
-    model: 'gemini-1.5-flash',
-  );
+  static const endpoint =
+      "https://agrilink-backend-hna7grgwbjaccpbr.southeastasia-01.azurewebsites.net/assistant";
 
   final List<Message> _messages = [];
-  final String prompt =
-      'You are an agriculture expert. Your task is to help farmers with their queries. For example, you can help them with crop management, pest control, and soil health. You should also resposnd to images of plants or pests.  If the user asks something that does not fall under the agriculture domain, you can say "I am an agriculture expert, I can only help you with agriculture-related queries."';
+  bool _isLoadingResponse = false; // Flag to track loading state
 
   @override
   void initState() {
     super.initState();
     _userMessage = TextEditingController(text: widget.initialMessage);
-
-    setState(() {
-      _messages.add(Message(
-        isUser: false,
-        message: prompt,
-        date: DateTime.now(),
-      ));
-    });
 
     if (widget.initialMessage.isNotEmpty) {
       sendMessage();
@@ -63,57 +57,48 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
         message: message,
         date: DateTime.now(),
       ));
+      _isLoadingResponse = true;
     });
 
-    // If an image is provided, process it first
-    if (widget.capturedImage != null || widget.webImage != null) {
-      List<DataPart> imageDataParts = [];
+    try {
+      final response = await http.post(
+        Uri.parse(endpoint),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode({
+          "user_input": message,
+          "history": _messages
+              .map((e) =>
+                  e.isUser ? {"user": e.message} : {"assistant": e.message})
+              .toList()
+              .sublist(0, _messages.length - 1),
+          "location": "Aluthgama",
+          "district": "Anuradhapura"
+        }),
+      );
 
-      // Handle captured image from mobile
-      if (widget.capturedImage != null) {
-        final bytes = await widget.capturedImage!.readAsBytes();
-        imageDataParts.add(DataPart('image/jpeg', bytes));
-      }
-
-      // Handle image from web (Uint8List)
-      if (widget.webImage != null) {
-        imageDataParts.add(DataPart('image/jpeg', widget.webImage!));
-      }
-
-      // Create multi-part content with text and image data
-      final content = [
-        Content.text(_messages[0].message),
-        Content.text(_messages[1].message),
-        Content.multi(
-          imageDataParts,
-        ),
-        ..._messages
-            .sublist(2)
-            .map((message) => Content.text(message.message))
-            .toList(),
-      ];
-
-      final response = await model.generateContent(content);
+      final responseData = jsonDecode(response.body);
+      final responseMessage = responseData['response'] ?? 'No response';
 
       setState(() {
         _messages.add(Message(
           isUser: false,
-          message: response.text ?? 'No response',
+          message: responseMessage,
           date: DateTime.now(),
         ));
       });
-    } else {
-      // If no image, just process the message as usual
-      final content =
-          _messages.map((message) => Content.text(message.message)).toList();
-      final response = await model.generateContent(content);
-
+    } catch (e) {
       setState(() {
         _messages.add(Message(
           isUser: false,
-          message: response.text ?? 'No response',
+          message: 'Error fetching response. Please try again.',
           date: DateTime.now(),
         ));
+      });
+    } finally {
+      setState(() {
+        _isLoadingResponse = false;
       });
     }
   }
@@ -123,7 +108,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     final theme = Theme.of(context);
     return Scaffold(
       appBar: AppBar(
-        title: Text('AgriChat', style: theme.textTheme.titleMedium),
+        title: Text('AgriSense Help', style: theme.textTheme.titleMedium),
         backgroundColor: theme.colorScheme.background,
         leading: const BackButtonWidget(),
         centerTitle: true,
@@ -147,9 +132,18 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           ],
           Expanded(
             child: ListView.builder(
-              itemCount: _messages.length - 1,
+              itemCount: _messages.length + (_isLoadingResponse ? 1 : 0),
               itemBuilder: (context, index) {
-                final message = _messages[index + 1];
+                if (index == _messages.length && _isLoadingResponse) {
+                  return const Padding(
+                    padding: EdgeInsets.all(10.0),
+                    child: Align(
+                      alignment: Alignment.centerLeft,
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                final message = _messages[index];
                 return Messages(
                   isUser: message.isUser,
                   message: message.message,
@@ -175,6 +169,25 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   ),
                 ),
                 SizedBox(width: 15),
+                IconButton(
+                  padding: const EdgeInsets.all(15),
+                  iconSize: 25,
+                  style: ButtonStyle(
+                    backgroundColor:
+                        MaterialStateProperty.all(theme.colorScheme.secondary),
+                    foregroundColor: MaterialStateProperty.all(Colors.black),
+                    shape: MaterialStateProperty.all(
+                      RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                    ),
+                  ),
+                  onPressed: () {
+                    // sendMessage();
+                  },
+                  icon: Icon(FluentIcons.camera_24_regular),
+                ),
+                SizedBox(width: 10),
                 IconButton(
                   padding: const EdgeInsets.all(15),
                   iconSize: 25,
@@ -262,24 +275,21 @@ class Messages extends StatelessWidget {
 
 Widget _buildMessageText(String text, bool isUser) {
   if (!isUser) {
-    final parts = text.split('**');
-    return RichText(
-      text: TextSpan(
-        children: parts.map((part) {
-          final isBold = part.startsWith('**') && part.endsWith('**');
-          return TextSpan(
-            text: isBold ? part.substring(2, part.length - 2) : part,
-            style: TextStyle(
-              fontWeight: isBold ? FontWeight.bold : FontWeight.normal,
-              fontSize: 14,
-              color: Colors.white,
-            ),
-          );
-        }).toList(),
+    return MarkdownBody(
+      data: text,
+      selectable: true,
+      styleSheet: MarkdownStyleSheet(
+        p: TextStyle(fontSize: 14, color: Colors.white),
+        strong: TextStyle(fontWeight: FontWeight.bold, color: Colors.white),
+        blockquote:
+            TextStyle(fontStyle: FontStyle.italic, color: Colors.white70),
       ),
     );
   } else {
-    return Text(text, style: TextStyle(fontSize: 14, color: Colors.black));
+    return Text(
+      text,
+      style: TextStyle(fontSize: 14, color: Colors.black),
+    );
   }
 }
 
