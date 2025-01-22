@@ -67,16 +67,27 @@ class _ProfileDashboardState extends State<ProfileDashboard> {
                             .toList(),
                       ),
                     ),
-                    CircleAvatar(
-                      radius: 65,
-                      backgroundColor: theme.colorScheme.primary,
+                    Container(
+                      decoration: BoxDecoration(
+                        shape: BoxShape.circle,
+                        boxShadow: [
+                          BoxShadow(
+                            color: theme.colorScheme.primary.withOpacity(0.3),
+                            blurRadius: 20,
+                            spreadRadius: 5,
+                          ),
+                        ],
+                      ),
                       child: CircleAvatar(
-                        radius: 60,
-                        backgroundImage: user.imageUrl != null
-                            ? NetworkImage(user.imageUrl!)
-                            : const AssetImage(
-                                    'assets/images/default_profile.png')
-                                as ImageProvider,
+                        radius: 65,
+                        backgroundColor: theme.colorScheme.primary,
+                        child: CircleAvatar(
+                          radius: 60,
+                          backgroundImage: user.imageUrl != null
+                              ? NetworkImage(user.imageUrl!)
+                              : const AssetImage('assets/images/default_profile.png')
+                                  as ImageProvider,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 10),
