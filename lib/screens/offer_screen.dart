@@ -208,20 +208,12 @@ class _OfferScreenState extends State<OfferScreen> {
                     height: 50,
                     child: ElevatedButton(
                       onPressed: () {
-                        Navigator.of(context).pushAndRemoveUntil(
+                        Navigator.push(
+                          context,
                           MaterialPageRoute(
-                            builder: (context) => MainLayout(
-                              pages: [
-                                DistributorScreen(
-                                    initialCategory: 'Distributor'),
-                                ServicesScreen(),
-                                DashboardScreen(),
-                                ProfileDashboard(
-                                    changeLanguage: (Locale locale) {}),
-                              ],
-                            ),
+                            builder: (context) => DistributorScreen(
+                                initialCategory: 'Distributor'),
                           ),
-                          (Route<dynamic> route) => false,
                         );
                       },
                       style: ElevatedButton.styleFrom(
