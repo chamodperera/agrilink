@@ -115,11 +115,11 @@ class _OfferScreenState extends State<OfferScreen> {
                     text: localizations.translate(widget.offer.category),
                     onPressed: () {},
                   ),
-                  
                   const SizedBox(width: 10),
                   GestureDetector(
                     onTap: () async {
-                      final phoneNumber = await OffersService().fetchPhoneNumber(widget.offer.uid);
+                      final phoneNumber = await OffersService()
+                          .fetchPhoneNumber(widget.offer.uid);
                       Navigator.push(
                           context,
                           MaterialPageRoute(
@@ -134,9 +134,9 @@ class _OfferScreenState extends State<OfferScreen> {
                     child: Row(
                       children: [
                         Text("Find on Map",
-                      style: theme.textTheme.displaySmall?.copyWith(
-                        color: theme.colorScheme.onSecondary,
-                      )),
+                            style: theme.textTheme.displaySmall?.copyWith(
+                              color: theme.colorScheme.onSecondary,
+                            )),
                         const SizedBox(width: 10),
                         Icon(FluentIcons.location_28_regular,
                             color: theme.colorScheme.primary),
@@ -157,7 +157,7 @@ class _OfferScreenState extends State<OfferScreen> {
                           fontSize: 28,
                         )),
                     Text(
-                        '${widget.offer.category == 'Buyer' ? localizations.translate('I need') : localizations.translate('I have')} ${widget.offer.capacity} ${localizations.translate('Kilos')} ${widget.offer.category == 'Distributor' ? localizations.translate('in capacity') : widget.offer.category == 'Buyer' ? localizations.translate('of produce buyer') : localizations.translate('of produce farmer')}',                        
+                        '${widget.offer.category == 'Buyer' ? localizations.translate('I need') : localizations.translate('I have')} ${widget.offer.capacity} ${localizations.translate('Kilos')} ${widget.offer.category == 'Distributor' ? localizations.translate('in capacity') : widget.offer.category == 'Buyer' ? localizations.translate('of produce buyer') : localizations.translate('of produce farmer')}',
                         style: theme.textTheme.bodySmall?.copyWith(
                           color: theme.colorScheme.onSecondary,
                           fontSize: 18,
@@ -181,7 +181,6 @@ class _OfferScreenState extends State<OfferScreen> {
                   Text('10+ offers',
                       style: theme.textTheme.displaySmall?.copyWith(
                           color: theme.colorScheme.onSecondary, fontSize: 18))
-                  
                 ],
               ),
               const SizedBox(height: 30),
@@ -190,52 +189,58 @@ class _OfferScreenState extends State<OfferScreen> {
                   style: theme.textTheme.displaySmall?.copyWith(fontSize: 15)),
               const SizedBox(height: 30),
 
-                if (widget.offer.category != 'Distributor')
+              if (widget.offer.category != 'Distributor')
                 Container(
                   decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(15),
-                  gradient: LinearGradient(
-                    colors: [theme.colorScheme.primary, theme.colorScheme.error],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                  ),
+                    borderRadius: BorderRadius.circular(15),
+                    gradient: LinearGradient(
+                      colors: [
+                        theme.colorScheme.primary,
+                        theme.colorScheme.error
+                      ],
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                    ),
                   ),
                   padding: const EdgeInsets.all(2),
                   child: SizedBox(
-                  width: 330,
-                  child: ElevatedButton(
-                    onPressed: () {
-                    Navigator.of(context).pushAndRemoveUntil(
-                      MaterialPageRoute(
-                        builder: (context) => MainLayout(
-                          pages: [
-                            HomeScreen(initialCategory: 'Distributor'),
-                            ServicesScreen(),
-                            DashboardScreen(),
-                            ProfileDashboard(changeLanguage: (Locale locale) {}),
-                          ],
+                    width: double.infinity,
+                    height: 50,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context).pushAndRemoveUntil(
+                          MaterialPageRoute(
+                            builder: (context) => MainLayout(
+                              pages: [
+                                HomeScreen(initialCategory: 'Distributor'),
+                                ServicesScreen(),
+                                DashboardScreen(),
+                                ProfileDashboard(
+                                    changeLanguage: (Locale locale) {}),
+                              ],
+                            ),
+                          ),
+                          (Route<dynamic> route) => false,
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: theme.colorScheme.onPrimary,
+                        backgroundColor: Colors.black,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 30, vertical: 15),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(15),
                         ),
                       ),
-                      (Route<dynamic> route) => false,
-                    );
-                    },
-                    style: ElevatedButton.styleFrom(
-                    foregroundColor: theme.colorScheme.onPrimary, 
-                    backgroundColor: Colors.black,
-                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
+                      child: Text(
+                        localizations.translate('Find a Distributor'),
+                        style: theme.textTheme.labelLarge?.copyWith(
+                          fontSize: 16,
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
                     ),
-                    ),
-                    child: Text(
-                    localizations.translate('Find a Distributor'),
-                    style: theme.textTheme.labelLarge?.copyWith(
-                      fontSize: 16,
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                    ),
-                    ),
-                  ),
                   ),
                 ),
 
@@ -351,7 +356,8 @@ class _OfferScreenState extends State<OfferScreen> {
                                   children: [
                                     Expanded(
                                       child: Text(
-                                        localizations.translate('Negotiate Price'),
+                                        localizations
+                                            .translate('Negotiate Price'),
                                         style: theme.textTheme.displaySmall
                                             ?.copyWith(
                                           fontSize: 16,
@@ -435,7 +441,8 @@ class _OfferScreenState extends State<OfferScreen> {
                                 child: _isLoading
                                     ? CircularProgressIndicator() // Show loading indicator
                                     : PrimaryButtonDark(
-                                        text: localizations.translate('Place Offer'),
+                                        text: localizations
+                                            .translate('Place Offer'),
                                         onPressed: _placeOffer,
                                         expanded: true,
                                       ),

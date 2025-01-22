@@ -49,7 +49,7 @@ class PlantsScreen extends StatelessWidget {
     },
     {
       'name': 'Pineapple',
-      'imageUrl': 'assets/images/pineapple.png',
+      'imageUrl': 'assets/images/pinapple.png',
       'category': 'Fruits',
       'description':
           'Pineapples grow well in slightly acidic soils and areas with high rainfall. They produce sweet, juicy fruits packed with vitamin C and digestive enzymes.',
