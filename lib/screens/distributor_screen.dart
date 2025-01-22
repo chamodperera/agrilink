@@ -1,8 +1,9 @@
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/screens/offer_screen.dart';
 import 'package:agrilink/services/services.dart'; // Import the OffersService
-import 'package:agrilink/widgets/buttons/category_button_green.dart';
-import 'package:agrilink/widgets/buttons/category_button_grey.dart';
+import 'package:agrilink/widgets/buttons/back_button.dart';
+// import 'package:agrilink/widgets/buttons/category_button_green.dart';
+// import 'package:agrilink/widgets/buttons/category_button_grey.dart';
 import 'package:agrilink/widgets/cards/offer_card.dart';
 import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:flutter/material.dart';
@@ -19,7 +20,7 @@ class DistributorScreen extends StatefulWidget {
 
 class _DistributorScreenState extends State<DistributorScreen> {
   late Future<List<Offer>> futureOffers;
-  late String selectedCategory; // Remove the initialization here
+  late String selectedCategory;
   TextEditingController searchController = TextEditingController();
   String searchQuery = '';
 
@@ -73,132 +74,94 @@ class _DistributorScreenState extends State<DistributorScreen> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final localizations = AppLocalizations.of(context);
+
     return Scaffold(
-      body: SingleChildScrollView(
-        child: Container(
-          padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                localizations.translate('find_offers'),
-                style: theme.textTheme.titleMedium,
-              ),
-              const SizedBox(height: 15),
-              Row(
+      body: Stack(
+        children: [
+          SingleChildScrollView(
+            child: Container(
+              padding: const EdgeInsets.only(top: 50, left: 20, right: 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Expanded(
-                    child: AppSearchBar(
-                      controller: searchController, // Add the controller here
-                      hintText: localizations.translate('search'),
-                      onSubmitted: (value) {
-                        // Add your onSubmitted logic here
-                      },
+                  const SizedBox(height: 40), // Add spacing for the back button
+                  Padding(
+                    padding: const EdgeInsets.only(left: 10),
+                    child: Text(
+                      "Find a Distributor",
+                      style: theme.textTheme.titleMedium,
                     ),
                   ),
-                  // const SizedBox(width: 10),
-                  // IconButtonWidget(
-                  //   icon: FluentIcons.text_grammar_settings_24_regular,
-                  //   onPressed: () {
-                  //     // Add your onPressed logic here
-                  //   },
-                  // ),
+                  const SizedBox(height: 15),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: AppSearchBar(
+                          controller: searchController,
+                          hintText: '',
+                          onSubmitted: (value) {
+                            // Add your onSubmitted logic here
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 15),
+                  ClipRRect(
+                    borderRadius: BorderRadius.circular(20.0),
+                    child:
+                        const Image(image: AssetImage('assets/images/ad.png')),
+                  ),
+                  const SizedBox(height: 15),
+                  FutureBuilder<List<Offer>>(
+                    future: futureOffers,
+                    builder: (context, snapshot) {
+                      if (snapshot.connectionState == ConnectionState.waiting) {
+                        return const Center(child: CircularProgressIndicator());
+                      } else if (snapshot.hasError) {
+                        return Center(child: Text('Error: ${snapshot.error}'));
+                      } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
+                        return const Center(child: Text('No offers available'));
+                      } else {
+                        final offers = filterOffers(snapshot.data!);
+                        return ListView.builder(
+                          shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
+                          padding: EdgeInsets.zero,
+                          itemCount: offers.length,
+                          itemBuilder: (context, index) {
+                            return Column(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            OfferScreen(offer: offers[index]),
+                                      ),
+                                    );
+                                  },
+                                  child: OfferCard(offer: offers[index]),
+                                ),
+                                const SizedBox(height: 15),
+                              ],
+                            );
+                          },
+                        );
+                      }
+                    },
+                  ),
                 ],
               ),
-              const SizedBox(height: 15),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20.0),
-                child: const Image(image: AssetImage('assets/images/ad.png')),
-              ),
-              const SizedBox(height: 15),
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                // child: Wrap(
-                //   spacing: 10,
-                //   runSpacing: 10,
-                //   children: [
-                //     selectedCategory == 'All'
-                //         ? CategoryButtonGreen(
-                //             text: localizations.translate('All'),
-                //             onPressed: () => updateCategory('All'),
-                //           )
-                //         : CategoryButtonGrey(
-                //             text: localizations.translate('All'),
-                //             onPressed: () => updateCategory('All'),
-                //           ),
-                //     selectedCategory == 'Farmer'
-                //         ? CategoryButtonGreen(
-                //             text: localizations.translate('Farmers'),
-                //             onPressed: () => updateCategory('Farmer'),
-                //           )
-                //         : CategoryButtonGrey(
-                //             text: localizations.translate('Farmers'),
-                //             onPressed: () => updateCategory('Farmer'),
-                //           ),
-                //     selectedCategory == 'Buyer'
-                //         ? CategoryButtonGreen(
-                //             text: localizations.translate('Buyers'),
-                //             onPressed: () => updateCategory('Buyer'),
-                //           )
-                //         : CategoryButtonGrey(
-                //             text: localizations.translate('Buyers'),
-                //             onPressed: () => updateCategory('Buyer'),
-                //           ),
-                //     selectedCategory == 'Distributor'
-                //         ? CategoryButtonGreen(
-                //             text: localizations.translate('Distributors'),
-                //             onPressed: () => updateCategory('Distributor'),
-                //           )
-                //         : CategoryButtonGrey(
-                //             text: localizations.translate('Distributor'),
-                //             onPressed: () => updateCategory('Distributor'),
-                //           ),
-                //   ],
-                // ),
-              ),
-              const SizedBox(height: 15),
-              FutureBuilder<List<Offer>>(
-                future: futureOffers,
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  } else if (snapshot.hasError) {
-                    return Center(child: Text('Error: ${snapshot.error}'));
-                  } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-                    return const Center(child: Text('No offers available'));
-                  } else {
-                    final offers = filterOffers(snapshot.data!);
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      physics: const NeverScrollableScrollPhysics(),
-                      padding: EdgeInsets.zero,
-                      itemCount: offers.length,
-                      itemBuilder: (context, index) {
-                        return Column(
-                          children: [
-                            GestureDetector(
-                              onTap: () {
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                    builder: (context) =>
-                                        OfferScreen(offer: offers[index]),
-                                  ),
-                                );
-                              },
-                              child: OfferCard(offer: offers[index]),
-                            ),
-                            const SizedBox(height: 15),
-                          ],
-                        );
-                      },
-                    );
-                  }
-                },
-              ),
-            ],
+            ),
           ),
-        ),
+          Positioned(
+            top: 40, // Adjust the top position as needed
+            left: 16, // Adjust the left position as needed
+            child: BackButtonWidget(),
+          ),
+        ],
       ),
     );
   }
