@@ -13,7 +13,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/app_localizations.dart';
-import 'package:agrilink/screens/main/home.dart';
+import 'package:agrilink/screens/distributor_screen.dart';
 
 class OfferScreen extends StatefulWidget {
   final Offer offer;
@@ -212,7 +212,8 @@ class _OfferScreenState extends State<OfferScreen> {
                           MaterialPageRoute(
                             builder: (context) => MainLayout(
                               pages: [
-                                HomeScreen(initialCategory: 'Distributor'),
+                                DistributorScreen(
+                                    initialCategory: 'Distributor'),
                                 ServicesScreen(),
                                 DashboardScreen(),
                                 ProfileDashboard(

@@ -8,16 +8,16 @@ import 'package:agrilink/widgets/form/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/app_localizations.dart';
 
-class HomeScreen extends StatefulWidget {
+class DistributorScreen extends StatefulWidget {
   final String? initialCategory;
 
-  const HomeScreen({Key? key, this.initialCategory}) : super(key: key);
+  const DistributorScreen({Key? key, this.initialCategory}) : super(key: key);
 
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _DistributorScreenState createState() => _DistributorScreenState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _DistributorScreenState extends State<DistributorScreen> {
   late Future<List<Offer>> futureOffers;
   late String selectedCategory; // Remove the initialization here
   TextEditingController searchController = TextEditingController();
@@ -26,7 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   void initState() {
     super.initState();
-    selectedCategory = 'Buyer'; // Initialize with provided category or 'All'
+    selectedCategory =
+        'Distributor'; // Initialize with provided category or 'All'
     futureOffers = fetchOffersByCategory(selectedCategory);
     searchController.addListener(() {
       setState(() {
