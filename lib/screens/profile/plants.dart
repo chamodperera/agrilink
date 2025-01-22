@@ -7,7 +7,7 @@ class PlantsScreen extends StatelessWidget {
   final List<Map<String, dynamic>> plants = [
     {
       'name': 'Tea',
-      'imageUrl': 'assets/images/tea.jpg',
+      'imageUrl': 'assets/images/tea.png',
       'category': 'Cash Crops',
       'description':
           'Tea thrives in cool, wet climates with hilly terrain. The slightly acidic, fertile soil is ideal for producing high-quality tea leaves, making it a key crop in the region.',
@@ -21,21 +21,21 @@ class PlantsScreen extends StatelessWidget {
     },
     {
       'name': 'Avocado',
-      'imageUrl': 'assets/images/avocado.jpg',
+      'imageUrl': 'assets/images/avocado.png',
       'category': 'Fruits',
       'description':
           'Avocados flourish in fertile, organic-rich soils and areas with moderate rainfall, producing creamy, nutrient-dense fruits rich in healthy fats, vitamins, and minerals.',
     },
     {
       'name': 'Cinnamon',
-      'imageUrl': 'assets/images/cinnamon.jpg',
+      'imageUrl': 'assets/images/cinnamon.png',
       'category': 'Spices',
       'description':
           'Cinnamon is well-suited to humid climates and slightly acidic soil. These conditions enhance the flavor and aroma of this highly valued spice.',
     },
     {
       'name': 'Pepper',
-      'imageUrl': 'assets/images/pepper.jpg',
+      'imageUrl': 'assets/images/pepper.png',
       'category': 'Spices',
       'description':
           'Black pepper vines thrive in well-drained, fertile soil and humid environments. It is a lucrative spice crop with high demand globally.',
@@ -49,7 +49,7 @@ class PlantsScreen extends StatelessWidget {
     },
     {
       'name': 'Pineapple',
-      'imageUrl': 'assets/images/pineapple.jpg',
+      'imageUrl': 'assets/images/pineapple.png',
       'category': 'Fruits',
       'description':
           'Pineapples grow well in slightly acidic soils and areas with high rainfall. They produce sweet, juicy fruits packed with vitamin C and digestive enzymes.',
