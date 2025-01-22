@@ -1,5 +1,9 @@
+import 'package:agrilink/layouts/main_layout.dart';
 import 'package:agrilink/models/offers_model.dart';
 import 'package:agrilink/screens/info_screen.dart';
+import 'package:agrilink/screens/main/dashboard.dart';
+import 'package:agrilink/screens/main/profile.dart';
+import 'package:agrilink/screens/main/services.dart';
 import 'package:agrilink/services/services.dart';
 import 'package:agrilink/widgets/buttons/back_button.dart';
 import 'package:agrilink/widgets/buttons/category_button_green.dart';
@@ -9,6 +13,7 @@ import 'package:fluentui_system_icons/fluentui_system_icons.dart';
 import 'package:toastification/toastification.dart';
 import 'package:flutter/material.dart';
 import 'package:agrilink/app_localizations.dart';
+import 'package:agrilink/screens/main/home.dart';
 
 class OfferScreen extends StatefulWidget {
   final Offer offer;
@@ -184,6 +189,57 @@ class _OfferScreenState extends State<OfferScreen> {
                   textAlign: TextAlign.justify,
                   style: theme.textTheme.displaySmall?.copyWith(fontSize: 15)),
               const SizedBox(height: 30),
+
+                if (widget.offer.category != 'Distributor')
+                Container(
+                  decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(15),
+                  gradient: LinearGradient(
+                    colors: [theme.colorScheme.primary, theme.colorScheme.error],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  ),
+                  padding: const EdgeInsets.all(2),
+                  child: SizedBox(
+                  width: 330,
+                  child: ElevatedButton(
+                    onPressed: () {
+                    Navigator.of(context).pushAndRemoveUntil(
+                      MaterialPageRoute(
+                        builder: (context) => MainLayout(
+                          pages: [
+                            HomeScreen(initialCategory: 'Distributor'),
+                            ServicesScreen(),
+                            DashboardScreen(),
+                            ProfileDashboard(changeLanguage: (Locale locale) {}),
+                          ],
+                        ),
+                      ),
+                      (Route<dynamic> route) => false,
+                    );
+                    },
+                    style: ElevatedButton.styleFrom(
+                    foregroundColor: theme.colorScheme.onPrimary, 
+                    backgroundColor: Colors.black,
+                    padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15),
+                    ),
+                    ),
+                    child: Text(
+                    localizations.translate('Find a Distributor'),
+                    style: theme.textTheme.labelLarge?.copyWith(
+                      fontSize: 16,
+                      color: Colors.white,
+                      fontWeight: FontWeight.bold,
+                    ),
+                    ),
+                  ),
+                  ),
+                ),
+
+              const SizedBox(height: 10),
 
               // Button that toggles the visibility of the extra section
               Visibility(

@@ -32,7 +32,18 @@ class _ProfileDashboardState extends State<ProfileDashboard> {
     }
 
     return Scaffold(
-      body: Stack(
+        body: Container(
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topCenter,
+          end: Alignment.bottomCenter,
+          colors: [
+            theme.colorScheme.primary.withOpacity(0.1),
+            Colors.transparent,
+          ],
+        ),
+      ),
+      child: Stack(
         children: [
           SingleChildScrollView(
             child: Container(
@@ -57,12 +68,16 @@ class _ProfileDashboardState extends State<ProfileDashboard> {
                       ),
                     ),
                     CircleAvatar(
-                      radius: 60,
-                      backgroundImage: user.imageUrl != null
-                          ? NetworkImage(user.imageUrl!)
-                          : const AssetImage(
-                                  'assets/images/default_profile.png')
-                              as ImageProvider,
+                      radius: 65,
+                      backgroundColor: theme.colorScheme.primary,
+                      child: CircleAvatar(
+                        radius: 60,
+                        backgroundImage: user.imageUrl != null
+                            ? NetworkImage(user.imageUrl!)
+                            : const AssetImage(
+                                    'assets/images/default_profile.png')
+                                as ImageProvider,
+                      ),
                     ),
                     const SizedBox(height: 10),
                     Text(
@@ -187,6 +202,6 @@ class _ProfileDashboardState extends State<ProfileDashboard> {
           ),
         ],
       ),
-    );
+    ));
   }
 }
